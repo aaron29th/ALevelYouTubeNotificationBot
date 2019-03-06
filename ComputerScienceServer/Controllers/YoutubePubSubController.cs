@@ -22,10 +22,13 @@ namespace ComputerScienceServer.Controllers
 	        ulong id = 467813391742926868;
 	        string token = "***REMOVED***";
 
-	        Embed embeded;
+			EmbedBuilder eb = new EmbedBuilder();
+	        eb.WithDescription(pubSubFeed.Title);
+	        eb.WithColor(255, 25, 25);
+			List<Embed> embeds = new List<Embed>(){eb.Build()};
 
 	        DiscordWebhookClient client = new DiscordWebhookClient(id, token);
-	        client.SendMessageAsync();
+	        client.SendMessageAsync(pubSubFeed.Title, false, embeds);
 
 			return pubSubFeed.Title;
         }
