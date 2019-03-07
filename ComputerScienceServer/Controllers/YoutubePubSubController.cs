@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using ComputerScienceServer.Models;
+using ComputerScienceServer.Models.PubSub;
 using Discord;
 using Discord.Webhook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TweetSharp;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -16,7 +18,14 @@ namespace ComputerScienceServer.Controllers
     [ApiController]
     public class YoutubePubSubController : ControllerBase
     {
-        [HttpPost]
+	    private readonly WebApiContext _context;
+
+	    public YoutubePubSubController(WebApiContext context)
+	    {
+		    _context = context;
+	    }
+
+		[HttpPost]
         public string Post([FromBody] PubSubFeed pubSubFeed)
         {
 	        ulong id = 467813391742926868;
