@@ -1,34 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models.PubSub;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TweetSharp;
 
 namespace ComputerScienceServer.Models
 {
 	public class TwitterUser
 	{
+		private static string _consumerKey = "***REMOVED***";
+		private static string _consumerSecret = "***REMOVED***";
+
+		[Key]
 		public string Token { get; set; }
 		public string TokenSecret { get; set; }
 
+		public string Name { get; set; }
+
 		public string TweetTemplate { get; set; }
 
-		public async void SendTweet(PubSubFeed youtubeVideoData)
+		public void GetInfo()
 		{
-			string twitterToken = "***REMOVED***";
-			string twitterSecret = "***REMOVED***";
-			string consumerKey = "***REMOVED***";
-			string consumerSecret = "***REMOVED***";
+			TwitterService service = new TwitterService(_consumerKey, _consumerSecret);
 
-			// Pass your credentials to the service
-			TwitterService service = new TwitterService(consumerKey, consumerSecret);
+			service.AuthenticateWith(Token, TokenSecret);
+			var user = service.GetUserProfile(new GetUserProfileOptions());
+			Name = user.Name;
+		}
 
-			// Step 4 - User authenticates using the Access Token
-			service.AuthenticateWith(twitterToken, twitterSecret);
+		public void SendTweet(PubSubFeed youtubeVideoData)
+		{
+			string body = TextFormatter.Format(youtubeVideoData, TweetTemplate);
+
+			TwitterService service = new TwitterService(_consumerKey, _consumerSecret);
+
+			service.AuthenticateWith(Token, TokenSecret);
 			service.SendTweet(new SendTweetOptions()
 			{
-				Status = "Hello world..."
+				Status = body
 			});
 		}
 	}

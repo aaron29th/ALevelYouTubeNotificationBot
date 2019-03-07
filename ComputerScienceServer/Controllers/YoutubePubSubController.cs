@@ -26,7 +26,8 @@ namespace ComputerScienceServer.Controllers
 	    }
 
 		[HttpPost]
-        public string Post([FromBody] PubSubFeed pubSubFeed)
+		[Consumes("application/xml")]
+		public string Post([FromBody] PubSubFeed pubSubFeed)
         {
 	        ulong id = 467813391742926868;
 	        string token = "***REMOVED***";
