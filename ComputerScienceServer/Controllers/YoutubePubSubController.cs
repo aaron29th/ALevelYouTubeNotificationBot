@@ -27,20 +27,19 @@ namespace ComputerScienceServer.Controllers
 
 		[HttpPost]
 		[Consumes("application/xml")]
-		public string Post([FromBody] PubSubFeed pubSubFeed)
-        {
-	        ulong id = 467813391742926868;
-	        string token = "***REMOVED***";
+		public ActionResult Post([FromBody] PubSubFeed pubSubFeed)
+		{
+			foreach (var user in _context.TwitterUsers)
+			{
+				user.SendTweet(pubSubFeed);
+			}
 
-			EmbedBuilder eb = new EmbedBuilder();
-	        eb.WithDescription(pubSubFeed.Title);
-	        eb.WithColor(255, 25, 25);
-			List<Embed> embeds = new List<Embed>(){eb.Build()};
+			foreach (var webhook in _context.Webhooks)
+			{
+				webhook.SendMessage(pubSubFeed);
+			}
 
-	        DiscordWebhookClient client = new DiscordWebhookClient(id, token);
-	        client.SendMessageAsync(pubSubFeed.Title, false, embeds);
-
-			return pubSubFeed.Title;
-        }
+			return NoContent();
+		}
     }
 }

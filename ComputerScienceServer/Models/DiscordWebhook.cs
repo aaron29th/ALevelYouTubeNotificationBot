@@ -8,6 +8,7 @@ using Discord;
 using Discord.Webhook;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
+using ComputerScienceServer.Models.Webhook;
 
 namespace ComputerScienceServer.Models
 {
@@ -25,8 +26,9 @@ namespace ComputerScienceServer.Models
 			string message = TextFormatter.Format(youtubeData, MessageTemplate);
 			string embedsText = TextFormatter.Format(youtubeData, EmbedTemplate);
 
-			Embed embed = JsonConvert.DeserializeObject<Embed>(embedsText);
-			Embed[] embeds = { embed };
+			var embed = JsonConvert.DeserializeObject<WebhookEmbed>(embedsText);
+
+			EmbedBuilder eb = new EmbedBuilder();
 
 			DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
 			client.SendMessageAsync(message, false, embeds);

@@ -10,6 +10,8 @@ namespace ComputerScienceServer.Models
 	{
 		public static string Format(PubSubFeed youtubeFeed, string templateString)
 		{
+			if (templateString == null) return null;
+
 			string formattedText = templateString.Replace("{{VideoTitle}}", youtubeFeed.Title);
 			formattedText = formattedText.Replace("{{AuthorName}}", 
 				youtubeFeed.PubSubEntry.Author.Name);
