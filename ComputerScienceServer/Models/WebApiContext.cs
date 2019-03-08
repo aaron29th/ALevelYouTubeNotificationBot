@@ -14,5 +14,6 @@ namespace ComputerScienceServer.Models
 
 		public DbSet<DiscordWebhook> Webhooks { get; set; }
 		public DbSet<TwitterUser> TwitterUsers { get; set; }
+		public DbSet<ErrorLog> ErrorLog { get; set; }
 	}
 }

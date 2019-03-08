@@ -31,12 +31,37 @@ namespace ComputerScienceServer.Controllers
 		{
 			foreach (var user in _context.TwitterUsers)
 			{
-				//user.SendTweet(pubSubFeed);
+				try
+				{
+					user.SendTweet(pubSubFeed);
+				}
+				catch (Exception e)
+				{
+					//Log error
+					_context.ErrorLog.AddAsync(new ErrorLog()
+					{
+						Location = "YoutubePubSubController_Send_Tweet",
+						ExceptionMessage = e.Message
+					});
+				}
+				
 			}
 
 			foreach (var webhook in _context.Webhooks)
 			{
-				webhook.SendMessage(pubSubFeed);
+				try
+				{
+					webhook.SendMessage(pubSubFeed);
+				}
+				catch (Exception e)
+				{
+					//Log error
+					_context.ErrorLog.AddAsync(new ErrorLog()
+					{
+						Location = "YoutubePubSubController_Send_Discord",
+						ExceptionMessage = e.Message
+					});
+				}
 			}
 
 			return NoContent();

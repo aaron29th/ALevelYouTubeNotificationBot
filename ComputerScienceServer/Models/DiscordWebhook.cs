@@ -21,29 +21,27 @@ namespace ComputerScienceServer.Models
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 
-		public async Task SendMessage(PubSubFeed youtubeData)
+		public void SendMessage(PubSubFeed youtubeData)
 		{
+			//Format template messages with video information
 			string message = TextFormatter.Format(youtubeData, MessageTemplate);
 			string embedsText = TextFormatter.Format(youtubeData, EmbedTemplate);
 
+			//Create embed obj
 			var embedObj = embedsText != null ? 
 				JsonConvert.DeserializeObject<WebhookEmbed>(embedsText) : null;
-			Embed[] embeds = embedsText != null ? new Embed[]{ embedObj.CreateEmbed() } : null;
-			try
-			{
-				DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
-				ulong i = await client.SendMessageAsync(message, false, embeds);
-			}
-			catch
-			{
-
-			}
+			Embed[] embeds = embedObj != null ? new Embed[]{ embedObj.CreateEmbed() } : null;
+			
+			//Send message
+			DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
+			client.SendMessageAsync(message, false, embeds);
 		}
 
 		public bool VerifyExistence()
 		{
 			try
 			{
+				//Check webhook exists
 				DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
 				return true;
 			}
