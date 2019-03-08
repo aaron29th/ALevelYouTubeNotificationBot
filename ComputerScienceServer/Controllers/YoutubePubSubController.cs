@@ -31,7 +31,7 @@ namespace ComputerScienceServer.Controllers
 		{
 			foreach (var user in _context.TwitterUsers)
 			{
-				user.SendTweet(pubSubFeed);
+				//user.SendTweet(pubSubFeed);
 			}
 
 			foreach (var webhook in _context.Webhooks)

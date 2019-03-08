@@ -1,9 +1,14 @@
-﻿namespace ComputerScienceServer.Models.Webhook
+﻿using Newtonsoft.Json;
+
+namespace ComputerScienceServer.Models.Webhook
 {
 	public class WebhookEmbedField
 	{
-		public string name { get; set; }
-		public string value { get; set; }
-		public bool? inline { get; set; }
+		[JsonProperty("name")]
+		public string Name { get; set; }
+		[JsonProperty("value")]
+		public string Value { get; set; }
+		[JsonProperty("inline")]
+		public bool Inline { get; set; }
 	}
 }

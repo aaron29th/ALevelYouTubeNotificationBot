@@ -1,7 +1,10 @@
-﻿namespace ComputerScienceServer.Models.Webhook
+﻿using Newtonsoft.Json;
+
+namespace ComputerScienceServer.Models.Webhook
 {
 	public class WebhookEmbedThumbnail
 	{
-		public string url { get; set; }
+		[JsonProperty("url")]
+		public string Url { get; set; }
 	}
 }
