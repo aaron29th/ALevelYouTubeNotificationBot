@@ -25,9 +25,18 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		[HttpPost]
+	    [HttpPost("AddNew")]
+	    [Consumes("application/json")]
+		public async Task<ActionResult> AddNew([FromBody] YoutubeSubscription subscription)
+	    {
+		    await _context.YoutubeSubscriptions.AddAsync(subscription);
+		    await _context.SaveChangesAsync();
+		    return Ok();
+	    }
+
+		[HttpPost("{id}")]
 		[Consumes("application/xml")]
-		public ActionResult Post([FromBody] PubSubFeed pubSubFeed)
+		public ActionResult Post(string id, [FromBody] PubSubFeed pubSubFeed)
 		{
 			foreach (var user in _context.TwitterUsers)
 			{

@@ -22,6 +22,8 @@ namespace ComputerScienceServer.Models
 
 		public string TweetTemplate { get; set; }
 
+		public ICollection<TwitterYoutubeSubscription> TwitterYoutubePubSub { get; set; }
+
 		public void GetInfo()
 		{
 			TwitterService service = new TwitterService(_consumerKey, _consumerSecret);

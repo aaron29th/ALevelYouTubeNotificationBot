@@ -21,6 +21,8 @@ namespace ComputerScienceServer.Models
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 
+		public ICollection<DiscordWebhookYoutubeSubscription> DiscordWebhookYoutubeSubscriptions { get; set; }
+
 		public void SendMessage(PubSubFeed youtubeData)
 		{
 			//Format template messages with video information
