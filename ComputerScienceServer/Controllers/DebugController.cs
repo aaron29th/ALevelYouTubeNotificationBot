@@ -18,6 +18,25 @@ namespace ComputerScienceServer.Controllers
 			_context = context;
 		}
 
+		[HttpGet("TestPage")]
+		public ActionResult TestPage()
+		{
+			return Ok("Hello world");
+		}
+
+		[HttpGet("TestPage2")]
+		public ActionResult TestPage2()
+		{
+			_context.ErrorLog.Add(new ErrorLog()
+			{
+				ExceptionMessage = "An error occured",
+				Location = "Debug"
+			});
+			_context.SaveChanges();
+
+			return Ok(_context.ErrorLog.First());
+		}
+
 		[HttpGet("{id}")]
 		public async Task<ActionResult> Get(string id)
 		{
