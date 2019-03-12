@@ -10,6 +10,7 @@ using Discord;
 using Discord.Webhook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TweetSharp;
 
 namespace ComputerScienceServer.Controllers
@@ -36,43 +37,55 @@ namespace ComputerScienceServer.Controllers
 
 		[HttpPost("{id}")]
 		[Consumes("application/xml")]
-		public ActionResult Post(string id, [FromBody] PubSubFeed pubSubFeed)
+		public async Task<ActionResult> Post(string id, [FromBody] PubSubFeed pubSubFeed)
 		{
-			foreach (var user in _context.TwitterUsers)
+			//Checks channel subscription exists
+			if (!_context.YoutubeSubscriptions.Any(sub => sub.ChannelId == id))
+			{
+				return NotFound();
+			}
+
+			//Gets corresponding youtube subscription
+			var youtubeSubscription = _context.YoutubeSubscriptions.Find(id);
+
+			//Loop through all twitter users and send a tweet from each
+			foreach (var user in youtubeSubscription.TwitterYoutubeSubscriptions)
 			{
 				try
 				{
-					user.SendTweet(pubSubFeed);
+					user.TwitterUser.SendTweet(pubSubFeed);
 				}
 				catch (Exception e)
 				{
 					//Log error
-					_context.ErrorLog.AddAsync(new ErrorLog()
+					await _context.ErrorLog.AddAsync(new ErrorLog()
 					{
 						Location = "YoutubePubSubController_Send_Tweet",
 						ExceptionMessage = e.Message
 					});
+					await _context.SaveChangesAsync();
 				}
 				
 			}
 
-			foreach (var webhook in _context.Webhooks)
+			//Loop through all associated discord webhooks and send a message from each
+			foreach (var webhookYoutube in youtubeSubscription.DiscordWebhooksYoutubeSubscriptions)
 			{
 				try
 				{
-					webhook.SendMessage(pubSubFeed);
+					webhookYoutube.Webhook.SendMessage(pubSubFeed);
 				}
 				catch (Exception e)
 				{
 					//Log error
-					_context.ErrorLog.AddAsync(new ErrorLog()
+					await _context.ErrorLog.AddAsync(new ErrorLog()
 					{
 						Location = "YoutubePubSubController_Send_Discord",
 						ExceptionMessage = e.Message
 					});
+					await _context.SaveChangesAsync();
 				}
 			}
-
 			return NoContent();
 		}
     }
