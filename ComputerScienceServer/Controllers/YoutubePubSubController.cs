@@ -6,6 +6,7 @@ using ComputerScienceServer.Models.DiscordWebhook;
 using ComputerScienceServer.Models.Twitter;
 using ComputerScienceServer.Models.Youtube;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -63,6 +64,26 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
 		}
 
+		//Verify pubsub subscription
+	    [HttpGet("{id}")]
+	    public async Task<ActionResult> Get(string id, [FromQuery] ulong hub_challenge, [FromQuery] ulong lease)
+	    {
+			//Check subscription exists
+		    if (_context.YoutubeSubscriptions.All(sub => sub.ChannelId == id))
+		    {
+			    return BadRequest();
+		    }
+
+		    YoutubeSubscription subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
+		    subscription.Verified = true;
+			//ulong lease = Request.
+		    subscription.Expires = DateTime.Now.AddSeconds(lease);
+		    await _context.SaveChangesAsync();
+
+			return Ok(hub_challenge);
+	    }
+
+		//Receive post notification for video upload / change
 		[HttpPost("{id}")]
 		[Consumes("application/xml")]
 		public async Task<ActionResult> Post(string id, [FromQuery] string verifyToken,
@@ -115,6 +136,7 @@ namespace ComputerScienceServer.Controllers
 					await _context.SaveChangesAsync();
 				}
 			}
+
 			return NoContent();
 		}
     }

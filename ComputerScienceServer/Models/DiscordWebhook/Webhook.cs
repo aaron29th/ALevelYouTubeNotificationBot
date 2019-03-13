@@ -43,7 +43,7 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 		{
 			try
 			{
-				//Check webhookh exists
+				//Check webhook exists
 				DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
 				return true;
 			}
