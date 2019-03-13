@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using ComputerScienceServer.Models.PubSub;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ComputerScienceServer.Models.Youtube;
 using TweetSharp;
 
-namespace ComputerScienceServer.Models
+namespace ComputerScienceServer.Models.Twitter
 {
 	public class TwitterUser
 	{
-		private static string _consumerKey = "***REMOVED***";
-		private static string _consumerSecret = "***REMOVED***";
+		private const string _consumerKey = "***REMOVED***";
+		private const string _consumerSecret = "***REMOVED***";
 
 		[Key]
 		public string Token { get; set; }

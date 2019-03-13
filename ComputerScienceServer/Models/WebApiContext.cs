@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComputerScienceServer.Models.DiscordWebhook;
+using ComputerScienceServer.Models.Twitter;
+using ComputerScienceServer.Models.Youtube;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComputerScienceServer.Models

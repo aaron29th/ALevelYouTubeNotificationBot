@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.PubSub;
+using ComputerScienceServer.Models.Youtube;
 
 namespace ComputerScienceServer.Models
 {

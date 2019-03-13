@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComputerScienceServer.Models.Youtube;
 
-namespace ComputerScienceServer.Models
+namespace ComputerScienceServer.Models.Twitter
 {
-	public class WebhookYoutubeSubscription
+	public class TwitterYoutubeSubscription
 	{
-		public ulong Id { get; set; }
-		public Webhook Webhook { get; set; }
+		public string Token { get; set; }
+		public TwitterUser TwitterUser { get; set; }
 
 		public string ChannelId { get; set; }
 		public YoutubeSubscription YoutubeSubscription { get; set; }

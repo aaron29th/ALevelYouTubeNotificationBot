@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using ComputerScienceServer.Models;
-using ComputerScienceServer.Models.PubSub;
-using Discord;
-using Discord.Webhook;
-using Microsoft.AspNetCore.Http;
+using ComputerScienceServer.Models.DiscordWebhook;
+using ComputerScienceServer.Models.Twitter;
+using ComputerScienceServer.Models.Youtube;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TweetSharp;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -104,11 +98,11 @@ namespace ComputerScienceServer.Controllers
 			}
 
 			//Loop through all associated discord webhooks and send a message from each
-			foreach (var webhookYoutube in youtubeSubscription.DiscordWebhooksYoutubeSubscriptions)
+			foreach (var webhookYoutube in youtubeSubscription.WebhookYoutubeSubscriptions)
 			{
 				try
 				{
-					webhookYoutube.Webhookh.SendMessage(pubSubFeed);
+					webhookYoutube.Webhook.SendMessage(pubSubFeed);
 				}
 				catch (Exception e)
 				{

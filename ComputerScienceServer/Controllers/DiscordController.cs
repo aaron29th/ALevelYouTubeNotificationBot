@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ComputerScienceServer.Models;
-using Discord.Webhook;
-using Microsoft.AspNetCore.Http;
+using ComputerScienceServer.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerScienceServer.Controllers
@@ -20,14 +16,14 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		//Add webhookh
+		//Add webhook
 		[HttpPost("AddWebhook")]
 		[Consumes("application/json")]
-        public async Task<ActionResult> Post([FromBody] Webhook webhookh)
+        public async Task<ActionResult> Post([FromBody] Webhook webhook)
         {
-	        if (webhookh.VerifyExistence() == false) return BadRequest();
+	        if (webhook.VerifyExistence() == false) return BadRequest();
 
-	        await _context.Webhooks.AddAsync(webhookh);
+	        await _context.Webhooks.AddAsync(webhook);
 	        await _context.SaveChangesAsync();
 	        return NoContent();
         }

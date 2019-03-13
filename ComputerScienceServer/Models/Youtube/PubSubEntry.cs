@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ComputerScienceServer.Models.PubSub
+namespace ComputerScienceServer.Models.Youtube
 {
 	[XmlRoot(ElementName="entry", Namespace="http://www.w3.org/2005/Atom")]
 	public class PubSubEntry {
