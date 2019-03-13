@@ -50,7 +50,7 @@ namespace ComputerScienceServer
 			});
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
-				options.UseNpgsql(Configuration.GetConnectionString("socialMediaPostgres")));
+				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

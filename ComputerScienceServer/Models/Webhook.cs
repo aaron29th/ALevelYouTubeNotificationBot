@@ -8,11 +8,11 @@ using Discord;
 using Discord.Webhook;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
-using ComputerScienceServer.Models.Webhook;
+using ComputerScienceServer.Models.DiscordWebhook;
 
 namespace ComputerScienceServer.Models
 {
-	public class DiscordWebhook
+	public class Webhook
 	{
 		[Key]
 		public ulong Id { get; set; }
@@ -21,7 +21,7 @@ namespace ComputerScienceServer.Models
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 
-		public ICollection<DiscordWebhookYoutubeSubscription> DiscordWebhookYoutubeSubscriptions { get; set; }
+		public ICollection<WebhookYoutubeSubscription> DiscordWebhookYoutubeSubscriptions { get; set; }
 
 		public void SendMessage(PubSubFeed youtubeData)
 		{
@@ -43,7 +43,7 @@ namespace ComputerScienceServer.Models
 		{
 			try
 			{
-				//Check webhook exists
+				//Check webhookh exists
 				DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
 				return true;
 			}

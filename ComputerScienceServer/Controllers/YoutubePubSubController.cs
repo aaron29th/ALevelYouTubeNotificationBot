@@ -32,12 +32,47 @@ namespace ComputerScienceServer.Controllers
 	    {
 		    await _context.YoutubeSubscriptions.AddAsync(subscription);
 		    await _context.SaveChangesAsync();
-		    return Ok();
+		    return NoContent();
 	    }
+
+		[HttpPost("AddWebhook")]
+		[Consumes("application/json")]
+		public async Task<ActionResult> AddWebhook(
+			[FromBody] WebhookYoutubeSubscription webhookYoutube)
+		{
+			if (!_context.Webhooks.All(webhook => webhook.Id == webhookYoutube.Id) ||
+			    !_context.YoutubeSubscriptions.All(
+				    youtubeSub => youtubeSub.ChannelId == webhookYoutube.ChannelId))
+			{
+				return BadRequest();
+			}
+			await _context.WebhookYoutubeSubscriptions.AddAsync(webhookYoutube);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		[HttpPost("AddTwitter")]
+		[Consumes("application/json")]
+		public async Task<ActionResult> AddTwitter(
+			[FromBody] TwitterYoutubeSubscription twitterYoutube)
+		{
+			if (!_context.TwitterUsers.All(user => user.Token == twitterYoutube.Token) ||
+			    !_context.YoutubeSubscriptions.All(
+				    youtubeSub => youtubeSub.ChannelId == twitterYoutube.ChannelId))
+			{
+				return BadRequest();
+			}
+			await _context.TwitterYoutubeSubscriptions.AddAsync(twitterYoutube);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
 
 		[HttpPost("{id}")]
 		[Consumes("application/xml")]
-		public async Task<ActionResult> Post(string id, [FromBody] PubSubFeed pubSubFeed)
+		public async Task<ActionResult> Post(string id, [FromQuery] string verifyToken,
+			[FromBody] PubSubFeed pubSubFeed)
 		{
 			//Checks channel subscription exists
 			if (!_context.YoutubeSubscriptions.Any(sub => sub.ChannelId == id))
@@ -73,7 +108,7 @@ namespace ComputerScienceServer.Controllers
 			{
 				try
 				{
-					webhookYoutube.Webhook.SendMessage(pubSubFeed);
+					webhookYoutube.Webhookh.SendMessage(pubSubFeed);
 				}
 				catch (Exception e)
 				{

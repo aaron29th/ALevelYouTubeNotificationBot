@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace ComputerScienceServer.Models.Webhook
+namespace ComputerScienceServer.Models.DiscordWebhook
 {
-	public class WebhookEmbedThumbnail
+	public class WebhookEmbedImage
 	{
 		[JsonProperty("url")]
 		public string Url { get; set; }

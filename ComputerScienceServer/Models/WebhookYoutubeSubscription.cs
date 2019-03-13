@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ComputerScienceServer.Models
 {
-	public class DiscordWebhookYoutubeSubscription
+	public class WebhookYoutubeSubscription
 	{
-		public string Token { get; set; }
-		public DiscordWebhook Webhook { get; set; }
+		public ulong Id { get; set; }
+		public Webhook Webhook { get; set; }
 
 		public string ChannelId { get; set; }
 		public YoutubeSubscription YoutubeSubscription { get; set; }

@@ -12,8 +12,8 @@ namespace ComputerScienceServer.Models
 		{
 		}
 
-		public DbSet<DiscordWebhook> Webhooks { get; set; }
-		public DbSet<DiscordWebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
+		public DbSet<Webhook> Webhooks { get; set; }
+		public DbSet<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
 
 		public DbSet<TwitterUser> TwitterUsers { get; set; }
 		public DbSet<TwitterYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
@@ -25,8 +25,8 @@ namespace ComputerScienceServer.Models
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			//Configure composite key for linking tale
-			modelBuilder.Entity<DiscordWebhookYoutubeSubscription>().HasKey(
-				webhookYoutube => new { webhookYoutube.Token, webhookYoutube.ChannelId });
+			modelBuilder.Entity<WebhookYoutubeSubscription>().HasKey(
+				webhookYoutube => new { webhookYoutube.Id, webhookYoutube.ChannelId });
 
 			//Configure composite key for linking tale
 			modelBuilder.Entity<TwitterYoutubeSubscription>().HasKey(

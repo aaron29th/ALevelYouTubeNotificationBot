@@ -2,11 +2,12 @@
 
 namespace ComputerScienceServer.Models.PubSub
 {
-	[XmlRoot(ElementName="link", Namespace="http://www.w3.org/2005/Atom")]
-	public class PubSubLink {
-		[XmlAttribute(AttributeName="rel")]
+	[XmlRoot(ElementName = "link", Namespace = "http://www.w3.org/2005/Atom")]
+	public class PubSubLink
+	{
+		[XmlAttribute(AttributeName = "rel")]
 		public string Rel { get; set; }
-		[XmlAttribute(AttributeName="href")]
+		[XmlAttribute(AttributeName = "href")]
 		public string Href { get; set; }
 	}
 }

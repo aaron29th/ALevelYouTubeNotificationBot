@@ -13,7 +13,7 @@ namespace ComputerScienceServer.Models
 		public string VerifyToken { get; set; }
 		public string HmacToken { get; set; }
 
-		public ICollection<DiscordWebhookYoutubeSubscription> DiscordWebhooksYoutubeSubscriptions { get; set; }
+		public ICollection<WebhookYoutubeSubscription> DiscordWebhooksYoutubeSubscriptions { get; set; }
 		public ICollection<TwitterYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
 	}
 }

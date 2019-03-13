@@ -20,14 +20,14 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		//Add webhook
+		//Add webhookh
 		[HttpPost("AddWebhook")]
 		[Consumes("application/json")]
-        public async Task<ActionResult> Post([FromBody] DiscordWebhook webhook)
+        public async Task<ActionResult> Post([FromBody] Webhook webhookh)
         {
-	        if (webhook.VerifyExistence() == false) return BadRequest();
+	        if (webhookh.VerifyExistence() == false) return BadRequest();
 
-	        await _context.Webhooks.AddAsync(webhook);
+	        await _context.Webhooks.AddAsync(webhookh);
 	        await _context.SaveChangesAsync();
 	        return NoContent();
         }
