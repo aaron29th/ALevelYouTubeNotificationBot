@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
@@ -23,9 +24,12 @@ namespace ComputerScienceServer.Controllers
 
 	    [HttpPost("AddNew")]
 	    [Consumes("application/json")]
-		public async Task<ActionResult> AddNew([FromBody] YoutubeSubscription subscription)
-	    {
-		    await _context.YoutubeSubscriptions.AddAsync(subscription);
+		public async Task<ActionResult> AddNew([FromBody] string channelId)
+		{
+			var subscription = await YoutubeSubscription.Subscribe(channelId);
+			if (subscription == null) return BadRequest();
+
+			await _context.YoutubeSubscriptions.AddAsync(subscription);
 		    await _context.SaveChangesAsync();
 		    return NoContent();
 	    }
@@ -52,6 +56,7 @@ namespace ComputerScienceServer.Controllers
 		public async Task<ActionResult> AddTwitter(
 			[FromBody] TwitterYoutubeSubscription twitterYoutube)
 		{
+			//Check that both the twitter account and youtube subscription exists in the database
 			if (!_context.TwitterUsers.All(user => user.Token == twitterYoutube.Token) ||
 			    !_context.YoutubeSubscriptions.All(
 				    youtubeSub => youtubeSub.ChannelId == twitterYoutube.ChannelId))
@@ -64,9 +69,13 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
 		}
 
-		//Verify pubsub subscription
+		/// <summary>
+		/// Verify the YouTUbe subscription
+		/// </summary>
+		/// <param name="id">Channel id</param>
 	    [HttpGet("{id}")]
-	    public async Task<ActionResult> Get(string id, [FromQuery] ulong hub_challenge, [FromQuery] ulong lease)
+	    public async Task<ActionResult> Get(string id, [FromQuery] ulong hub_challenge, 
+			[FromQuery] ulong lease)
 	    {
 			//Check subscription exists
 		    if (_context.YoutubeSubscriptions.All(sub => sub.ChannelId == id))
@@ -76,14 +85,15 @@ namespace ComputerScienceServer.Controllers
 
 		    YoutubeSubscription subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
 		    subscription.Verified = true;
-			//ulong lease = Request.
 		    subscription.Expires = DateTime.Now.AddSeconds(lease);
 		    await _context.SaveChangesAsync();
 
 			return Ok(hub_challenge);
 	    }
 
-		//Receive post notification for video upload / change
+		/// <summary>
+		/// Sends discord messages and tweets to notify users of a newly uploaded YouTube video
+		/// </summary>
 		[HttpPost("{id}")]
 		[Consumes("application/xml")]
 		public async Task<ActionResult> Post(string id, [FromQuery] string verifyToken,
@@ -96,7 +106,7 @@ namespace ComputerScienceServer.Controllers
 			}
 
 			//Gets corresponding youtube subscription
-			var youtubeSubscription = _context.YoutubeSubscriptions.Find(id);
+			var youtubeSubscription = await _context.YoutubeSubscriptions.FindAsync(id);
 
 			//Loop through all twitter users and send a tweet from each
 			foreach (var user in youtubeSubscription.TwitterYoutubeSubscriptions)
@@ -113,9 +123,7 @@ namespace ComputerScienceServer.Controllers
 						Location = "YoutubePubSubController_Send_Tweet",
 						ExceptionMessage = e.Message
 					});
-					await _context.SaveChangesAsync();
 				}
-				
 			}
 
 			//Loop through all associated discord webhooks and send a message from each
@@ -133,10 +141,42 @@ namespace ComputerScienceServer.Controllers
 						Location = "YoutubePubSubController_Send_Discord",
 						ExceptionMessage = e.Message
 					});
-					await _context.SaveChangesAsync();
 				}
 			}
+			await _context.SaveChangesAsync();
+			return NoContent();
+		}
 
+		/// <summary>
+		/// Renew all YouTube subscriptions that expire within 25 hours
+		/// </summary>
+		[HttpGet("RenewSubscriptions")]
+		public async Task<ActionResult> RenewSubscriptions()
+		{
+			//Get all subscription which expire within 25 hours
+			var subscriptions = _context.YoutubeSubscriptions.Where(
+				sub => sub.Expires < DateTime.Now.AddHours(25));
+
+			List<Task<bool>> resultTasks = new List<Task<bool>>();
+			foreach (var subscription in subscriptions)
+			{
+				resultTasks.Add(subscription.Renew());
+			}
+
+			bool[] results = await Task.WhenAll(resultTasks);
+			for (int i = 0; i < results.Length; i++)
+			{
+				//Skip successful renews
+				if (results[i]) continue;
+				//Log failed renews
+				await _context.ErrorLog.AddAsync(new ErrorLog()
+				{
+					ExceptionMessage = "Youtube pub sub renew failed",
+					Location = $"YoutubePubSubController ChannelId={subscriptions.ElementAt(i).ChannelId}"
+				});
+			}
+
+			await _context.SaveChangesAsync();
 			return NoContent();
 		}
     }

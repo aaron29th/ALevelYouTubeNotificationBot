@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerScienceServer", "ComputerScienceServer\ComputerScienceServer.csproj", "{836E2937-46B3-45B3-AFE2-416B37EFE2D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerScienceServer", "ComputerScienceServer\ComputerScienceServer.csproj", "{836E2937-46B3-45B3-AFE2-416B37EFE2D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMediaBotManager", "SocialMediaBotManager\SocialMediaBotManager.csproj", "{2928A5ED-008F-497C-A051-F95A4510A69B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{836E2937-46B3-45B3-AFE2-416B37EFE2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{836E2937-46B3-45B3-AFE2-416B37EFE2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{836E2937-46B3-45B3-AFE2-416B37EFE2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2928A5ED-008F-497C-A051-F95A4510A69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2928A5ED-008F-497C-A051-F95A4510A69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2928A5ED-008F-497C-A051-F95A4510A69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2928A5ED-008F-497C-A051-F95A4510A69B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
