@@ -29,20 +29,17 @@
 		private void InitializeComponent()
 		{
 			this.mainTabControl = new System.Windows.Forms.TabControl();
-			this.youtubeTabPage = new System.Windows.Forms.TabPage();
-			this.discordTabPage = new System.Windows.Forms.TabPage();
-			this.twitterTabPage = new System.Windows.Forms.TabPage();
-			this.youtubeControl1 = new SocialMediaBotManager.Forms.YoutubeControl();
-			this.discordControl1 = new SocialMediaBotManager.Forms.DiscordControl();
-			this.twitterControl1 = new SocialMediaBotManager.Forms.TwitterControl();
 			this.mainTabPage = new System.Windows.Forms.TabPage();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
+			this.youtubeTabPage = new System.Windows.Forms.TabPage();
+			this.youtubeControl1 = new SocialMediaBotManager.Forms.YoutubeControl();
+			this.discordTabPage = new System.Windows.Forms.TabPage();
+			this.discordControl1 = new SocialMediaBotManager.Forms.DiscordControl();
+			this.twitterTabPage = new System.Windows.Forms.TabPage();
+			this.twitterControl1 = new SocialMediaBotManager.Forms.TwitterControl();
 			this.mainTabControl.SuspendLayout();
 			this.youtubeTabPage.SuspendLayout();
 			this.discordTabPage.SuspendLayout();
 			this.twitterTabPage.SuspendLayout();
-			this.mainTabPage.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// mainTabControl
@@ -58,6 +55,15 @@
 			this.mainTabControl.Size = new System.Drawing.Size(480, 348);
 			this.mainTabControl.TabIndex = 0;
 			// 
+			// mainTabPage
+			// 
+			this.mainTabPage.Location = new System.Drawing.Point(4, 22);
+			this.mainTabPage.Name = "mainTabPage";
+			this.mainTabPage.Size = new System.Drawing.Size(472, 322);
+			this.mainTabPage.TabIndex = 3;
+			this.mainTabPage.Text = "General";
+			this.mainTabPage.UseVisualStyleBackColor = true;
+			// 
 			// youtubeTabPage
 			// 
 			this.youtubeTabPage.Controls.Add(this.youtubeControl1);
@@ -68,6 +74,14 @@
 			this.youtubeTabPage.TabIndex = 0;
 			this.youtubeTabPage.Text = "Youtube";
 			this.youtubeTabPage.UseVisualStyleBackColor = true;
+			// 
+			// youtubeControl1
+			// 
+			this.youtubeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.youtubeControl1.Location = new System.Drawing.Point(3, 3);
+			this.youtubeControl1.Name = "youtubeControl1";
+			this.youtubeControl1.Size = new System.Drawing.Size(466, 316);
+			this.youtubeControl1.TabIndex = 0;
 			// 
 			// discordTabPage
 			// 
@@ -80,6 +94,14 @@
 			this.discordTabPage.Text = "Discord";
 			this.discordTabPage.UseVisualStyleBackColor = true;
 			// 
+			// discordControl1
+			// 
+			this.discordControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.discordControl1.Location = new System.Drawing.Point(3, 3);
+			this.discordControl1.Name = "discordControl1";
+			this.discordControl1.Size = new System.Drawing.Size(466, 316);
+			this.discordControl1.TabIndex = 0;
+			// 
 			// twitterTabPage
 			// 
 			this.twitterTabPage.Controls.Add(this.twitterControl1);
@@ -90,22 +112,6 @@
 			this.twitterTabPage.Text = "Twitter";
 			this.twitterTabPage.UseVisualStyleBackColor = true;
 			// 
-			// youtubeControl1
-			// 
-			this.youtubeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.youtubeControl1.Location = new System.Drawing.Point(3, 3);
-			this.youtubeControl1.Name = "youtubeControl1";
-			this.youtubeControl1.Size = new System.Drawing.Size(466, 316);
-			this.youtubeControl1.TabIndex = 0;
-			// 
-			// discordControl1
-			// 
-			this.discordControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.discordControl1.Location = new System.Drawing.Point(3, 3);
-			this.discordControl1.Name = "discordControl1";
-			this.discordControl1.Size = new System.Drawing.Size(466, 316);
-			this.discordControl1.TabIndex = 0;
-			// 
 			// twitterControl1
 			// 
 			this.twitterControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -113,34 +119,6 @@
 			this.twitterControl1.Name = "twitterControl1";
 			this.twitterControl1.Size = new System.Drawing.Size(472, 322);
 			this.twitterControl1.TabIndex = 0;
-			// 
-			// mainTabPage
-			// 
-			this.mainTabPage.Controls.Add(this.label1);
-			this.mainTabPage.Controls.Add(this.textBox1);
-			this.mainTabPage.Location = new System.Drawing.Point(4, 22);
-			this.mainTabPage.Name = "mainTabPage";
-			this.mainTabPage.Size = new System.Drawing.Size(472, 322);
-			this.mainTabPage.TabIndex = 3;
-			this.mainTabPage.Text = "General";
-			this.mainTabPage.UseVisualStyleBackColor = true;
-			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(8, 25);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(456, 50);
-			this.textBox1.TabIndex = 0;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(8, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(38, 13);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Token";
 			// 
 			// MainWindow
 			// 
@@ -154,8 +132,6 @@
 			this.youtubeTabPage.ResumeLayout(false);
 			this.discordTabPage.ResumeLayout(false);
 			this.twitterTabPage.ResumeLayout(false);
-			this.mainTabPage.ResumeLayout(false);
-			this.mainTabPage.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -168,8 +144,6 @@
 		private System.Windows.Forms.TabPage discordTabPage;
 		private System.Windows.Forms.TabPage twitterTabPage;
 		private System.Windows.Forms.TabPage mainTabPage;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
 		private Forms.DiscordControl discordControl1;
 		private Forms.TwitterControl twitterControl1;
 	}

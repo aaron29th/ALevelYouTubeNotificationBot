@@ -8,5 +8,9 @@ namespace SocialMediaBotManager.Models
 {
 	class Youtube
 	{
+		public List<Subscription> GetSubscriptions()
+		{
+			return new List<Subscription>();
+		}
 	}
 }

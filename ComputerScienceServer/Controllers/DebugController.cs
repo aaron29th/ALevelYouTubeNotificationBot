@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.DiscordWebhook;
-using ComputerScienceServer.Models.Twitter;
 using Microsoft.AspNetCore.Mvc;
+using TweetSharp;
+using TwitterUser = ComputerScienceServer.Models.Twitter.TwitterUser;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -70,6 +71,48 @@ namespace ComputerScienceServer.Controllers
 			}
 
 			return Ok();
+		}
+
+		[HttpGet("AddUser")]
+		public ActionResult Authorize()
+		{
+			// Step 1 - Retrieve an OAuth Request Token
+			TwitterService service = new TwitterService(
+				Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
+
+			// This is the registered callback URL
+			OAuthRequestToken requestToken = service.GetRequestToken(
+				Config.TwitterCallbackUrl);
+
+			// Step 2 - Redirect to the OAuth Authorization URL
+			Uri uri = service.GetAuthorizationUri(requestToken);
+			return Ok(uri.ToString());
+		}
+
+		// This URL is registered as the application's callback
+		// at http://dev.twitter.com
+		[HttpGet("AuthorizeCallback")]
+		public ActionResult AuthorizeCallback([FromQuery] string oauth_token, 
+			[FromQuery] string oauth_verifier)
+		{
+			var requestToken = new OAuthRequestToken { Token = oauth_token };
+
+			// Step 3 - Exchange the Request Token for an Access Token
+			TwitterService service = new TwitterService(
+				Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
+
+			OAuthAccessToken accessToken = service.GetAccessToken(requestToken, 
+				oauth_verifier);
+
+			// Step 4 - User authenticates using the Access Token
+			service.AuthenticateWith(accessToken.Token, 
+				accessToken.TokenSecret);
+
+			TweetSharp.TwitterUser user = service.VerifyCredentials(
+				new VerifyCredentialsOptions());
+
+			string username = user.ScreenName;
+			return Ok(username);
 		}
 	}
 }

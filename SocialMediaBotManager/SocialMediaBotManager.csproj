@@ -52,6 +52,12 @@
     <Compile Include="Forms\DiscordControl.Designer.cs">
       <DependentUpon>DiscordControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LoginWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginWindow.Designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,11 +76,17 @@
     <Compile Include="Forms\YoutubeControl.Designer.cs">
       <DependentUpon>YoutubeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Discord.cs" />
-    <Compile Include="Models\Twitter.cs" />
+    <Compile Include="Models\Auth.cs" />
+    <Compile Include="Models\Network.cs" />
+    <Compile Include="Models\Subscription.cs" />
+    <Compile Include="Models\TwitterUser.cs" />
+    <Compile Include="Models\Webhook.cs" />
     <Compile Include="Models\Youtube.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\LoginWindow.resx">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

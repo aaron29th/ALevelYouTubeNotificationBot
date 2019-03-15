@@ -16,5 +16,45 @@ namespace SocialMediaBotManager.Forms
 		{
 			InitializeComponent();
 		}
+
+		private void subscriptionAddNew_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void webhookLinkSubscription_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void webhookUnlinkSubscription_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void twitterLinkSubscription_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void twitterUnlinkSubscription_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void webhooksListbox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void twitterAccountsListbox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void subscriptions_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

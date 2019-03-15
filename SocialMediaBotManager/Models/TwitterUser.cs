@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace SocialMediaBotManager.Models
 {
-	class Twitter
+	class TwitterUser
 	{
+		public string Token { get; set; }
+		public string Name { get; set; }
+		public string TweetTemplate { get; set; }
+
+		public void Save()
+		{
+
+		}
 	}
 }
