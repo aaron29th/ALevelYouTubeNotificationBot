@@ -19,7 +19,7 @@ namespace ComputerScienceServer.Controllers
 		//Add webhook
 		[HttpPost("AddWebhook")]
 		[Consumes("application/json")]
-        public async Task<ActionResult> Post([FromBody] Webhook webhook)
+        public async Task<ActionResult> AddWebhook([FromBody] Webhook webhook)
         {
 	        if (webhook.VerifyExistence() == false) return BadRequest();
 

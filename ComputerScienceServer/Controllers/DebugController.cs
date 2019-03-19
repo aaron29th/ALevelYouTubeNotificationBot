@@ -73,22 +73,6 @@ namespace ComputerScienceServer.Controllers
 			return Ok();
 		}
 
-		[HttpGet("AddUser")]
-		public ActionResult Authorize()
-		{
-			// Step 1 - Retrieve an OAuth Request Token
-			TwitterService service = new TwitterService(
-				Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
-
-			// This is the registered callback URL
-			OAuthRequestToken requestToken = service.GetRequestToken(
-				Config.TwitterCallbackUrl);
-
-			// Step 2 - Redirect to the OAuth Authorization URL
-			Uri uri = service.GetAuthorizationUri(requestToken);
-			return Ok(uri.ToString());
-		}
-
 		// This URL is registered as the application's callback
 		// at http://dev.twitter.com
 		[HttpGet("AuthorizeCallback")]

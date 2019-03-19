@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ComputerScienceServer.Models.Youtube.PubSub">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAEAAAACAABAAAAQAAABCAAAAA=</HashCode>
+      <FileName>Models\Youtube\PubSub.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Youtube.PubSubAuthor">
+    <Position X="11.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\Youtube\PubSubAuthor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Youtube.PubSubEntry">
+    <Position X="11.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAEAAiAAAAAAAAIAAAAAAQAQAQAAAAAA=</HashCode>
+      <FileName>Models\Youtube\PubSubEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Author" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Youtube.PubSubFeed">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABAAEAAAAAAAACAAAAAAAAAQAAAQAAAAAA=</HashCode>
+      <FileName>Models\Youtube\PubSubFeed.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PubSubEntry" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Link" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Youtube.PubSubLink">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Youtube\PubSubLink.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Youtube.YoutubeSubscription">
+    <Position X="5.25" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAAAAEAAAAAEAAAAAAACAAAAYAQABAgCAAA=</HashCode>
+      <FileName>Models\Youtube\YoutubeSubscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="WebhookYoutubeSubscriptions" />
+      <Property Name="TwitterYoutubeSubscriptions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription">
+    <Position X="10.25" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAAABAAA=</HashCode>
+      <FileName>Models\Twitter\TwitterYoutubeSubscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="YoutubeSubscription" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.DiscordWebhook.WebhookYoutubeSubscription">
+    <Position X="0.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAABA=</HashCode>
+      <FileName>Models\DiscordWebhook\WebhookYoutubeSubscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="YoutubeSubscription" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

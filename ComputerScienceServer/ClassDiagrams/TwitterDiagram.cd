@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ComputerScienceServer.Models.Twitter.TwitterUser">
+    <Position X="3" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAQAIAAAABAQAAAAAIEAAAAAAAAABAAA=</HashCode>
+      <FileName>Models\Twitter\TwitterUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="TwitterYoutubePubSub" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription">
+    <Position X="8" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAAABAAA=</HashCode>
+      <FileName>Models\Twitter\TwitterYoutubeSubscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TwitterUser" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

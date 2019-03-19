@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComputerScienceServer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -12,6 +13,13 @@ namespace ComputerScienceServer.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+	    private readonly WebApiContext _context;
+
+		public AuthController(WebApiContext context)
+	    {
+			_context = context;
+		}
+
 	    [HttpPost("Login")]
 	    public async Task<ActionResult> Login([FromForm] string username)
 	    {

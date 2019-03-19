@@ -70,11 +70,11 @@ namespace ComputerScienceServer.Controllers
 		}
 
 		/// <summary>
-		/// Verify the YouTUbe subscription
+		/// Verify the YouTube subscription
 		/// </summary>
 		/// <param name="id">Channel id</param>
 	    [HttpGet("{id}")]
-	    public async Task<ActionResult> Get(string id, [FromQuery] ulong hub_challenge, 
+	    public async Task<ActionResult> VerifySubscription(string id, [FromQuery] ulong hub_challenge, 
 			[FromQuery] ulong lease)
 	    {
 			//Check subscription exists
@@ -96,7 +96,7 @@ namespace ComputerScienceServer.Controllers
 		/// </summary>
 		[HttpPost("{id}")]
 		[Consumes("application/xml")]
-		public async Task<ActionResult> Post(string id, [FromQuery] string verifyToken,
+		public async Task<ActionResult> SendNotifications(string id, [FromQuery] string verifyToken,
 			[FromBody] PubSubFeed pubSubFeed)
 		{
 			//Checks channel subscription exists
