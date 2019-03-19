@@ -21,13 +21,12 @@ namespace ComputerScienceServer.Controllers
 		}
 
 	    [HttpPost("Login")]
-	    public async Task<ActionResult> Login([FromForm] string username)
+	    public async Task<ActionResult> Login([FromForm] string username, [FromForm] string password)
 	    {
-		    StringValues password;
-		    Request.Form.TryGetValue("password", out password);
-
-
-
+		    //Hash password
+			//Check for db
+			//Generate auth token
+			
 			Response.Headers.Add("token", "");
 		    return NoContent();
 	    }
