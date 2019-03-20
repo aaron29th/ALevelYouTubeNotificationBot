@@ -25,7 +25,7 @@ namespace ComputerScienceServer.Models
 		
 		public DbSet<ErrorLog> ErrorLog { get; set; }
 
-		public DbSet<User>
+		public DbSet<User> Users { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -35,7 +35,7 @@ namespace ComputerScienceServer.Models
 
 			//Configure composite key for linking tale
 			modelBuilder.Entity<TwitterYoutubeSubscription>().HasKey(
-				twitterYoutube => new { twitterYoutube.Token, twitterYoutube.ChannelId });
+				twitterYoutube => new { twitterYoutube.Id, twitterYoutube.ChannelId });
 		}
 	}
 }

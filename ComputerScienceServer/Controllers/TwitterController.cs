@@ -51,8 +51,8 @@ namespace ComputerScienceServer.Controllers
 
 	        //User authenticates using the Access Token
 	        //service.AuthenticateWith(accessToken.Token, accessToken.TokenSecret);
-	        //string username = user.ScreenName;
 			//TweetSharp.TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
+			//string username = user.ScreenName;
 
 			await _context.TwitterUsers.AddAsync(new Models.Twitter.TwitterUser()
 	        {

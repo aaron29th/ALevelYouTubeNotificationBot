@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using ComputerScienceServer.Models;
+using ComputerScienceServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -36,8 +37,8 @@ namespace ComputerScienceServer
 		{
 			Config.Init();
 
+			//Add jwt token authentication
 			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);
-
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{
@@ -56,16 +57,20 @@ namespace ComputerScienceServer
 
 			services.AddMvc(options =>
 			{
+				//Require authorization by default
 				var policy = new AuthorizationPolicyBuilder()
 					.RequireAuthenticatedUser()
 					.Build();
-
 				options.Filters.Add(new AuthorizeFilter(policy));
+
+				//Allow xml deserialization of post requests
 				options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
 			});
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
 				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));
+
+			services.AddScoped<IUserService, UserService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

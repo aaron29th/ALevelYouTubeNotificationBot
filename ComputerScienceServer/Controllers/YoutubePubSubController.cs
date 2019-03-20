@@ -57,7 +57,7 @@ namespace ComputerScienceServer.Controllers
 			[FromBody] TwitterYoutubeSubscription twitterYoutube)
 		{
 			//Check that both the twitter account and youtube subscription exists in the database
-			if (!_context.TwitterUsers.All(user => user.Token == twitterYoutube.Token) ||
+			if (!_context.TwitterUsers.All(user => user.Id == twitterYoutube.Id) ||
 			    !_context.YoutubeSubscriptions.All(
 				    youtubeSub => youtubeSub.ChannelId == twitterYoutube.ChannelId))
 			{

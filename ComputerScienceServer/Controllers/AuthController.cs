@@ -27,6 +27,8 @@ namespace ComputerScienceServer.Controllers
 	    [HttpPost("GetToken")]
 	    public async Task<ActionResult> GetToken([FromForm] string username, [FromForm] string password)
 	    {
+
+
 			var claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Role, "StandardUser")

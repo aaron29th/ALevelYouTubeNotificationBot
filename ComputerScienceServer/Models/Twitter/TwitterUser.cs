@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ComputerScienceServer.Models.Youtube;
+using Newtonsoft.Json;
 using TweetSharp;
 
 namespace ComputerScienceServer.Models.Twitter
 {
 	public class TwitterUser
 	{
-		private const string _consumerKey = "***REMOVED***";
-		private const string _consumerSecret = "***REMOVED***";
-
 		[Key]
+		public ulong Id { get; set; }
+		[JsonIgnore]
 		public string Token { get; set; }
+		[JsonIgnore]
 		public string TokenSecret { get; set; }
-
 		public string Name { get; set; }
-
 		public string TweetTemplate { get; set; }
-
+		
 		public ICollection<TwitterYoutubeSubscription> TwitterYoutubePubSub { get; set; }
 
 		public void GetInfo()
 		{
-			TwitterService service = new TwitterService(_consumerKey, _consumerSecret);
+			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
 
 			service.AuthenticateWith(Token, TokenSecret);
 			var user = service.GetUserProfile(new GetUserProfileOptions());
@@ -34,7 +33,7 @@ namespace ComputerScienceServer.Models.Twitter
 		{
 			string body = TextFormatter.Format(youtubeVideoData, TweetTemplate);
 
-			TwitterService service = new TwitterService(_consumerKey, _consumerSecret);
+			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
 
 			service.AuthenticateWith(Token, TokenSecret);
 			service.SendTweet(new SendTweetOptions()
