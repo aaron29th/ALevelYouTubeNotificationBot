@@ -10,7 +10,7 @@ namespace ComputerScienceServer.Models.Twitter
 	public class TwitterUser
 	{
 		[Key]
-		public ulong Id { get; set; }
+		public long Id { get; set; }
 		[JsonIgnore]
 		public string Token { get; set; }
 		[JsonIgnore]

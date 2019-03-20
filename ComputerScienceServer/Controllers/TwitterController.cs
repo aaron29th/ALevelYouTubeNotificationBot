@@ -50,12 +50,13 @@ namespace ComputerScienceServer.Controllers
 	        if (String.IsNullOrWhiteSpace(accessToken.ScreenName)) return BadRequest();
 
 	        //User authenticates using the Access Token
-	        //service.AuthenticateWith(accessToken.Token, accessToken.TokenSecret);
-			//TweetSharp.TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
+	        service.AuthenticateWith(accessToken.Token, accessToken.TokenSecret);
+			TweetSharp.TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
 			//string username = user.ScreenName;
 
 			await _context.TwitterUsers.AddAsync(new Models.Twitter.TwitterUser()
 	        {
+				Id = user.Id,
 				Token =  accessToken.Token,
 				TokenSecret = accessToken.Token,
 				Name = accessToken.ScreenName

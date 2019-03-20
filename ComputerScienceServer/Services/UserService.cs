@@ -14,7 +14,8 @@ namespace ComputerScienceServer.Services
 {
 	public interface IUserService
 	{
-		Task<User> Authenticate(string username, string password);
+		Task<string> Authenticate(string username, string password);
+		Task AddUser(string username, string password);
 	}
 
 	public class UserService : IUserService
@@ -26,7 +27,7 @@ namespace ComputerScienceServer.Services
 			_context = context;
 		}
 
-		public async Task<User> Authenticate(string username, string password)
+		public async Task<string> Authenticate(string username, string password)
 		{
 			//var hash = 
 
@@ -55,11 +56,18 @@ namespace ComputerScienceServer.Services
 				claims: claims
 			);
 
-			user.Token = new JwtSecurityTokenHandler().WriteToken(token);
+			return new JwtSecurityTokenHandler().WriteToken(token);
+		}
 
-			user.Password = null;
-
-			return user;
+		public async Task AddUser(string username, string password)
+		{
+			await _context.Users.AddAsync(new User()
+			{
+				Username = username,
+				Password = password,
+				Registered = DateTime.Now
+			});
+			await _context.SaveChangesAsync();
 		}
 	}
 }
