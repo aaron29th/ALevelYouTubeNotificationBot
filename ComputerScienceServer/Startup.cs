@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using ComputerScienceServer.Models;
-using ComputerScienceServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -69,8 +68,6 @@ namespace ComputerScienceServer
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
 				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));
-
-			services.AddScoped<IUserService, UserService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

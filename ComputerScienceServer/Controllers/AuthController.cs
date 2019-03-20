@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
-using ComputerScienceServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -21,24 +20,27 @@ namespace ComputerScienceServer.Controllers
     public class AuthController : ControllerBase
     {
 	    private readonly WebApiContext _context;
-	    private readonly IUserService _userService;
 
-		public AuthController(WebApiContext context, IUserService userService)
+		public AuthController(WebApiContext context)
 	    {
 			_context = context;
-			_userService = userService;
 	    }
 
 		[AllowAnonymous]
 	    [HttpPost("GetToken")]
 	    public async Task<ActionResult> GetToken([FromForm] string username, [FromForm] string password)
 	    {
-			var user = await _context.Users.FirstAsync(x => x.Username == username
-			                                                && x.Password == password);
+		    if (!await _context.Users.AnyAsync(x => x.Username == username))
+		    {
+				return BadRequest(new Dictionary<string, string>
+				{
+					{ "Error", "Username doesn't exist" }
+				});
+			}
 
-			// return null if user not found
-			if (user == null)
-				return null;
+			var user = await _context.Users.FirstAsync(x => x.Username == username);
+
+			//check password against hash
 
 			var claims = new[]
 			{
@@ -63,10 +65,19 @@ namespace ComputerScienceServer.Controllers
 	    }
 
 	    [AllowAnonymous]
-		[HttpGet("AddUser")]
+		[HttpPost("AddUser")]
 	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
 	    {
+		    if (await _context.Users.AllAsync(user => user.Username == username))
+		    {
+				return BadRequest(new Dictionary<string, string>
+				{
+					{ "Error", "Username already exists" }
+				});
+		    }
+
 			//Hash password
+
 			await _context.Users.AddAsync(new User()
 			{
 				Username = username,
