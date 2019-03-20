@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.DiscordWebhook;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using TweetSharp;
 using TwitterUser = ComputerScienceServer.Models.Twitter.TwitterUser;
 
@@ -21,8 +23,15 @@ namespace ComputerScienceServer.Controllers
 			_context = context;
 		}
 
+		[Authorize]
+		[HttpGet]
+		public string Get()
+		{
+			return "Hello world";
+		}
+
 		[HttpGet("LogError")]
-		public ActionResult TestPage2()
+		public ActionResult LogError()
 		{
 			_context.ErrorLog.Add(new ErrorLog()
 			{

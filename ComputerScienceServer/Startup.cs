@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using ComputerScienceServer.Authentication;
 using ComputerScienceServer.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using TweetSharp;
 
 namespace ComputerScienceServer
@@ -30,17 +32,23 @@ namespace ComputerScienceServer
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			Config.Init();
 
-			// Add authentication 
-			services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = CustomAuthOptions.DefaultScheme;
-				options.DefaultChallengeScheme = CustomAuthOptions.DefaultScheme;
-			})
-			.AddCustomAuth(options =>
-			{
-				options.SecureToken = "custom auth key";
-			});
+			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Config.JwtIssuer,
+						ValidAudience = Config.JwtAudience,
+						IssuerSigningKey = symmetricSecurityKey
+					};
+				});
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

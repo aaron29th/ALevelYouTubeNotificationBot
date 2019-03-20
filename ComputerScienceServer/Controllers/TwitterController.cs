@@ -21,8 +21,6 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		
-
         [HttpGet("GetOauthLink")]
         public ActionResult GetOauthLink()
         {

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -20,14 +24,29 @@ namespace ComputerScienceServer.Controllers
 			_context = context;
 		}
 
-	    [HttpPost("Login")]
-	    public async Task<ActionResult> Login([FromForm] string username, [FromForm] string password)
+	    [HttpPost("GetToken")]
+	    public async Task<ActionResult> GetToken([FromForm] string username, [FromForm] string password)
 	    {
-		    //Hash password
-			//Check for db
-			//Generate auth token
-			
-			Response.Headers.Add("token", "");
+			var claims = new List<Claim>
+			{
+				new Claim(ClaimTypes.Role, "StandardUser")
+			};
+
+			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);
+
+			var signingCredentials = new SigningCredentials(symmetricSecurityKey, 
+				SecurityAlgorithms.HmacSha384Signature);
+
+			var token = new JwtSecurityToken(
+					issuer: Config.JwtIssuer, 
+					audience: Config.JwtAudience,
+					expires: DateTime.Now.AddDays(1),
+					signingCredentials: signingCredentials,
+					claims: claims
+				);
+
+			string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+			Response.Headers.Add("token", tokenString);
 		    return NoContent();
 	    }
     }
