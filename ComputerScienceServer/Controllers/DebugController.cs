@@ -23,7 +23,7 @@ namespace ComputerScienceServer.Controllers
 			_context = context;
 		}
 
-		[Authorize]
+		[AllowAnonymous]
 		[HttpGet]
 		public string Get()
 		{

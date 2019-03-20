@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Xml;
 using ComputerScienceServer.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +56,11 @@ namespace ComputerScienceServer
 
 			services.AddMvc(options =>
 			{
+				var policy = new AuthorizationPolicyBuilder()
+					.RequireAuthenticatedUser()
+					.Build();
+
+				options.Filters.Add(new AuthorizeFilter(policy));
 				options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
 			});
 

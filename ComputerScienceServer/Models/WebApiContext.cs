@@ -25,6 +25,8 @@ namespace ComputerScienceServer.Models
 		
 		public DbSet<ErrorLog> ErrorLog { get; set; }
 
+		public DbSet<User>
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			//Configure composite key for linking tale
