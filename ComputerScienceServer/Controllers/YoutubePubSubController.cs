@@ -39,9 +39,9 @@ namespace ComputerScienceServer.Controllers
 			return Ok();
 		}
 
-		[HttpPost("AddWebhook")]
+		[HttpPost("LinkWebhook")]
 		[Consumes("application/json")]
-		public async Task<ActionResult> AddWebhookToSubscription(
+		public async Task<ActionResult> LinkWebhookToSubscription(
 			[FromBody] WebhookYoutubeSubscription webhookYoutube)
 		{
 			if (!_context.Webhooks.All(webhook => webhook.Id == webhookYoutube.Id) ||
@@ -56,14 +56,14 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
 		}
 
-		public async Task<ActionResult> DeleteWebhookFromSubscription()
+		public async Task<ActionResult> UnlinkWebhookFromSubscription()
 		{
 			return Ok();
 		}
 
-		[HttpPost("AddTwitter")]
+		[HttpPost("LinkTwitter")]
 		[Consumes("application/json")]
-		public async Task<ActionResult> AddTwitter(
+		public async Task<ActionResult> LinkTwitterUser(
 			[FromBody] TwitterYoutubeSubscription twitterYoutube)
 		{
 			//Check that both the twitter account and youtube subscription exists in the database
@@ -79,7 +79,7 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
 		}
 
-		public async Task<ActionResult> DeleteTwitterFromSubscription()
+		public async Task<ActionResult> UnlinkTwitterFromSubscription()
 		{
 			return Ok();
 		}
