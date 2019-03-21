@@ -27,5 +27,10 @@ namespace ComputerScienceServer.Controllers
 	        await _context.SaveChangesAsync();
 	        return NoContent();
         }
-    }
+
+        public async Task<ActionResult> DeleteWebhook()
+        {
+	        return Ok();
+        }
+	}
 }

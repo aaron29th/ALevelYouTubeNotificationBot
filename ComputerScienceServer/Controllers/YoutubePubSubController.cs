@@ -24,9 +24,9 @@ namespace ComputerScienceServer.Controllers
 
 	    [HttpPost("AddNew")]
 	    [Consumes("application/json")]
-		public async Task<ActionResult> AddNew([FromBody] string channelId)
+		public async Task<ActionResult> AddNewSubscription([FromBody] string channelId)
 		{
-			var subscription = await YoutubeSubscription.Subscribe(channelId);
+			var subscription = await YoutubeSubscription.SubscribeAsync(channelId);
 			if (subscription == null) return BadRequest();
 
 			await _context.YoutubeSubscriptions.AddAsync(subscription);
@@ -34,9 +34,14 @@ namespace ComputerScienceServer.Controllers
 		    return NoContent();
 	    }
 
+		public async Task<ActionResult> DeleteSubscription()
+		{
+			return Ok();
+		}
+
 		[HttpPost("AddWebhook")]
 		[Consumes("application/json")]
-		public async Task<ActionResult> AddWebhook(
+		public async Task<ActionResult> AddWebhookToSubscription(
 			[FromBody] WebhookYoutubeSubscription webhookYoutube)
 		{
 			if (!_context.Webhooks.All(webhook => webhook.Id == webhookYoutube.Id) ||
@@ -49,6 +54,11 @@ namespace ComputerScienceServer.Controllers
 			await _context.SaveChangesAsync();
 
 			return NoContent();
+		}
+
+		public async Task<ActionResult> DeleteWebhookFromSubscription()
+		{
+			return Ok();
 		}
 
 		[HttpPost("AddTwitter")]
@@ -69,11 +79,16 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
 		}
 
+		public async Task<ActionResult> DeleteTwitterFromSubscription()
+		{
+			return Ok();
+		}
+
 		/// <summary>
 		/// Verify the YouTube subscription
 		/// </summary>
 		/// <param name="id">Channel id</param>
-	    [HttpGet("{id}")]
+		[HttpGet("{id}")]
 	    public async Task<ActionResult> VerifySubscription(string id, [FromQuery] ulong hub_challenge, 
 			[FromQuery] ulong lease)
 	    {
@@ -160,7 +175,7 @@ namespace ComputerScienceServer.Controllers
 			List<Task<bool>> resultTasks = new List<Task<bool>>();
 			foreach (var subscription in subscriptions)
 			{
-				resultTasks.Add(subscription.Renew());
+				resultTasks.Add(subscription.RenewAsync());
 			}
 
 			bool[] results = await Task.WhenAll(resultTasks);

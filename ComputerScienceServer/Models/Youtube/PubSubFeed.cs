@@ -17,5 +17,14 @@ namespace ComputerScienceServer.Models.Youtube
 		public string Yt { get; set; }
 		[XmlAttribute(AttributeName="xmlns")]
 		public string Xmlns { get; set; }
+
+		public string FormatTemplateString(string templateString)
+		{
+			if (templateString == null) return null;
+
+			string formattedText = templateString.Replace("{{VideoTitle}}", Title);
+			formattedText = formattedText.Replace("{{AuthorName}}", PubSubEntry.Author.Name);
+			return formattedText;
+		}
 	}
 }

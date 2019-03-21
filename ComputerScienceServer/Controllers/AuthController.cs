@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebSockets.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -40,31 +41,14 @@ namespace ComputerScienceServer.Controllers
 
 			var user = await _context.Users.FirstAsync(x => x.Username == username);
 
-			//check password against hash
+			string token = user.GetToken(password);
+			if (token == null) return Unauthorized();
 
-			var claims = new[]
-			{
-				new Claim(ClaimTypes.Name, username)
-			};
-
-			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);
-
-			var signingCredentials = new SigningCredentials(symmetricSecurityKey,
-				SecurityAlgorithms.HmacSha384Signature);
-
-			var token = new JwtSecurityToken(
-				issuer: Config.JwtIssuer,
-				audience: Config.JwtAudience,
-				expires: DateTime.Now.AddDays(1),
-				signingCredentials: signingCredentials,
-				claims: claims
-			);
-
-			Response.Headers.Add("token", new JwtSecurityTokenHandler().WriteToken(token));
+			Response.Headers.Add("token", token);
 		    return NoContent();
 	    }
 
-	    [AllowAnonymous]
+	    [Authorize(Roles = "Admin")]
 		[HttpPost("AddUser")]
 	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
 	    {
@@ -76,16 +60,14 @@ namespace ComputerScienceServer.Controllers
 				});
 		    }
 
-			//Hash password
-
-			await _context.Users.AddAsync(new User()
-			{
-				Username = username,
-				Password = password,
-				Registered = DateTime.Now
-			});
+			await _context.Users.AddAsync(new User(username, password));
 			await _context.SaveChangesAsync();
 			return Ok();
+	    }
+
+	    public async Task<ActionResult> DeleteUser()
+	    {
+		    return Ok();
 	    }
 	}
 }

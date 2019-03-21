@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace ComputerScienceServer.Models.Youtube
 	{
 		[Key]
 		public string ChannelId { get; set; }
+
 		[JsonIgnore]
 		public string VerifyToken { get; set; }
 		[JsonIgnore]
@@ -33,7 +35,7 @@ namespace ComputerScienceServer.Models.Youtube
 		/// </summary>
 		/// <param name="channelId">The id of the youtube channel</param>
 		/// <returns></returns>
-		public static async Task<YoutubeSubscription> Subscribe(string channelId)
+		public static async Task<YoutubeSubscription> SubscribeAsync(string channelId)
 		{
 			var subscription = new YoutubeSubscription()
 			{
@@ -63,7 +65,7 @@ namespace ComputerScienceServer.Models.Youtube
 			return response.IsSuccessStatusCode ? subscription : null;
 		}
 
-		public async Task<bool> Renew()
+		public async Task<bool> RenewAsync()
 		{
 			var values = new Dictionary<string, string>
 			{
@@ -84,7 +86,7 @@ namespace ComputerScienceServer.Models.Youtube
 			return response.IsSuccessStatusCode;
 		}
 
-		public async Task<bool> Unsubscribe()
+		public async Task<bool> UnsubscribeAsync()
 		{
 			var values = new Dictionary<string, string>
 			{

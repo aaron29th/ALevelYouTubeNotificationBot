@@ -21,6 +21,7 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
+		//Gets oauth link for authenticating an account
         [HttpGet("GetOauthLink")]
         public ActionResult GetOauthLink()
         {
@@ -65,5 +66,10 @@ namespace ComputerScienceServer.Controllers
 	        
 	        return NoContent();
         }
-    }
+
+        public async Task<ActionResult> DeleteUser()
+        {
+	        return Ok();
+        }
+	}
 }

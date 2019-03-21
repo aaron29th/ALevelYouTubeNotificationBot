@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="ComputerScienceServer.Controllers.DiscordController">
-    <Position X="5" Y="0.5" Width="2" />
+    <Position X="6.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAEAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\DiscordController.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -11,9 +11,16 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ComputerScienceServer.Controllers.AuthController">
-    <Position X="0.5" Y="0.5" Width="2" />
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <AssociationLine Name="_context" Type="ComputerScienceServer.Models.WebApiContext" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.75" Y="2.31" />
+        <Point X="1.75" Y="4.375" />
+        <Point X="3.5" Y="4.375" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAABAAEAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\AuthController.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -21,9 +28,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ComputerScienceServer.Controllers.TwitterController">
-    <Position X="2.75" Y="0.5" Width="2" />
+    <Position X="3.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgABAAEAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Controllers\TwitterController.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -31,9 +38,19 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ComputerScienceServer.Controllers.YoutubePubSubController">
-    <Position X="7.25" Y="0.5" Width="2" />
+    <Position X="9.25" Y="0.5" Width="3.75" />
+    <AssociationLine Name="_context" Type="ComputerScienceServer.Models.WebApiContext" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.359" Y="3.464" />
+        <Point X="11.359" Y="4.25" />
+        <Point X="8.25" Y="4.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.162" Y="0.07" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>IAAgAAAAAEAABAAAAAAAAAAAEAIAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>JAAgAAQAAAAABAAAAAAAAAAIEAAAgAAAAAgAAAEAAAA=</HashCode>
       <FileName>Controllers\YoutubePubSubController.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -41,9 +58,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ComputerScienceServer.Models.WebApiContext">
-    <Position X="3.5" Y="3.5" Width="2.75" />
+    <Position X="3.5" Y="3.25" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAgAAAAAAAAAAEAAIAAAAAAQAAAgAAAA=</HashCode>
+      <HashCode>AAABACAAAAAAAgAAAAAAAAAAEAAIAAAAAAQAAAgAAAA=</HashCode>
       <FileName>Models\WebApiContext.cs</FileName>
     </TypeIdentifier>
   </Class>
