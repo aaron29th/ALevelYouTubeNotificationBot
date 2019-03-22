@@ -26,8 +26,8 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 		public void SendMessage(PubSubFeed youtubeData)
 		{
 			//Format template messages with video information
-			string message = TextFormatter.Format(youtubeData, MessageTemplate);
-			string embedsText = TextFormatter.Format(youtubeData, EmbedTemplate);
+			string message = youtubeData.FormatTemplateString(MessageTemplate);
+			string embedsText = youtubeData.FormatTemplateString(EmbedTemplate);
 
 			//Create embed obj
 			var embedObj = embedsText != null ? 

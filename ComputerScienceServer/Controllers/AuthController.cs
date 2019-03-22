@@ -48,11 +48,12 @@ namespace ComputerScienceServer.Controllers
 		    return NoContent();
 	    }
 
-	    [Authorize(Roles = "Admin")]
+	    //[Authorize(Roles = "Admin")]
+	    [AllowAnonymous]
 		[HttpPost("AddUser")]
 	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
 	    {
-		    if (await _context.Users.AllAsync(user => user.Username == username))
+		    if (await _context.Users.AnyAsync(user => user.Username == username))
 		    {
 				return BadRequest(new Dictionary<string, string>
 				{
@@ -65,8 +66,15 @@ namespace ComputerScienceServer.Controllers
 			return Ok();
 	    }
 
-	    public async Task<ActionResult> DeleteUser()
+	    [Authorize(Roles = "Admin")]
+		[HttpPost("DeleteUser/{id}")]
+	    public async Task<ActionResult> DeleteUser(int id)
 	    {
+		    if (await _context.Users.AnyAsync(user => user.Id == id)) return BadRequest();
+
+		    var userToBeDeleted = await _context.Users.FirstAsync(x => x.Id == id);
+		    _context.Users.Remove(userToBeDeleted);
+		    await _context.SaveChangesAsync();
 		    return Ok();
 	    }
 	}

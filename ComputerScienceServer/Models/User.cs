@@ -51,7 +51,8 @@ namespace ComputerScienceServer.Models
 
 			var claims = new[]
 			{
-				new Claim(ClaimTypes.Name, Id.ToString())
+				new Claim(ClaimTypes.Name, Id.ToString()),
+				new Claim(ClaimTypes.Role, Role)
 			};
 
 			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);

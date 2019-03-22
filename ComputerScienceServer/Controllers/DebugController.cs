@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using TweetSharp;
@@ -57,6 +59,13 @@ namespace ComputerScienceServer.Controllers
 				Status = "Hello world..."
 			});
 			return "";
+		}
+
+		[HttpGet("Identity")]
+		public ActionResult IdentityTest()
+		{			
+			var name = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+			return Ok("qwerty");
 		}
 	}
 }

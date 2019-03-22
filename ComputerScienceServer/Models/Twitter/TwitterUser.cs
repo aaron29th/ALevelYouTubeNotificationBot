@@ -31,7 +31,7 @@ namespace ComputerScienceServer.Models.Twitter
 
 		public void SendTweet(PubSubFeed youtubeVideoData)
 		{
-			string body = TextFormatter.Format(youtubeVideoData, TweetTemplate);
+			string body = youtubeVideoData.FormatTemplateString(TweetTemplate);
 
 			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
 
