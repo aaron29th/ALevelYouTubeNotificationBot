@@ -18,11 +18,11 @@ namespace ComputerScienceServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class UserController : ControllerBase
     {
 	    private readonly WebApiContext _context;
 
-		public AuthController(WebApiContext context)
+		public UserController(WebApiContext context)
 	    {
 			_context = context;
 	    }
@@ -48,9 +48,8 @@ namespace ComputerScienceServer.Controllers
 		    return NoContent();
 	    }
 
-	    //[Authorize(Roles = "Admin")]
-	    [AllowAnonymous]
-		[HttpPost("AddUser")]
+	    [Authorize(Roles = "Admin")]
+		[HttpPost("Add")]
 	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
 	    {
 		    if (await _context.Users.AnyAsync(user => user.Username == username))
@@ -61,13 +60,13 @@ namespace ComputerScienceServer.Controllers
 				});
 		    }
 
-			await _context.Users.AddAsync(new User(username, password));
+			await _context.Users.AddAsync(new ApplicationUser(username, password));
 			await _context.SaveChangesAsync();
 			return Ok();
 	    }
 
-	    [Authorize(Roles = "Admin")]
-		[HttpPost("DeleteUser/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("Delete/{id}")]
 	    public async Task<ActionResult> DeleteUser(int id)
 	    {
 		    if (await _context.Users.AnyAsync(user => user.Id == id)) return BadRequest();

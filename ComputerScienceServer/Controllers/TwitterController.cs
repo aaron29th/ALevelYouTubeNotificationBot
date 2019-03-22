@@ -6,6 +6,7 @@ using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.Twitter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TweetSharp;
 
 namespace ComputerScienceServer.Controllers
@@ -67,9 +68,28 @@ namespace ComputerScienceServer.Controllers
 	        return NoContent();
         }
 
-        public async Task<ActionResult> DeleteUser()
+        [HttpPost("SetTweetTemplate/{id}")]
+        public async Task<ActionResult> SetTweetTemplate(long id, [FromForm] string tweetTemplate)
         {
-	        return Ok();
+			//Check twitter user exists
+	        if (await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
+
+	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.Id == id);
+	        twitterUser.TweetTemplate = tweetTemplate;
+	        await _context.SaveChangesAsync();
+			return NoContent();
+        }
+
+		[HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(long id)
+        {
+			//Check twitter user exists
+	        if (await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
+
+	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.Id == id);
+	        _context.Remove(twitterUser);
+	        await _context.SaveChangesAsync();
+	        return NoContent();
         }
 	}
 }

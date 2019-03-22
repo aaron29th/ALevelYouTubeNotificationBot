@@ -2,6 +2,7 @@
 using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -28,9 +29,33 @@ namespace ComputerScienceServer.Controllers
 	        return NoContent();
         }
 
-        public async Task<ActionResult> DeleteWebhook()
+        [HttpPost("SetMessageTemplate")]
+        public async Task<ActionResult> SetMessageTemplate(ulong id, string messageTemplate, string embedTemplate)
         {
-	        return Ok();
-        }
+			//Check webhook exists
+	        if (await _context.Webhooks.AnyAsync(x => x.Id == id)) return BadRequest();
+
+			//Get webhook
+	        var webhook = await _context.Webhooks.FirstAsync(x => x.Id == id);
+			//Set templates
+	        webhook.MessageTemplate = messageTemplate;
+	        webhook.EmbedTemplate = embedTemplate;
+	        await _context.SaveChangesAsync();
+	        return NoContent();
+		}
+
+		[HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteWebhook(ulong id)
+        {
+			//Check webhook exists
+	        if (await _context.Webhooks.AnyAsync(x => x.Id == id)) return BadRequest();
+
+			//Get webhook
+	        var webhook = await _context.Webhooks.FirstAsync(x => x.Id == id);
+			//Delete the webhook
+	        _context.Remove(webhook);
+	        await _context.SaveChangesAsync();
+	        return NoContent();
+		}
 	}
 }
