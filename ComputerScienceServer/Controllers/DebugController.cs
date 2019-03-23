@@ -67,5 +67,13 @@ namespace ComputerScienceServer.Controllers
 			var name = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
 			return Ok("qwerty");
 		}
+
+		[AllowAnonymous]
+		[HttpGet("Echo/{id}")]
+		public ActionResult EchoChallenge(string id, [FromQuery] string hub_challenge, [FromQuery] ulong lease)
+		{
+			Request.Query.TryGetValue("hub.challenge", out var challenge);
+			return Ok(challenge.First());
+		}
 	}
 }

@@ -223,7 +223,7 @@
 			this.Controls.Add(this.subscriptions);
 			this.Controls.Add(this.webhookLinkSubscription);
 			this.Name = "YoutubeControl";
-			this.Size = new System.Drawing.Size(629, 274);
+			this.Size = new System.Drawing.Size(737, 349);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

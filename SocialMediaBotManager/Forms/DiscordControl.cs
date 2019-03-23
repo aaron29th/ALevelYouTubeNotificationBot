@@ -16,5 +16,20 @@ namespace SocialMediaBotManager.Forms
 		{
 			InitializeComponent();
 		}
+
+		private void webhookAdd_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void webhookSave_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void webhookDelete_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

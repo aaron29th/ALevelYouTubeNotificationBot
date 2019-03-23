@@ -13,8 +13,7 @@ namespace SocialMediaBotManager.Models
 
 		public static void Init()
 		{
-			Client.BaseAddress = new Uri(
-				"https://socialmediabot.azurewebsites.net/api/");
+			Client.BaseAddress = new Uri("https://socialmediabot.azurewebsites.net/api/");
 			
 		}
 	}

@@ -22,8 +22,6 @@ namespace ComputerScienceServer.Models.Youtube
 		public string HmacSecret { get; set; }
 		[JsonIgnore]
 		public DateTime Expires { get; set; }
-		[JsonIgnore]
-		public bool Verified { get; set; }
 
 		public ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
 		public ICollection<TwitterYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
@@ -33,6 +31,7 @@ namespace ComputerScienceServer.Models.Youtube
 		/// <summary>
 		/// Creates a new YouTube subscription 
 		/// </summary>
+		/// <param name="context">Database context</param>
 		/// <param name="channelId">The id of the youtube channel</param>
 		/// <returns></returns>
 		public static async Task<YoutubeSubscription> SubscribeAsync(string channelId)
@@ -42,8 +41,7 @@ namespace ComputerScienceServer.Models.Youtube
 				ChannelId = channelId,
 				VerifyToken = TextFormatter.SecureRandomString(64),
 				HmacSecret = TextFormatter.SecureRandomString(64),
-				Expires = DateTime.Now.AddSeconds(432000),
-				Verified = false
+				Expires = DateTime.Now.AddSeconds(Config.YoutubeSubscriptionLease)
 			};
 
 			var values = new Dictionary<string, string>
@@ -54,13 +52,12 @@ namespace ComputerScienceServer.Models.Youtube
 				{ "hub.mode", "subscribe" },
 				{ "hub.verify_tokens", subscription.VerifyToken },
 				{ "hub.secret", subscription.HmacSecret },
-				{ "hub.lease_seconds", "432000" }
+				{ "hub.lease_seconds", Config.YoutubeSubscriptionLease.ToString() }
 			};
 
 			var content = new FormUrlEncodedContent(values);
 
-			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe", 
-				content);
+			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe", content);
 
 			return response.IsSuccessStatusCode ? subscription : null;
 		}

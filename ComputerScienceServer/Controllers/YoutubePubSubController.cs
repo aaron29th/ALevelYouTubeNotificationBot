@@ -6,8 +6,10 @@ using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.DiscordWebhook;
 using ComputerScienceServer.Models.Twitter;
 using ComputerScienceServer.Models.Youtube;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 
 namespace ComputerScienceServer.Controllers
 {
@@ -23,65 +25,120 @@ namespace ComputerScienceServer.Controllers
 	    }
 
 	    [HttpPost("AddNew")]
-	    [Consumes("application/json")]
-		public async Task<ActionResult> AddNewSubscription([FromBody] string channelId)
+		public async Task<ActionResult> AddNewSubscription([FromForm] string channelId)
 		{
 			var subscription = await YoutubeSubscription.SubscribeAsync(channelId);
 			if (subscription == null) return BadRequest();
 
 			await _context.YoutubeSubscriptions.AddAsync(subscription);
-		    await _context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
+
 		    return NoContent();
 	    }
 
-		public async Task<ActionResult> DeleteSubscription()
+		[HttpGet("GetAll")]
+		public async Task<ActionResult> GetAllSubscriptions()
 		{
-			return Ok();
+			var subscriptions = await _context.YoutubeSubscriptions.ToArrayAsync();
+			return Ok(subscriptions);
 		}
 
-		[HttpPost("LinkWebhook")]
-		[Consumes("application/json")]
-		public async Task<ActionResult> LinkWebhookToSubscription(
-			[FromBody] WebhookYoutubeSubscription webhookYoutube)
+		[HttpDelete("{id}")]
+		public async Task<ActionResult> DeleteSubscription(string id)
 		{
-			if (!_context.Webhooks.All(webhook => webhook.Id == webhookYoutube.Id) ||
-			    !_context.YoutubeSubscriptions.All(
-				    youtubeSub => youtubeSub.ChannelId == webhookYoutube.ChannelId))
+			//Check subscription exists
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id)) return BadRequest();
+
+			var subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
+			await subscription.UnsubscribeAsync();
+
+			_context.YoutubeSubscriptions.Remove(subscription);
+			await _context.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpPost("LinkWebhook/{id}")]
+		public async Task<ActionResult> LinkWebhookToSubscription(string id, 
+			[FromForm] ulong webhookId)
+		{
+			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.ChannelId == id) ||
+			    !await _context.Webhooks.AnyAsync(webhook => webhook.Id == webhookId))
 			{
 				return BadRequest();
 			}
-			await _context.WebhookYoutubeSubscriptions.AddAsync(webhookYoutube);
+
+			var webhookSubscription = new WebhookYoutubeSubscription()
+			{
+				ChannelId = id,
+				Id = webhookId
+			};
+			await _context.WebhookYoutubeSubscriptions.AddAsync(webhookSubscription);
 			await _context.SaveChangesAsync();
 
 			return NoContent();
 		}
 
-		public async Task<ActionResult> UnlinkWebhookFromSubscription()
+		[HttpPost("UnlinkWebhook/{id}")]
+		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id,
+			[FromForm] ulong webhookId)
 		{
-			return Ok();
+			//Check link exists
+			if (!await _context.WebhookYoutubeSubscriptions.AnyAsync(
+				webhookSub => webhookSub.Id == webhookId && webhookSub.ChannelId == id))
+			{
+				return BadRequest();
+			}
+
+			var webhookSubscription = await _context.WebhookYoutubeSubscriptions.FirstAsync(
+				webhookSub => webhookSub.Id == webhookId && webhookSub.ChannelId == id);
+			_context.WebhookYoutubeSubscriptions.Remove(webhookSubscription);
+			await _context.SaveChangesAsync();
+			return NoContent();
 		}
 
-		[HttpPost("LinkTwitter")]
-		[Consumes("application/json")]
-		public async Task<ActionResult> LinkTwitterUser(
-			[FromBody] TwitterYoutubeSubscription twitterYoutube)
+		[HttpPost("LinkTwitter/{id}")]
+		public async Task<ActionResult> LinkTwitterUser(string id,
+			[FromForm] long twitterId)
 		{
 			//Check that both the twitter account and youtube subscription exists in the database
-			if (!_context.TwitterUsers.All(user => user.Id == twitterYoutube.Id) ||
-			    !_context.YoutubeSubscriptions.All(
-				    youtubeSub => youtubeSub.ChannelId == twitterYoutube.ChannelId))
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id) ||
+			    !await _context.TwitterUsers.AnyAsync(user => user.Id == twitterId))
 			{
 				return BadRequest();
 			}
-			await _context.TwitterYoutubeSubscriptions.AddAsync(twitterYoutube);
+			var twitterSubscription = new TwitterYoutubeSubscription()
+			{
+				ChannelId = id,
+				Id = twitterId
+			};
+			await _context.TwitterYoutubeSubscriptions.AddAsync(twitterSubscription);
 			await _context.SaveChangesAsync();
 
 			return NoContent();
 		}
 
-		public async Task<ActionResult> UnlinkTwitterFromSubscription()
+		/// <summary>
+		/// Unlink a twitter user from a youtube subscription
+		/// </summary>
+		/// <param name="id">YouTube channel id</param>
+		/// <param name="twitterId">Twitter user id</param>
+		/// <returns></returns>
+		[HttpPost("UnlinkTwitter/{id}")]
+		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, long twitterId)
 		{
-			return Ok();
+			//Check link exists
+			if (!await _context.TwitterYoutubeSubscriptions.AnyAsync(
+				twitterSub => twitterSub.Id == twitterId && twitterSub.ChannelId == id))
+			{
+				return BadRequest();
+			}
+
+			//Find and delete link
+			var twitterSubscription = await _context.TwitterYoutubeSubscriptions.FirstAsync(
+				twitterSub => twitterSub.Id == twitterId && twitterSub.ChannelId == id);
+			_context.TwitterYoutubeSubscriptions.Remove(twitterSubscription);
+			await _context.SaveChangesAsync();
+			return NoContent();
 		}
 
 		/// <summary>
@@ -89,28 +146,18 @@ namespace ComputerScienceServer.Controllers
 		/// </summary>
 		/// <param name="id">Channel id</param>
 		[HttpGet("{id}")]
-	    public async Task<ActionResult> VerifySubscription(string id, [FromQuery] ulong hub_challenge, 
-			[FromQuery] ulong lease)
+		[AllowAnonymous]
+	    public ActionResult VerifySubscription(string id)
 	    {
-			//Check subscription exists
-		    if (_context.YoutubeSubscriptions.All(sub => sub.ChannelId == id))
-		    {
-			    return BadRequest();
-		    }
-
-		    YoutubeSubscription subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
-		    subscription.Verified = true;
-		    subscription.Expires = DateTime.Now.AddSeconds(lease);
-		    await _context.SaveChangesAsync();
-
-			return Ok(hub_challenge);
+		    Request.Query.TryGetValue("hub.challenge", out var challenge);
+			return Ok(challenge.First());
 	    }
 
 		/// <summary>
 		/// Sends discord messages and tweets to notify users of a newly uploaded YouTube video
 		/// </summary>
 		[HttpPost("{id}")]
-		[Consumes("application/xml")]
+		[AllowAnonymous]
 		public async Task<ActionResult> SendNotifications(string id, [FromQuery] string verifyToken,
 			[FromBody] PubSubFeed pubSubFeed)
 		{

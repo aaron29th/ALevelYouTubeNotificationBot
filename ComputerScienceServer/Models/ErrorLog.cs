@@ -19,5 +19,14 @@ namespace ComputerScienceServer.Models
 		{
 			Timestamp = DateTime.Now;
 		}
+
+		public ErrorLog(WebApiContext context, string exceptionMessage, string location)
+		{
+			ExceptionMessage = exceptionMessage;
+			Location = location;
+			Timestamp = DateTime.Now;
+			context.ErrorLog.Add(this);
+			context.SaveChanges();
+		}
 	}
 }

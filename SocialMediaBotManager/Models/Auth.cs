@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,8 @@ namespace SocialMediaBotManager.Models
 			string token = response.Headers.GetValues("token").First();
 
 			//Add auth token to default headers
-			client.DefaultRequestHeaders.Add("token", token);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+				"Bearer", token); ;
 
 			return response.IsSuccessStatusCode;
 		}
