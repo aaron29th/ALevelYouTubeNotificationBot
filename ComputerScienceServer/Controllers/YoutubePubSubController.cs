@@ -50,7 +50,7 @@ namespace ComputerScienceServer.Controllers
 			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id)) return BadRequest();
 
 			var subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
-			await subscription.UnsubscribeAsync();
+			if (!await subscription.UnsubscribeAsync()) return Conflict();
 
 			_context.YoutubeSubscriptions.Remove(subscription);
 			await _context.SaveChangesAsync();
