@@ -17,11 +17,21 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		//Add webhook
-		[HttpPost("AddWebhook")]
-		[Consumes("application/json")]
-        public async Task<ActionResult> AddWebhook([FromBody] Webhook webhook)
+	    /// <summary>
+	    /// Add new webhook
+	    /// </summary>
+	    /// <param name="id">webhook id</param>
+	    /// <param name="token">Webhook token</param>
+	    /// <returns></returns>
+	    [HttpPost("AddWebhook/{id}")]
+        public async Task<ActionResult> AddWebhook(ulong id, [FromForm] string token)
         {
+			var webhook = new Webhook()
+			{
+				Id = id,
+				Token = token
+			};
+			//Check webhook exists
 	        if (webhook.VerifyExistence() == false) return BadRequest();
 
 	        await _context.Webhooks.AddAsync(webhook);
@@ -43,6 +53,13 @@ namespace ComputerScienceServer.Controllers
 	        await _context.SaveChangesAsync();
 	        return NoContent();
 		}
+
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAll()
+        {
+	        var webhooks = await _context.Webhooks.ToArrayAsync();
+	        return Ok(webhooks);
+        }
 
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWebhook(ulong id)

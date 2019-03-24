@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ComputerScienceServer.Models;
 using ComputerScienceServer.Models.Twitter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,10 @@ namespace ComputerScienceServer.Controllers
 		    _context = context;
 	    }
 
-		//Gets oauth link for authenticating an account
+		/// <summary>
+		/// Gets a link to oauth authorization page
+		/// </summary>
+		/// <returns></returns>
         [HttpGet("GetOauthLink")]
         public ActionResult GetOauthLink()
         {
@@ -30,16 +34,24 @@ namespace ComputerScienceServer.Controllers
 			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
 
 			OAuthRequestToken requestToken = service.GetRequestToken(Config.TwitterCallbackUrl);
+			if (requestToken.Token == "?") return StatusCode(500);
 
 			//Generate oauth link
 			Uri uri = service.GetAuthorizationUri(requestToken);
 			return Ok(uri.ToString());
 		}
 
+		/// <summary>
+		/// Handles callback from twitter authorization
+		/// </summary>
+		/// <param name="oauth_token">Twitter oauth token</param>
+		/// <param name="oauth_verifier">Twitter oauth verifier</param>
+		/// <returns></returns>
+		[AllowAnonymous]
         [HttpGet("OauthCallback")]
         // ReSharper disable twice InconsistentNaming
         public async Task<ActionResult> OauthCallback([FromQuery] string oauth_token, 
-	        [FromQuery] string oauth_verifier)
+			[FromQuery] string oauth_verifier)
         {
 	        var requestToken = new OAuthRequestToken { Token = oauth_token };
 
@@ -68,6 +80,12 @@ namespace ComputerScienceServer.Controllers
 	        return NoContent();
         }
 
+		/// <summary>
+		/// Sets the templates for tweets sent from the account
+		/// </summary>
+		/// <param name="id">Twitter users id</param>
+		/// <param name="tweetTemplate">Template for tweets</param>
+		/// <returns></returns>
         [HttpPost("SetTweetTemplate/{id}")]
         public async Task<ActionResult> SetTweetTemplate(long id, [FromForm] string tweetTemplate)
         {
@@ -80,11 +98,27 @@ namespace ComputerScienceServer.Controllers
 			return NoContent();
         }
 
+		/// <summary>
+		/// Returns all twitter users
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("GetAll")]
+		public async Task<ActionResult> GetAll()
+		{
+			var twitterUsers = await _context.TwitterUsers.ToArrayAsync();
+			return Ok(twitterUsers);
+		}
+
+		/// <summary>
+		/// Deletes twitter user from database
+		/// </summary>
+		/// <param name="id">Twitter users id</param>
+		/// <returns></returns>
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(long id)
         {
 			//Check twitter user exists
-	        if (await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
+	        if (!await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
 
 	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.Id == id);
 	        _context.Remove(twitterUser);

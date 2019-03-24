@@ -25,13 +25,15 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 
 		public void SendMessage(PubSubFeed youtubeData)
 		{
+			//Cancel if no template message is set
+			if (MessageTemplate == null && EmbedTemplate == null) return;
+
 			//Format template messages with video information
 			string message = youtubeData.FormatTemplateString(MessageTemplate);
 			string embedsText = youtubeData.FormatTemplateString(EmbedTemplate);
 
 			//Create embed obj
-			var embedObj = embedsText != null ? 
-				JsonConvert.DeserializeObject<WebhookEmbed>(embedsText) : null;
+			var embedObj = embedsText != null ? JsonConvert.DeserializeObject<WebhookEmbed>(embedsText) : null;
 			Embed[] embeds = embedObj != null ? new Embed[]{ embedObj.CreateEmbed() } : null;
 			
 			//Send message

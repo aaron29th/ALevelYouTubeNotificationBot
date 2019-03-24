@@ -31,6 +31,10 @@ namespace ComputerScienceServer.Models.Twitter
 
 		public void SendTweet(PubSubFeed youtubeVideoData)
 		{
+			//If no template is set cancel
+			if (TweetTemplate == null) return;
+
+			//Format the tweet template
 			string body = youtubeVideoData.FormatTemplateString(TweetTemplate);
 
 			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);

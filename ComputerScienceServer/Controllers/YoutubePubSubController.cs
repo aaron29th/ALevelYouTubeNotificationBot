@@ -162,7 +162,7 @@ namespace ComputerScienceServer.Controllers
 			[FromBody] PubSubFeed pubSubFeed)
 		{
 			//Checks channel subscription exists
-			if (!_context.YoutubeSubscriptions.Any(sub => sub.ChannelId == id))
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id))
 			{
 				return NotFound();
 			}
@@ -171,6 +171,7 @@ namespace ComputerScienceServer.Controllers
 			var youtubeSubscription = await _context.YoutubeSubscriptions.FindAsync(id);
 
 			//Loop through all twitter users and send a tweet from each
+			
 			foreach (var user in youtubeSubscription.TwitterYoutubeSubscriptions)
 			{
 				try
