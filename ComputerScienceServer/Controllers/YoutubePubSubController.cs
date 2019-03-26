@@ -47,9 +47,9 @@ namespace ComputerScienceServer.Controllers
 		public async Task<ActionResult> DeleteSubscription(string id)
 		{
 			//Check subscription exists
-			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id)) return BadRequest();
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id)) return BadRequest();
 
-			var subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.ChannelId == id);
+			var subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.YoutubeChannelId == id);
 			if (!await subscription.UnsubscribeAsync()) return Conflict();
 
 			_context.YoutubeSubscriptions.Remove(subscription);
@@ -61,16 +61,16 @@ namespace ComputerScienceServer.Controllers
 		public async Task<ActionResult> LinkWebhookToSubscription(string id, 
 			[FromForm] ulong webhookId)
 		{
-			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.ChannelId == id) ||
-			    !await _context.Webhooks.AnyAsync(webhook => webhook.Id == webhookId))
+			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.YoutubeChannelId == id) ||
+			    !await _context.Webhooks.AnyAsync(webhook => webhook.WebhookId == webhookId))
 			{
 				return BadRequest();
 			}
 
 			var webhookSubscription = new WebhookYoutubeSubscription()
 			{
-				ChannelId = id,
-				Id = webhookId
+				YoutubeChannelId = id,
+				WebhookId = webhookId
 			};
 			await _context.WebhookYoutubeSubscriptions.AddAsync(webhookSubscription);
 			await _context.SaveChangesAsync();
@@ -84,13 +84,13 @@ namespace ComputerScienceServer.Controllers
 		{
 			//Check link exists
 			if (!await _context.WebhookYoutubeSubscriptions.AnyAsync(
-				webhookSub => webhookSub.Id == webhookId && webhookSub.ChannelId == id))
+				webhookSub => webhookSub.WebhookId == webhookId && webhookSub.YoutubeChannelId == id))
 			{
 				return BadRequest();
 			}
 
 			var webhookSubscription = await _context.WebhookYoutubeSubscriptions.FirstAsync(
-				webhookSub => webhookSub.Id == webhookId && webhookSub.ChannelId == id);
+				webhookSub => webhookSub.WebhookId == webhookId && webhookSub.YoutubeChannelId == id);
 			_context.WebhookYoutubeSubscriptions.Remove(webhookSubscription);
 			await _context.SaveChangesAsync();
 			return NoContent();
@@ -101,15 +101,15 @@ namespace ComputerScienceServer.Controllers
 			[FromForm] long twitterId)
 		{
 			//Check that both the twitter account and youtube subscription exists in the database
-			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id) ||
-			    !await _context.TwitterUsers.AnyAsync(user => user.Id == twitterId))
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id) ||
+			    !await _context.TwitterUsers.AnyAsync(user => user.TwitterUserId == twitterId))
 			{
 				return BadRequest();
 			}
-			var twitterSubscription = new TwitterYoutubeSubscription()
+			var twitterSubscription = new TwitterUserYoutubeSubscription()
 			{
-				ChannelId = id,
-				Id = twitterId
+				YoutubeChannelId = id,
+				TwitterUserId = twitterId
 			};
 			await _context.TwitterYoutubeSubscriptions.AddAsync(twitterSubscription);
 			await _context.SaveChangesAsync();
@@ -128,14 +128,14 @@ namespace ComputerScienceServer.Controllers
 		{
 			//Check link exists
 			if (!await _context.TwitterYoutubeSubscriptions.AnyAsync(
-				twitterSub => twitterSub.Id == twitterId && twitterSub.ChannelId == id))
+				twitterSub => twitterSub.TwitterUserId == twitterId && twitterSub.YoutubeChannelId == id))
 			{
 				return BadRequest();
 			}
 
 			//Find and delete link
 			var twitterSubscription = await _context.TwitterYoutubeSubscriptions.FirstAsync(
-				twitterSub => twitterSub.Id == twitterId && twitterSub.ChannelId == id);
+				twitterSub => twitterSub.TwitterUserId == twitterId && twitterSub.YoutubeChannelId == id);
 			_context.TwitterYoutubeSubscriptions.Remove(twitterSubscription);
 			await _context.SaveChangesAsync();
 			return NoContent();
@@ -162,28 +162,34 @@ namespace ComputerScienceServer.Controllers
 			[FromBody] PubSubFeed pubSubFeed)
 		{
 			//Checks channel subscription exists
-			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.ChannelId == id))
+			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id))
 			{
 				return NotFound();
 			}
 
-			//Gets corresponding youtube subscription
-			var youtubeSubscription = await _context.YoutubeSubscriptions.FindAsync(id);
+			//Gets corresponding youtube subscription and all related discord webhooks and twitter users
+			var youtubeSubscription = await _context.YoutubeSubscriptions
+				.Include(sub => sub.TwitterYoutubeSubscriptions)
+					.ThenInclude(twitterYoutube => twitterYoutube.TwitterUser)
+				.Include(sub => sub.WebhookYoutubeSubscriptions)
+					.ThenInclude(webhookYoutube => webhookYoutube.Webhook)
+				.FirstAsync(sub => sub.YoutubeChannelId == id);
+
+			if (youtubeSubscription.VerifyToken != verifyToken) return Forbid();
 
 			//Loop through all twitter users and send a tweet from each
-			
-			foreach (var user in youtubeSubscription.TwitterYoutubeSubscriptions)
+			foreach (var twitterUserYoutube in youtubeSubscription.TwitterYoutubeSubscriptions)
 			{
 				try
 				{
-					user.TwitterUser.SendTweet(pubSubFeed);
+					twitterUserYoutube.TwitterUser.SendTweet(pubSubFeed);
 				}
 				catch (Exception e)
 				{
-					//Log error
+					//Log error with twitter user id
 					await _context.ErrorLog.AddAsync(new ErrorLog()
 					{
-						Location = "YoutubePubSubController_Send_Tweet",
+						Location = $"YoutubePubSubController_Send_Tweet_Id={twitterUserYoutube.TwitterUserId}",
 						ExceptionMessage = e.Message
 					});
 				}
@@ -198,10 +204,10 @@ namespace ComputerScienceServer.Controllers
 				}
 				catch (Exception e)
 				{
-					//Log error
+					//Log error with discord webhook id
 					await _context.ErrorLog.AddAsync(new ErrorLog()
 					{
-						Location = "YoutubePubSubController_Send_Discord",
+						Location = $"YoutubePubSubController_Send_Discord_Id={webhookYoutube.WebhookId}",
 						ExceptionMessage = e.Message
 					});
 				}
@@ -235,7 +241,7 @@ namespace ComputerScienceServer.Controllers
 				await _context.ErrorLog.AddAsync(new ErrorLog()
 				{
 					ExceptionMessage = "Youtube pub sub renew failed",
-					Location = $"YoutubePubSubController ChannelId={subscriptions.ElementAt(i).ChannelId}"
+					Location = $"YoutubePubSubController YoutubeChannelId={subscriptions.ElementAt(i).YoutubeChannelId}"
 				});
 			}
 

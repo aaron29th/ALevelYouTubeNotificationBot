@@ -28,7 +28,7 @@ namespace ComputerScienceServer.Controllers
         {
 			var webhook = new Webhook()
 			{
-				Id = id,
+				WebhookId = id,
 				Token = token
 			};
 			//Check webhook exists
@@ -43,10 +43,10 @@ namespace ComputerScienceServer.Controllers
         public async Task<ActionResult> SetMessageTemplate(ulong id, string messageTemplate, string embedTemplate)
         {
 			//Check webhook exists
-	        if (await _context.Webhooks.AnyAsync(x => x.Id == id)) return BadRequest();
+	        if (await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
 			//Get webhook
-	        var webhook = await _context.Webhooks.FirstAsync(x => x.Id == id);
+	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);
 			//Set templates
 	        webhook.MessageTemplate = messageTemplate;
 	        webhook.EmbedTemplate = embedTemplate;
@@ -65,10 +65,10 @@ namespace ComputerScienceServer.Controllers
         public async Task<ActionResult> DeleteWebhook(ulong id)
         {
 			//Check webhook exists
-	        if (await _context.Webhooks.AnyAsync(x => x.Id == id)) return BadRequest();
+	        if (await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
 			//Get webhook
-	        var webhook = await _context.Webhooks.FirstAsync(x => x.Id == id);
+	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);
 			//Delete the webhook
 	        _context.Remove(webhook);
 	        await _context.SaveChangesAsync();

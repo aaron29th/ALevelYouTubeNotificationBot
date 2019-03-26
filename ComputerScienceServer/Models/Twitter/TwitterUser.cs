@@ -10,7 +10,7 @@ namespace ComputerScienceServer.Models.Twitter
 	public class TwitterUser
 	{
 		[Key]
-		public long Id { get; set; }
+		public long TwitterUserId { get; set; }
 		[JsonIgnore]
 		public string Token { get; set; }
 		[JsonIgnore]
@@ -18,7 +18,7 @@ namespace ComputerScienceServer.Models.Twitter
 		public string Name { get; set; }
 		public string TweetTemplate { get; set; }
 		
-		public ICollection<TwitterYoutubeSubscription> TwitterYoutubeSubscription { get; set; }
+		public virtual ICollection<TwitterUserYoutubeSubscription> TwitterYoutubeSubscription { get; set; }
 
 		public void GetAccountInfo()
 		{

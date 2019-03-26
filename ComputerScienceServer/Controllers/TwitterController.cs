@@ -70,7 +70,7 @@ namespace ComputerScienceServer.Controllers
 
 			await _context.TwitterUsers.AddAsync(new Models.Twitter.TwitterUser()
 	        {
-				Id = user.Id,
+				TwitterUserId = user.Id,
 				Token =  accessToken.Token,
 				TokenSecret = accessToken.Token,
 				Name = accessToken.ScreenName
@@ -90,9 +90,9 @@ namespace ComputerScienceServer.Controllers
         public async Task<ActionResult> SetTweetTemplate(long id, [FromForm] string tweetTemplate)
         {
 			//Check twitter user exists
-	        if (await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
+	        if (await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
 
-	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.Id == id);
+	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.TwitterUserId == id);
 	        twitterUser.TweetTemplate = tweetTemplate;
 	        await _context.SaveChangesAsync();
 			return NoContent();
@@ -118,9 +118,9 @@ namespace ComputerScienceServer.Controllers
         public async Task<ActionResult> DeleteUser(long id)
         {
 			//Check twitter user exists
-	        if (!await _context.TwitterUsers.AnyAsync(x => x.Id == id)) return BadRequest();
+	        if (!await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
 
-	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.Id == id);
+	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.TwitterUserId == id);
 	        _context.Remove(twitterUser);
 	        await _context.SaveChangesAsync();
 	        return NoContent();

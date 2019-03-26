@@ -15,13 +15,13 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 	public class Webhook
 	{
 		[Key]
-		public ulong Id { get; set; }
+		public ulong WebhookId { get; set; }
 		public string Token { get; set; }
 		
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 
-		public ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
+		public virtual ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
 
 		public void SendMessage(PubSubFeed youtubeData)
 		{
@@ -37,7 +37,7 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 			Embed[] embeds = embedObj != null ? new Embed[]{ embedObj.CreateEmbed() } : null;
 			
 			//Send message
-			DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
+			DiscordWebhookClient client = new DiscordWebhookClient(WebhookId, Token);
 			client.SendMessageAsync(message, false, embeds);
 		}
 
@@ -46,7 +46,7 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 			try
 			{
 				//Check webhook exists
-				DiscordWebhookClient client = new DiscordWebhookClient(Id, Token);
+				DiscordWebhookClient client = new DiscordWebhookClient(WebhookId, Token);
 				return true;
 			}
 			catch

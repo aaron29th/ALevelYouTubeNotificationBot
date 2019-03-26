@@ -7,14 +7,14 @@ using Newtonsoft.Json;
 
 namespace ComputerScienceServer.Models.Twitter
 {
-	public class TwitterYoutubeSubscription
+	public class TwitterUserYoutubeSubscription
 	{
-		public long Id { get; set; }
+		public long TwitterUserId { get; set; }
 		[JsonIgnore]
 		public TwitterUser TwitterUser { get; set; }
 
-		public string ChannelId { get; set; }
+		public string YoutubeChannelId { get; set; }
 		[JsonIgnore]
-		public YoutubeSubscription YoutubeSubscription { get; set; }
+		public virtual YoutubeSubscription YoutubeSubscription { get; set; }
 	}
 }

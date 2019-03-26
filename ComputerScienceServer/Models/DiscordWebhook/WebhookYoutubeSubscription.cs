@@ -9,12 +9,12 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 {
 	public class WebhookYoutubeSubscription
 	{
-		public ulong Id { get; set; }
+		public ulong WebhookId { get; set; }
 		[JsonIgnore]
 		public Webhook Webhook { get; set; }
 
-		public string ChannelId { get; set; }
+		public string YoutubeChannelId { get; set; }
 		[JsonIgnore]
-		public YoutubeSubscription YoutubeSubscription { get; set; }
+		public virtual YoutubeSubscription YoutubeSubscription { get; set; }
 	}
 }

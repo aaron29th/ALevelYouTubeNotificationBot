@@ -14,7 +14,7 @@ namespace ComputerScienceServer.Models.Youtube
 	public class YoutubeSubscription
 	{
 		[Key]
-		public string ChannelId { get; set; }
+		public string YoutubeChannelId { get; set; }
 
 		[JsonIgnore]
 		public string VerifyToken { get; set; }
@@ -23,8 +23,8 @@ namespace ComputerScienceServer.Models.Youtube
 		[JsonIgnore]
 		public DateTime Expires { get; set; }
 
-		public ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
-		public ICollection<TwitterYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
+		public virtual ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
+		public virtual ICollection<TwitterUserYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
 
 		private static readonly HttpClient _client = new HttpClient();
 
@@ -38,7 +38,7 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var subscription = new YoutubeSubscription()
 			{
-				ChannelId = channelId,
+				YoutubeChannelId = channelId,
 				VerifyToken = TextFormatter.SecureRandomString(64),
 				HmacSecret = TextFormatter.SecureRandomString(64),
 				Expires = DateTime.Now.AddSeconds(Config.YoutubeSubscriptionLease)
@@ -66,8 +66,8 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{ChannelId}" },
-				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={ChannelId}" },
+				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{YoutubeChannelId}" },
+				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "subscribe" },
 				{ "hub.verify_tokens", VerifyToken },
@@ -87,8 +87,8 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{ChannelId}" },
-				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={ChannelId}" },
+				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{YoutubeChannelId}" },
+				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "unsubscribe" },
 				{ "hub.verify_tokens", VerifyToken },

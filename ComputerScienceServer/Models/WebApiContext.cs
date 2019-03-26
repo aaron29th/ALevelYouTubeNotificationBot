@@ -19,7 +19,7 @@ namespace ComputerScienceServer.Models
 		public DbSet<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
 
 		public DbSet<TwitterUser> TwitterUsers { get; set; }
-		public DbSet<TwitterYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
+		public DbSet<TwitterUserYoutubeSubscription> TwitterYoutubeSubscriptions { get; set; }
 
 		public DbSet<YoutubeSubscription> YoutubeSubscriptions { get; set; }
 		
@@ -31,11 +31,29 @@ namespace ComputerScienceServer.Models
 		{
 			//Configure composite key for linking tale
 			modelBuilder.Entity<WebhookYoutubeSubscription>().HasKey(
-				webhookYoutube => new { webhookYoutube.Id, webhookYoutube.ChannelId });
+				webhookYoutube => new
+				{
+					webhookYoutube.WebhookId,
+					webhookYoutube.YoutubeChannelId
+				});
+			//Configure one WebhookYoutubeSubscription to one webhook link
+			modelBuilder.Entity<WebhookYoutubeSubscription>()
+				.HasOne(wys => wys.Webhook)
+				.WithMany(webhook => webhook.WebhookYoutubeSubscriptions)
+				.HasForeignKey(wys => wys.WebhookId);
 
 			//Configure composite key for linking tale
-			modelBuilder.Entity<TwitterYoutubeSubscription>().HasKey(
-				twitterYoutube => new { twitterYoutube.Id, twitterYoutube.ChannelId });
+			modelBuilder.Entity<TwitterUserYoutubeSubscription>().HasKey(
+				twitterYoutube => new
+				{
+					twitterYoutube.TwitterUserId,
+					twitterYoutube.YoutubeChannelId
+				});
+			//Configure one TwitterUserYoutubeSubscription to one TwitterUser link
+			modelBuilder.Entity<TwitterUserYoutubeSubscription>()
+				.HasOne(tuys => tuys.TwitterUser)
+				.WithMany(twitterUser => twitterUser.TwitterYoutubeSubscription)
+				.HasForeignKey(tuys => tuys.TwitterUserId);
 		}
 	}
 }
