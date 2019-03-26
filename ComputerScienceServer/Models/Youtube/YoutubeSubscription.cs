@@ -46,11 +46,11 @@ namespace ComputerScienceServer.Models.Youtube
 
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{channelId}" },
+				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				                  $"{channelId}?verifyToken={subscription.VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={channelId}" },
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "subscribe" },
-				{ "hub.verify_tokens", subscription.VerifyToken },
 				{ "hub.secret", subscription.HmacSecret },
 				{ "hub.lease_seconds", Config.YoutubeSubscriptionLease.ToString() }
 			};
@@ -66,11 +66,11 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{YoutubeChannelId}" },
+				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				                  $"{YoutubeChannelId}?verifyToken={VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "subscribe" },
-				{ "hub.verify_tokens", VerifyToken },
 				{ "hub.secret", HmacSecret },
 				{ "hub.lease_seconds", "432000" }
 			};
@@ -87,11 +87,11 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", $"https://socialmediabot.azurewebsites.net/api/YoutubePubSub/{YoutubeChannelId}" },
+				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				                  $"{YoutubeChannelId}?verifyToken={VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "unsubscribe" },
-				{ "hub.verify_tokens", VerifyToken },
 				{ "hub.secret", HmacSecret }
 			};
 
