@@ -175,6 +175,7 @@ namespace ComputerScienceServer.Controllers
 					.ThenInclude(webhookYoutube => webhookYoutube.Webhook)
 				.FirstAsync(sub => sub.YoutubeChannelId == id);
 
+			//Checks verify token is correct
 			if (youtubeSubscription.VerifyToken != verifyToken) return Forbid();
 
 			//Loop through all twitter users and send a tweet from each

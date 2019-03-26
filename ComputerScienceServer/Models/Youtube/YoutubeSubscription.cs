@@ -39,8 +39,8 @@ namespace ComputerScienceServer.Models.Youtube
 			var subscription = new YoutubeSubscription()
 			{
 				YoutubeChannelId = channelId,
-				VerifyToken = TextFormatter.SecureRandomString(64),
-				HmacSecret = TextFormatter.SecureRandomString(64),
+				VerifyToken = SecureRandom.GetString(64),
+				HmacSecret = SecureRandom.GetString(64),
 				Expires = DateTime.Now.AddSeconds(Config.YoutubeSubscriptionLease)
 			};
 
