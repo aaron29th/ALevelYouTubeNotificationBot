@@ -23,7 +23,7 @@ namespace ComputerScienceServer.Models
 			{
 				rng.GetBytes(data);
 
-				return Convert.ToBase64String(data).Substring(0, length);
+				return Base64UrlTextEncoder.Encode(data).Substring(0, length);
 			}
 		}
 	}
