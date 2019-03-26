@@ -22,9 +22,13 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			if (templateString == null) return null;
 
+			//Format the videos title
 			string formattedText = templateString.Replace("{{VideoTitle}}", PubSubEntry.Title);
+			//Add the channel name
 			formattedText = formattedText.Replace("{{ChannelName}}", PubSubEntry.Author.Name);
+			//Add the channel link
 			formattedText = formattedText.Replace("{{ChannelLink}}", PubSubEntry.Author.Uri);
+			//Add the video link
 			formattedText = formattedText.Replace("{{VideoLink}}", PubSubEntry.Link.Href);
 			return formattedText;
 		}
