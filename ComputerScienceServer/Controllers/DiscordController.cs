@@ -54,7 +54,7 @@ namespace ComputerScienceServer.Controllers
 	        return NoContent();
 		}
 
-        [HttpGet("GetAll")]
+        [HttpGet("GetAllWebhooks")]
         public async Task<ActionResult> GetAll()
         {
 	        var webhooks = await _context.Webhooks.ToArrayAsync();

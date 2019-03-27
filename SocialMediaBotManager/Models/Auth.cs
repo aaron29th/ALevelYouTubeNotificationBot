@@ -22,15 +22,24 @@ namespace SocialMediaBotManager.Models
 
 			var content = new FormUrlEncodedContent(values);
 
-			var response = await client.PostAsync("auth/login", content);
+			var response = await client.PostAsync("User/GetToken", content);
 
-			string token = response.Headers.GetValues("token").First();
+			if (!response.IsSuccessStatusCode) return false;
 
-			//Add auth token to default headers
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-				"Bearer", token); ;
+			try
+			{
+				string token = response.Headers.GetValues("token").First();
 
-			return response.IsSuccessStatusCode;
+				//Add auth token to default headers
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+					"Bearer", token); ;
+
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 	}
 }

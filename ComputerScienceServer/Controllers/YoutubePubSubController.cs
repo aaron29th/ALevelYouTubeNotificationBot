@@ -39,7 +39,11 @@ namespace ComputerScienceServer.Controllers
 		[HttpGet("GetAll")]
 		public async Task<ActionResult> GetAllSubscriptions()
 		{
-			var subscriptions = await _context.YoutubeSubscriptions.ToArrayAsync();
+			var subscriptions = await _context.YoutubeSubscriptions
+				.Include(sub => sub.TwitterYoutubeSubscriptions)
+				.Include(sub => sub.WebhookYoutubeSubscriptions)
+				.ToArrayAsync();
+
 			return Ok(subscriptions);
 		}
 

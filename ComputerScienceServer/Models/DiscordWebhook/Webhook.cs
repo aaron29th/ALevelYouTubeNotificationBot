@@ -16,11 +16,13 @@ namespace ComputerScienceServer.Models.DiscordWebhook
 	{
 		[Key]
 		public ulong WebhookId { get; set; }
+		[JsonIgnore]
 		public string Token { get; set; }
 		
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 
+		[JsonIgnore]
 		public virtual ICollection<WebhookYoutubeSubscription> WebhookYoutubeSubscriptions { get; set; }
 
 		public void SendMessage(PubSubFeed youtubeData)

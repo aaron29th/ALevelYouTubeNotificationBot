@@ -12,7 +12,7 @@ namespace ComputerScienceServer.Models.Twitter
 		public long TwitterUserId { get; set; }
 		[JsonIgnore]
 		public TwitterUser TwitterUser { get; set; }
-
+		[JsonIgnore]
 		public string YoutubeChannelId { get; set; }
 		[JsonIgnore]
 		public virtual YoutubeSubscription YoutubeSubscription { get; set; }

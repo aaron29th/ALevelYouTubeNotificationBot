@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SocialMediaBotManager.Models;
 
 namespace SocialMediaBotManager.Forms
 {
@@ -17,8 +18,17 @@ namespace SocialMediaBotManager.Forms
 			InitializeComponent();
 		}
 
-		private void loginBtn_Click(object sender, EventArgs e)
+		private async void loginBtn_Click(object sender, EventArgs e)
 		{
+			bool success = await Auth.Login(usernameTextbox.Text, 
+				passwordTextbox.Text);
+
+			if (!success)
+			{
+				statusLabel.Text = "Status: Login failed";
+				return;
+			}
+
 			this.Hide();
 			var mainWindow = new MainWindow();
 			mainWindow.Closed += (s, args) => this.Close();

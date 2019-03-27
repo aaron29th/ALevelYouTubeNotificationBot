@@ -52,14 +52,14 @@
 			this.mainTabControl.Location = new System.Drawing.Point(0, 0);
 			this.mainTabControl.Name = "mainTabControl";
 			this.mainTabControl.SelectedIndex = 0;
-			this.mainTabControl.Size = new System.Drawing.Size(480, 348);
+			this.mainTabControl.Size = new System.Drawing.Size(799, 348);
 			this.mainTabControl.TabIndex = 0;
 			// 
 			// mainTabPage
 			// 
 			this.mainTabPage.Location = new System.Drawing.Point(4, 22);
 			this.mainTabPage.Name = "mainTabPage";
-			this.mainTabPage.Size = new System.Drawing.Size(472, 322);
+			this.mainTabPage.Size = new System.Drawing.Size(791, 322);
 			this.mainTabPage.TabIndex = 3;
 			this.mainTabPage.Text = "General";
 			this.mainTabPage.UseVisualStyleBackColor = true;
@@ -124,7 +124,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(480, 348);
+			this.ClientSize = new System.Drawing.Size(799, 348);
 			this.Controls.Add(this.mainTabControl);
 			this.Name = "MainWindow";
 			this.Text = "Social media bot manager";

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SocialMediaBotManager.Forms;
+using SocialMediaBotManager.Models;
 
 namespace SocialMediaBotManager
 {
@@ -17,6 +18,7 @@ namespace SocialMediaBotManager
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			Network.Init();
 			Application.Run(new LoginWindow());
 		}
 	}

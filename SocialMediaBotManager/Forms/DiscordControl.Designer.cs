@@ -33,6 +33,8 @@
 			this.webhookAdd = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.embedTemplate = new System.Windows.Forms.TextBox();
 			this.webhookDelete = new System.Windows.Forms.Button();
@@ -40,8 +42,10 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.messageTemplate = new System.Windows.Forms.TextBox();
 			this.existingWebhooks = new System.Windows.Forms.ListBox();
+			this.refreshAll = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// webhookUrl
@@ -92,6 +96,8 @@
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.refreshAll);
+			this.groupBox2.Controls.Add(this.statusStrip1);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.embedTemplate);
 			this.groupBox2.Controls.Add(this.webhookDelete);
@@ -101,10 +107,27 @@
 			this.groupBox2.Controls.Add(this.existingWebhooks);
 			this.groupBox2.Location = new System.Drawing.Point(3, 78);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(586, 252);
+			this.groupBox2.Size = new System.Drawing.Size(586, 267);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Edit existing";
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(3, 242);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(580, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 7;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// statusLabel
+			// 
+			this.statusLabel.Name = "statusLabel";
+			this.statusLabel.Size = new System.Drawing.Size(64, 17);
+			this.statusLabel.Text = "Status: Idle";
 			// 
 			// label3
 			// 
@@ -123,14 +146,14 @@
 			this.embedTemplate.Location = new System.Drawing.Point(138, 98);
 			this.embedTemplate.Multiline = true;
 			this.embedTemplate.Name = "embedTemplate";
-			this.embedTemplate.Size = new System.Drawing.Size(438, 88);
+			this.embedTemplate.Size = new System.Drawing.Size(438, 75);
 			this.embedTemplate.TabIndex = 5;
 			// 
 			// webhookDelete
 			// 
 			this.webhookDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.webhookDelete.Location = new System.Drawing.Point(138, 221);
+			this.webhookDelete.Location = new System.Drawing.Point(138, 208);
 			this.webhookDelete.Name = "webhookDelete";
 			this.webhookDelete.Size = new System.Drawing.Size(438, 23);
 			this.webhookDelete.TabIndex = 4;
@@ -142,7 +165,7 @@
 			// 
 			this.webhookSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.webhookSave.Location = new System.Drawing.Point(138, 192);
+			this.webhookSave.Location = new System.Drawing.Point(138, 179);
 			this.webhookSave.Name = "webhookSave";
 			this.webhookSave.Size = new System.Drawing.Size(438, 23);
 			this.webhookSave.TabIndex = 3;
@@ -174,10 +197,20 @@
 			this.existingWebhooks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.existingWebhooks.FormattingEnabled = true;
-			this.existingWebhooks.Location = new System.Drawing.Point(9, 19);
+			this.existingWebhooks.Location = new System.Drawing.Point(9, 45);
 			this.existingWebhooks.Name = "existingWebhooks";
-			this.existingWebhooks.Size = new System.Drawing.Size(120, 225);
+			this.existingWebhooks.Size = new System.Drawing.Size(120, 186);
 			this.existingWebhooks.TabIndex = 0;
+			// 
+			// refreshAll
+			// 
+			this.refreshAll.Location = new System.Drawing.Point(9, 16);
+			this.refreshAll.Name = "refreshAll";
+			this.refreshAll.Size = new System.Drawing.Size(120, 23);
+			this.refreshAll.TabIndex = 8;
+			this.refreshAll.Text = "Refresh";
+			this.refreshAll.UseVisualStyleBackColor = true;
+			this.refreshAll.Click += new System.EventHandler(this.refreshAll_Click);
 			// 
 			// DiscordControl
 			// 
@@ -186,11 +219,13 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "DiscordControl";
-			this.Size = new System.Drawing.Size(598, 333);
+			this.Size = new System.Drawing.Size(598, 348);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -209,5 +244,8 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox messageTemplate;
 		private System.Windows.Forms.ListBox existingWebhooks;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+		private System.Windows.Forms.Button refreshAll;
 	}
 }

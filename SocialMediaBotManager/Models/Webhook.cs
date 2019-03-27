@@ -8,7 +8,7 @@ namespace SocialMediaBotManager.Models
 {
 	class Webhook
 	{
-		public ulong Id { get; set; }
+		public ulong WebhookId { get; set; }
 		public string MessageTemplate { get; set; }
 		public string EmbedTemplate { get; set; }
 	}
