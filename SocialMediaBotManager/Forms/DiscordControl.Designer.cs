@@ -33,6 +33,7 @@
 			this.webhookAdd = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.refreshAll = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.label3 = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.messageTemplate = new System.Windows.Forms.TextBox();
 			this.existingWebhooks = new System.Windows.Forms.ListBox();
-			this.refreshAll = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -111,6 +111,16 @@
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Edit existing";
+			// 
+			// refreshAll
+			// 
+			this.refreshAll.Location = new System.Drawing.Point(9, 16);
+			this.refreshAll.Name = "refreshAll";
+			this.refreshAll.Size = new System.Drawing.Size(120, 23);
+			this.refreshAll.TabIndex = 8;
+			this.refreshAll.Text = "Refresh";
+			this.refreshAll.UseVisualStyleBackColor = true;
+			this.refreshAll.Click += new System.EventHandler(this.refreshAll_Click);
 			// 
 			// statusStrip1
 			// 
@@ -201,16 +211,7 @@
 			this.existingWebhooks.Name = "existingWebhooks";
 			this.existingWebhooks.Size = new System.Drawing.Size(120, 186);
 			this.existingWebhooks.TabIndex = 0;
-			// 
-			// refreshAll
-			// 
-			this.refreshAll.Location = new System.Drawing.Point(9, 16);
-			this.refreshAll.Name = "refreshAll";
-			this.refreshAll.Size = new System.Drawing.Size(120, 23);
-			this.refreshAll.TabIndex = 8;
-			this.refreshAll.Text = "Refresh";
-			this.refreshAll.UseVisualStyleBackColor = true;
-			this.refreshAll.Click += new System.EventHandler(this.refreshAll_Click);
+			this.existingWebhooks.SelectedIndexChanged += new System.EventHandler(this.existingWebhooks_SelectedIndexChanged);
 			// 
 			// DiscordControl
 			// 

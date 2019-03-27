@@ -39,11 +39,11 @@ namespace ComputerScienceServer.Controllers
 	        return NoContent();
         }
 
-        [HttpPost("SetMessageTemplate")]
-        public async Task<ActionResult> SetMessageTemplate(ulong id, string messageTemplate, string embedTemplate)
+        [HttpPost("SetMessageTemplate/{id}")]
+        public async Task<ActionResult> SetMessageTemplate(ulong id, [FromForm] string messageTemplate, [FromForm] string embedTemplate)
         {
 			//Check webhook exists
-	        if (await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
+	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
 			//Get webhook
 	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);

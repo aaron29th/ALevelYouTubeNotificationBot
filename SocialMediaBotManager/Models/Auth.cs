@@ -12,17 +12,13 @@ namespace SocialMediaBotManager.Models
 	{
 		public static async Task<bool> Login(string username, string password)
 		{
-			var client = Network.Client;
-
 			var values = new Dictionary<string, string>
 			{
 				{ "username", username },
 				{ "password", password }
 			};
 
-			var content = new FormUrlEncodedContent(values);
-
-			var response = await client.PostAsync("User/GetToken", content);
+			var response = await Network.PostFormAsync("User/GetToken", values);
 
 			if (!response.IsSuccessStatusCode) return false;
 
@@ -30,9 +26,8 @@ namespace SocialMediaBotManager.Models
 			{
 				string token = response.Headers.GetValues("token").First();
 
-				//Add auth token to default headers
-				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-					"Bearer", token); ;
+				//Set the token as a default header
+				Network.SetAuthHeader(token);
 
 				return true;
 			}

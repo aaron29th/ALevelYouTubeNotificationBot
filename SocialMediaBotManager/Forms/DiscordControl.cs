@@ -23,13 +23,7 @@ namespace SocialMediaBotManager.Forms
 
 		public async Task RefreshWebhooks()
 		{
-			var client = Network.Client;
-
-			var webhooksResponse = await client.GetAsync("Discord/GetAll");
-			if (webhooksResponse.StatusCode == HttpStatusCode.Unauthorized)
-			{
-				statusLabel.Text = "Authentication failed. Please login again.";
-			}
+			var webhooksResponse = await Network.GetAsync("Discord/GetAllWebhooks");
 
 			if (!webhooksResponse.IsSuccessStatusCode)
 			{
@@ -44,10 +38,10 @@ namespace SocialMediaBotManager.Forms
 			existingWebhooks.DisplayMember = "WebhookId";
 		}
 
-		private void webhookAdd_Click(object sender, EventArgs e)
+		private async void webhookAdd_Click(object sender, EventArgs e)
 		{
 			//Regex pattern for webhook urls
-			var pattern = @"https://discordapp.com/api/webhooks/([0-9]+)/([A-Za-z_-]+)";
+			var pattern = @"https://discordapp.com/api/webhooks/([0-9]+)/([A-Za-z0-9_-]+)";
 			var matches = Regex.Matches(webhookUrl.Text, pattern);
 			if (matches.Count < 1 || matches[0].Groups.Count < 3)
 			{
@@ -59,33 +53,48 @@ namespace SocialMediaBotManager.Forms
 			ulong webhookId = Convert.ToUInt64(matches[0].Groups[1].Value);
 			string token = matches[0].Groups[2].Value;
 
-			var client = Network.Client;
-			var values = new Dictionary<string, string>
+			var response = await Network.PostFormAsync($"Discord/AddWebhook/{webhookId}",
+				new Dictionary<string, string>() { {"token", token} });
+
+			if (response.IsSuccessStatusCode) statusLabel.Text = "Status: Successfully added webhook";
+			else statusLabel.Text = $"Status: Add webhook failed {response.StatusCode}";
+		}
+
+		private async void webhookSave_Click(object sender, EventArgs e)
+		{
+			ulong webhookId = ((Webhook)existingWebhooks.SelectedValue).WebhookId;
+			var values = new Dictionary<string, string>()
 			{
-				{ "username", username },
-				{ "password", password }
+				{ "messageTemplate", messageTemplate.Text },
+				{ "embedTemplate", embedTemplate.Text }
 			};
 
-			var content = new FormUrlEncodedContent(values);
+			var response = await Network.PostFormAsync($"Discord/SetMessageTemplate/{webhookId}", values);
 
-			var response = await client.PostAsync("User/GetToken", content);
-
-			if (!response.IsSuccessStatusCode) return false;
+			if (response.IsSuccessStatusCode) statusLabel.Text = "Status: Successfully updated template messages";
+			else statusLabel.Text = $"Status: An error occured - {response.StatusCode}";
 		}
 
-		private void webhookSave_Click(object sender, EventArgs e)
+		private async void webhookDelete_Click(object sender, EventArgs e)
 		{
+			ulong webhookId = ((Webhook)existingWebhooks.SelectedValue).WebhookId;
 
-		}
+			var response = await Network.DeleteAsync($"Discord/{webhookId}");
 
-		private void webhookDelete_Click(object sender, EventArgs e)
-		{
-
+			if (response.IsSuccessStatusCode) statusLabel.Text = "Status: Successfully deleted webhook";
+			else statusLabel.Text = $"Status: An error occured - {response.StatusCode}";
 		}
 
 		private void refreshAll_Click(object sender, EventArgs e)
 		{
 			RefreshWebhooks();
+		}
+
+		private void existingWebhooks_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Webhook selectedWebhook = (Webhook)existingWebhooks.SelectedValue;
+			messageTemplate.Text = selectedWebhook.MessageTemplate;
+			embedTemplate.Text = selectedWebhook.EmbedTemplate;
 		}
 	}
 }
