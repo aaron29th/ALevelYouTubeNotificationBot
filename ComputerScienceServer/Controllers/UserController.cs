@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models;
+using YoutubeNotifyBot.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ComputerScienceServer.Controllers
+namespace YoutubeNotifyBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -48,7 +48,8 @@ namespace ComputerScienceServer.Controllers
 		    return NoContent();
 	    }
 
-	    [Authorize(Roles = "Admin")]
+	    //[Authorize(Roles = "Admin")]
+		[AllowAnonymous]
 		[HttpPost("Add")]
 	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
 	    {
@@ -62,7 +63,7 @@ namespace ComputerScienceServer.Controllers
 
 			await _context.Users.AddAsync(new ApplicationUser(username, password));
 			await _context.SaveChangesAsync();
-			return Ok();
+			return NoContent();
 	    }
 
 		[Authorize(Roles = "Admin")]

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
 
-namespace ComputerScienceServer.Models.Youtube
+namespace YoutubeNotifyBot.Models.Youtube
 {
 	public class PubSub
 	{

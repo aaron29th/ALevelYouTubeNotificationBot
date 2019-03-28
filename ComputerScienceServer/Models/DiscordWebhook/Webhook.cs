@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models.Youtube;
 using Discord;
 using Discord.Webhook;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
-using ComputerScienceServer.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models.DiscordWebhook;
 
-namespace ComputerScienceServer.Models.DiscordWebhook
+namespace YoutubeNotifyBot.Models.DiscordWebhook
 {
 	public class Webhook
 	{

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Newtonsoft.Json;
 
-namespace ComputerScienceServer.Models.DiscordWebhook
+namespace YoutubeNotifyBot.Models.DiscordWebhook
 {
 	public class WebhookEmbed
 	{

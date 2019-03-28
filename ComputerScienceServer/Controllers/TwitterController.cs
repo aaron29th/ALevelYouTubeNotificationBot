@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models;
-using ComputerScienceServer.Models.Twitter;
+using YoutubeNotifyBot.Models;
+using YoutubeNotifyBot.Models.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TweetSharp;
 
-namespace ComputerScienceServer.Controllers
+namespace YoutubeNotifyBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

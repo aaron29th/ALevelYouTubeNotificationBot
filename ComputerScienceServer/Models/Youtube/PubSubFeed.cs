@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ComputerScienceServer.Models.Youtube
+namespace YoutubeNotifyBot.Models.Youtube
 {
 	[XmlRoot(ElementName="feed", Namespace="http://www.w3.org/2005/Atom")]
 	public class PubSubFeed {

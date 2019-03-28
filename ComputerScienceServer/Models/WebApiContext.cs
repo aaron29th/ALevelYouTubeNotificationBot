@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.DiscordWebhook;
-using ComputerScienceServer.Models.Twitter;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models.Twitter;
+using YoutubeNotifyBot.Models.Youtube;
 using Microsoft.EntityFrameworkCore;
 
-namespace ComputerScienceServer.Models
+namespace YoutubeNotifyBot.Models
 {
 	public class WebApiContext : DbContext
 	{

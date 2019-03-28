@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="ComputerScienceServer.Models.Youtube.PubSub">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.PubSub">
     <Position X="0.5" Y="7.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAAEAAAACAABAAAAQAAABCAAAAA=</HashCode>
       <FileName>Models\Youtube\PubSub.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.PubSubAuthor">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubAuthor">
     <Position X="21.5" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Models\Youtube\PubSubAuthor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.PubSubEntry">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubEntry">
     <Position X="21.5" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAEAAiAAAAAAAAIAAAAAAQAQAQAAAAAA=</HashCode>
@@ -24,9 +24,9 @@
       <Property Name="Author" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.PubSubFeed">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubFeed">
     <Position X="17.75" Y="2" Width="2.5" />
-    <AssociationLine Name="PubSubEntry" Type="ComputerScienceServer.Models.Youtube.PubSubEntry" FixedFromPoint="true">
+    <AssociationLine Name="PubSubEntry" Type="YoutubeNotifyBot.Models.Youtube.PubSubEntry" FixedFromPoint="true">
       <Path>
         <Point X="20.25" Y="2.688" />
         <Point X="21.5" Y="2.688" />
@@ -43,19 +43,19 @@
       <Property Name="Link" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.PubSubLink">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubLink">
     <Position X="13.5" Y="2" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Youtube\PubSubLink.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.YoutubeSubscription">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.YoutubeSubscription">
     <Position X="4.5" Y="2" Width="3.25" />
     <Members>
       <Field Name="_client" Hidden="true" />
     </Members>
-    <AssociationLine Name="WebhookYoutubeSubscriptions" Type="ComputerScienceServer.Models.DiscordWebhook.WebhookYoutubeSubscription" FixedToPoint="true">
+    <AssociationLine Name="WebhookYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.DiscordWebhook.WebhookYoutubeSubscription" FixedToPoint="true">
       <Path>
         <Point X="4.5" Y="3.088" />
         <Point X="2.75" Y="3.088" />
@@ -64,7 +64,7 @@
         <Position X="-0.546" Y="-0.461" Height="0.182" Width="2.256" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" FixedToPoint="true">
       <Path>
         <Point X="7.75" Y="3.125" />
         <Point X="9.5" Y="3.125" />
@@ -82,9 +82,9 @@
       <Property Name="TwitterYoutubeSubscriptions" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription">
+  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription">
     <Position X="9.5" Y="2" Width="2.25" />
-    <AssociationLine Name="TwitterUser" Type="ComputerScienceServer.Models.Twitter.TwitterUser" FixedToPoint="true">
+    <AssociationLine Name="TwitterUser" Type="YoutubeNotifyBot.Models.Twitter.TwitterUser" FixedToPoint="true">
       <Path>
         <Point X="11.375" Y="3.296" />
         <Point X="11.375" Y="4.25" />
@@ -99,9 +99,9 @@
       <Property Name="TwitterUser" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.DiscordWebhook.WebhookYoutubeSubscription">
+  <Class Name="YoutubeNotifyBot.Models.DiscordWebhook.WebhookYoutubeSubscription">
     <Position X="0.5" Y="2" Width="2.25" />
-    <AssociationLine Name="Webhook" Type="ComputerScienceServer.Models.DiscordWebhook.Webhook" FixedToPoint="true">
+    <AssociationLine Name="Webhook" Type="YoutubeNotifyBot.Models.DiscordWebhook.Webhook" FixedToPoint="true">
       <Path>
         <Point X="0.75" Y="3.296" />
         <Point X="0.75" Y="4.25" />
@@ -119,9 +119,9 @@
       <Property Name="Webhook" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Twitter.TwitterUser">
+  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterUser">
     <Position X="9.5" Y="4.25" Width="2.25" />
-    <AssociationLine Name="TwitterYoutubeSubscription" Type="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscription" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="10.188" Y="4.25" />
         <Point X="10.188" Y="3.875" />
@@ -140,9 +140,9 @@
       <Property Name="TwitterYoutubeSubscription" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.DiscordWebhook.Webhook">
+  <Class Name="YoutubeNotifyBot.Models.DiscordWebhook.Webhook">
     <Position X="0.5" Y="4.25" Width="2.25" />
-    <AssociationLine Name="WebhookYoutubeSubscriptions" Type="ComputerScienceServer.Models.DiscordWebhook.WebhookYoutubeSubscription" FixedFromPoint="true">
+    <AssociationLine Name="WebhookYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.DiscordWebhook.WebhookYoutubeSubscription" FixedFromPoint="true">
       <Path>
         <Point X="1.812" Y="4.25" />
         <Point X="1.812" Y="3.296" />

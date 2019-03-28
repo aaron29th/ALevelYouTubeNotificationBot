@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models.Youtube;
 using Newtonsoft.Json;
 
-namespace ComputerScienceServer.Models.Twitter
+namespace YoutubeNotifyBot.Models.Twitter
 {
 	public class TwitterUserYoutubeSubscription
 	{

@@ -85,9 +85,9 @@ namespace SocialMediaBotManager.Forms
 			else statusLabel.Text = $"Status: An error occured - {response.StatusCode}";
 		}
 
-		private void refreshAll_Click(object sender, EventArgs e)
+		private async void refreshAll_Click(object sender, EventArgs e)
 		{
-			RefreshWebhooks();
+			await RefreshWebhooks();
 		}
 
 		private void existingWebhooks_SelectedIndexChanged(object sender, EventArgs e)

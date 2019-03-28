@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using ComputerScienceServer.Models;
-using ComputerScienceServer.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models;
+using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ComputerScienceServer.Controllers
+namespace YoutubeNotifyBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

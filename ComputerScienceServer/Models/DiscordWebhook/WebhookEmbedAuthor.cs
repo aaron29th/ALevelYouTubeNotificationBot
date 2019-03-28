@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ComputerScienceServer.Models.DiscordWebhook
+namespace YoutubeNotifyBot.Models.DiscordWebhook
 {
 	public class WebhookEmbedAuthor
 	{

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models;
-using ComputerScienceServer.Models.DiscordWebhook;
-using ComputerScienceServer.Models.Twitter;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models;
+using YoutubeNotifyBot.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models.Twitter;
+using YoutubeNotifyBot.Models.Youtube;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 
-namespace ComputerScienceServer.Controllers
+namespace YoutubeNotifyBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

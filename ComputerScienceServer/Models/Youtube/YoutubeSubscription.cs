@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.DiscordWebhook;
-using ComputerScienceServer.Models.Twitter;
+using YoutubeNotifyBot.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models.Twitter;
 using Newtonsoft.Json;
 
-namespace ComputerScienceServer.Models.Youtube
+namespace YoutubeNotifyBot.Models.Youtube
 {
 	public class YoutubeSubscription
 	{
@@ -46,7 +46,7 @@ namespace ComputerScienceServer.Models.Youtube
 
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/" +
 				                  $"{channelId}?verifyToken={subscription.VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={channelId}" },
 				{ "hub.verify", "sync" },
@@ -66,7 +66,7 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/" +
 				                  $"{YoutubeChannelId}?verifyToken={VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },
@@ -87,7 +87,7 @@ namespace ComputerScienceServer.Models.Youtube
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "hub.callback", "https://socialmediabot.azurewebsites.net/api/YoutubePubSub/" +
+				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/"  +
 				                  $"{YoutubeChannelId}?verifyToken={VerifyToken}" },
 				{ "hub.topic", $"https://www.youtube.com/xml/feeds/videos.xml?channel_id={YoutubeChannelId}" },
 				{ "hub.verify", "sync" },

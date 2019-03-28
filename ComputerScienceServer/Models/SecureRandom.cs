@@ -4,10 +4,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models.Youtube;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace ComputerScienceServer.Models
+namespace YoutubeNotifyBot.Models
 {
 	public class SecureRandom
 	{

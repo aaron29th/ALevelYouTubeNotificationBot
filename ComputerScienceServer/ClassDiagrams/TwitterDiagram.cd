@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="ComputerScienceServer.Models.Twitter.TwitterUser">
+  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterUser">
     <Position X="2.75" Y="1.25" Width="2" />
-    <AssociationLine Name="TwitterYoutubeSubscription" Type="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscription" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="4.75" Y="2.438" />
         <Point X="5.625" Y="2.438" />
@@ -21,9 +21,9 @@
       <Property Name="TwitterYoutubeSubscription" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription">
+  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription">
     <Position X="6.25" Y="1.25" Width="3.5" />
-    <AssociationLine Name="YoutubeSubscription" Type="ComputerScienceServer.Models.Youtube.YoutubeSubscription">
+    <AssociationLine Name="YoutubeSubscription" Type="YoutubeNotifyBot.Models.Youtube.YoutubeSubscription">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="0.214" Y="0.05" Height="0.182" Width="1.683" />
       </MemberNameLabel>
@@ -37,12 +37,12 @@
       <Property Name="YoutubeSubscription" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="ComputerScienceServer.Models.Youtube.YoutubeSubscription">
+  <Class Name="YoutubeNotifyBot.Models.Youtube.YoutubeSubscription">
     <Position X="11.75" Y="1.25" Width="3.25" />
     <Members>
       <Field Name="_client" Hidden="true" />
     </Members>
-    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="ComputerScienceServer.Models.Twitter.TwitterYoutubeSubscription" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" FixedToPoint="true">
       <Path>
         <Point X="11.75" Y="2.312" />
         <Point X="9.75" Y="2.312" />

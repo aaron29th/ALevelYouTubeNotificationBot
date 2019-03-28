@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ComputerScienceServer.Models;
-using ComputerScienceServer.Models.DiscordWebhook;
+using YoutubeNotifyBot.Models;
+using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using TweetSharp;
-using TwitterUser = ComputerScienceServer.Models.Twitter.TwitterUser;
+using TwitterUser = YoutubeNotifyBot.Models.Twitter.TwitterUser;
 
-namespace ComputerScienceServer.Controllers
+namespace YoutubeNotifyBot.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]

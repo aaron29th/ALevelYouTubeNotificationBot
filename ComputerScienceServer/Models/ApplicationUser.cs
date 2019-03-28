@@ -5,7 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ComputerScienceServer.Models
+namespace YoutubeNotifyBot.Models
 {
 	public class ApplicationUser
 	{

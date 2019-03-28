@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ComputerScienceServer.Models.Youtube;
+using YoutubeNotifyBot.Models.Youtube;
 using Newtonsoft.Json;
 using TweetSharp;
 
-namespace ComputerScienceServer.Models.Twitter
+namespace YoutubeNotifyBot.Models.Twitter
 {
 	public class TwitterUser
 	{
