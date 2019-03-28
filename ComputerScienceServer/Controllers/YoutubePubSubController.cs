@@ -160,6 +160,10 @@ namespace YoutubeNotifyBot.Controllers
 		/// <summary>
 		/// Sends discord messages and tweets to notify users of a newly uploaded YouTube video
 		/// </summary>
+		/// <param name="id">The youtube channel's id</param>
+		/// <param name="verifyToken">Token to verify the sender</param>
+		/// <param name="pubSubFeed">Xml feed about the youtube video</param>
+		/// <returns></returns>
 		[HttpPost("{id}")]
 		[AllowAnonymous]
 		public async Task<ActionResult> SendNotifications(string id, [FromQuery] string verifyToken,
@@ -173,6 +177,10 @@ namespace YoutubeNotifyBot.Controllers
 
 			//Gets corresponding youtube subscription and all related discord webhooks and twitter users
 			var youtubeSubscription = await _context.YoutubeSubscriptions
+				.Include(sub => sub.TwitterYoutubeSubscriptions)
+					.ThenInclude(twitterYoutube => twitterYoutube.TwitterUser)
+				.Include(sub => sub.WebhookYoutubeSubscriptions)
+					.ThenInclude(webhookYoutube => webhookYoutube.Webhook)
 				.FirstAsync(sub => sub.YoutubeChannelId == id);
 
 			//Checks verify token is correct
