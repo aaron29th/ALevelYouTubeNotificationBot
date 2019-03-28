@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 using TweetSharp;
 
 namespace YoutubeNotifyBot
@@ -66,6 +67,11 @@ namespace YoutubeNotifyBot
 				options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
 			});
 
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "YoutubeNotifyBot", Version = "v1" });
+			});
+
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
 				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));
 				//options.UseNpgsql(Configuration.GetConnectionString("socialMediaPostgresLocal")));
@@ -79,6 +85,11 @@ namespace YoutubeNotifyBot
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeNotifyBot V1");
+			});
 			// Enable authentication
 			app.UseAuthentication();
 			app.UseMvc();
