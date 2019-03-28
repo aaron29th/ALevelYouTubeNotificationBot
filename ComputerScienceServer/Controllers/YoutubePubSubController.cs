@@ -39,10 +39,7 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpGet("GetAll")]
 		public async Task<ActionResult> GetAllSubscriptions()
 		{
-			var subscriptions = await _context.YoutubeSubscriptions
-				.Include(sub => sub.TwitterYoutubeSubscriptions)
-				.Include(sub => sub.WebhookYoutubeSubscriptions)
-				.ToArrayAsync();
+			var subscriptions = await _context.YoutubeSubscriptions.ToArrayAsync();
 
 			return Ok(subscriptions);
 		}
