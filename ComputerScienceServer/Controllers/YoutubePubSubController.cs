@@ -173,10 +173,6 @@ namespace YoutubeNotifyBot.Controllers
 
 			//Gets corresponding youtube subscription and all related discord webhooks and twitter users
 			var youtubeSubscription = await _context.YoutubeSubscriptions
-				.Include(sub => sub.TwitterYoutubeSubscriptions)
-					.ThenInclude(twitterYoutube => twitterYoutube.TwitterUser)
-				.Include(sub => sub.WebhookYoutubeSubscriptions)
-					.ThenInclude(webhookYoutube => webhookYoutube.Webhook)
 				.FirstAsync(sub => sub.YoutubeChannelId == id);
 
 			//Checks verify token is correct
