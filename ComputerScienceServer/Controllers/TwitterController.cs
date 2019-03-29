@@ -86,7 +86,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">Twitter users id</param>
 		/// <param name="tweetTemplate">Template for tweets</param>
 		/// <returns></returns>
-        [HttpPost("SetTweetTemplate/{id}")]
+        [HttpPost("{id}/SetTweetTemplate")]
         public async Task<ActionResult> SetTweetTemplate(long id, [FromForm] string tweetTemplate)
         {
 			//Check twitter user exists

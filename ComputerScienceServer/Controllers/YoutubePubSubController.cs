@@ -61,7 +61,7 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
-		[HttpPost("LinkWebhook/{id}")]
+		[HttpPost("{id}/LinkWebhook")]
 		public async Task<ActionResult> LinkWebhookToSubscription(string id, 
 			[FromForm] ulong webhookId)
 		{
@@ -82,7 +82,7 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
-		[HttpPost("UnlinkWebhook/{id}")]
+		[HttpPost("{id}/UnlinkWebhook")]
 		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id,
 			[FromForm] ulong webhookId)
 		{
@@ -100,7 +100,7 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
-		[HttpPost("LinkTwitter/{id}")]
+		[HttpPost("{id}/LinkTwitter")]
 		public async Task<ActionResult> LinkTwitterUser(string id,
 			[FromForm] long twitterId)
 		{
@@ -127,7 +127,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="twitterId">Twitter user id</param>
 		/// <returns></returns>
-		[HttpPost("UnlinkTwitter/{id}")]
+		[HttpPost("{id}/UnlinkTwitter")]
 		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, long twitterId)
 		{
 			//Check link exists

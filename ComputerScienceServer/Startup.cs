@@ -69,7 +69,7 @@ namespace YoutubeNotifyBot
 
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "YoutubeNotifyBot", Version = "v1" });
+				c.SwaggerDoc("v1", new Info { Title = "YoutubeNotifyBot", Version = "v2" });
 			});
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
@@ -88,7 +88,7 @@ namespace YoutubeNotifyBot
 			app.UseSwagger();
 			app.UseSwaggerUI(c =>
 			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeNotifyBot V1");
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeNotifyBot V2");
 			});
 			// Enable authentication
 			app.UseAuthentication();

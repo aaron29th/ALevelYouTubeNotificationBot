@@ -23,12 +23,12 @@ namespace YoutubeNotifyBot.Controllers
 	    /// <param name="id">webhook id</param>
 	    /// <param name="token">Webhook token</param>
 	    /// <returns></returns>
-	    [HttpPost("AddWebhook/{id}")]
-        public async Task<ActionResult> AddWebhook(ulong id, [FromForm] string token)
+	    [HttpPost("AddWebhook")]
+        public async Task<ActionResult> AddWebhook([FromForm] ulong webhookId, [FromForm] string token)
         {
 			var webhook = new Webhook()
 			{
-				WebhookId = id,
+				WebhookId = webhookId,
 				Token = token
 			};
 			//Check webhook exists
@@ -39,7 +39,7 @@ namespace YoutubeNotifyBot.Controllers
 	        return NoContent();
         }
 
-        [HttpPost("SetMessageTemplate/{id}")]
+        [HttpPost("{id}/SetMessageTemplate")]
         public async Task<ActionResult> SetMessageTemplate(ulong id, [FromForm] string messageTemplate, [FromForm] string embedTemplate)
         {
 			//Check webhook exists
