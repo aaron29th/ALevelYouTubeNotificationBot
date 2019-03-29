@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using YoutubeNotifyBot.Models;
 using YoutubeNotifyBot.Models.DiscordWebhook;
@@ -24,8 +26,14 @@ namespace YoutubeNotifyBot.Controllers
 		    _context = context;
 	    }
 
-	    [HttpPost("AddNew")]
-		public async Task<ActionResult> AddNewSubscription([FromForm] string channelId)
+		/// <summary>
+		/// Adds a new subscription to a YouTube channel
+		/// </summary>
+		/// <param name="channelId"></param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[HttpPost("AddNew")]
+		public async Task<ActionResult> AddNewSubscription([Required][FromForm] string channelId)
 		{
 			var subscription = await YoutubeSubscription.SubscribeAsync(channelId);
 			if (subscription == null) return BadRequest();
@@ -36,7 +44,12 @@ namespace YoutubeNotifyBot.Controllers
 		    return NoContent();
 	    }
 
+		/// <summary>
+		/// Returns all YouTube subscriptions in the database
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet("GetAll")]
+		[Produces("application/json")]
 		public async Task<ActionResult> GetAllSubscriptions()
 		{
 			var subscriptions = await _context.YoutubeSubscriptions
@@ -47,6 +60,12 @@ namespace YoutubeNotifyBot.Controllers
 			return Ok(subscriptions);
 		}
 
+		/// <summary>
+		/// Deletes the given YouTube subscription
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> DeleteSubscription(string id)
 		{
@@ -61,9 +80,16 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
+		/// <summary>
+		/// Links an existing webhook to an existing subscription
+		/// </summary>
+		/// <param name="id">YouTube channel id</param>
+		/// <param name="webhookId">Webhook id</param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/LinkWebhook")]
-		public async Task<ActionResult> LinkWebhookToSubscription(string id, 
-			[FromForm] ulong webhookId)
+		public async Task<ActionResult> LinkWebhookToSubscription(string id,
+			[Required][FromForm] ulong webhookId)
 		{
 			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.YoutubeChannelId == id) ||
 			    !await _context.Webhooks.AnyAsync(webhook => webhook.WebhookId == webhookId))
@@ -82,9 +108,16 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
+		/// <summary>
+		/// Unlinks a webhook from a subscription
+		/// </summary>
+		/// <param name="id">YouTube channel id</param>
+		/// <param name="webhookId">Webhook id</param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/UnlinkWebhook")]
 		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id,
-			[FromForm] ulong webhookId)
+			[Required][FromForm] ulong webhookId)
 		{
 			//Check link exists
 			if (!await _context.WebhookYoutubeSubscriptions.AnyAsync(
@@ -100,9 +133,16 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 		}
 
+		/// <summary>
+		/// Links an existing twitter user to an existing subscription
+		/// </summary>
+		/// <param name="id">YouTube channel id</param>
+		/// <param name="twitterId">Twitter user id</param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/LinkTwitter")]
 		public async Task<ActionResult> LinkTwitterUser(string id,
-			[FromForm] long twitterId)
+			[Required][FromForm] long twitterId)
 		{
 			//Check that both the twitter account and youtube subscription exists in the database
 			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id) ||
@@ -122,13 +162,14 @@ namespace YoutubeNotifyBot.Controllers
 		}
 
 		/// <summary>
-		/// Unlink a twitter user from a youtube subscription
+		/// Unlinks a twitter user from a subscription
 		/// </summary>
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="twitterId">Twitter user id</param>
 		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/UnlinkTwitter")]
-		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, long twitterId)
+		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, [Required][FromForm]long twitterId)
 		{
 			//Check link exists
 			if (!await _context.TwitterYoutubeSubscriptions.AnyAsync(
@@ -146,11 +187,12 @@ namespace YoutubeNotifyBot.Controllers
 		}
 
 		/// <summary>
-		/// Verify the YouTube subscription
+		/// Verifies the YouTube subscription (No auth token required)
 		/// </summary>
 		/// <param name="id">Channel id</param>
-		[HttpGet("{id}")]
 		[AllowAnonymous]
+		[HttpGet("{id}")]
+		[Produces("text/plain")]
 	    public ActionResult VerifySubscription(string id)
 	    {
 		    Request.Query.TryGetValue("hub.challenge", out var challenge);
@@ -158,16 +200,17 @@ namespace YoutubeNotifyBot.Controllers
 	    }
 
 		/// <summary>
-		/// Sends discord messages and tweets to notify users of a newly uploaded YouTube video
+		/// Sends discord messages and tweets to notify users of newly uploaded YouTube videos (No auth token required)
 		/// </summary>
 		/// <param name="id">The youtube channel's id</param>
 		/// <param name="verifyToken">Token to verify the sender</param>
 		/// <param name="pubSubFeed">Xml feed about the youtube video</param>
 		/// <returns></returns>
-		[HttpPost("{id}")]
 		[AllowAnonymous]
-		public async Task<ActionResult> SendNotifications(string id, [FromQuery] string verifyToken,
-			[FromBody] PubSubFeed pubSubFeed)
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[HttpPost("{id}")]
+		public async Task<ActionResult> SendNotifications(string id, [Required][FromQuery] string verifyToken,
+			[Required][FromBody] PubSubFeed pubSubFeed)
 		{
 			//Checks channel subscription exists
 			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id))
@@ -226,8 +269,9 @@ namespace YoutubeNotifyBot.Controllers
 		}
 
 		/// <summary>
-		/// Renew all YouTube subscriptions that expire within 25 hours
+		/// Renews all YouTube subscriptions that expire within 25 hours
 		/// </summary>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpGet("RenewSubscriptions")]
 		public async Task<ActionResult> RenewSubscriptions()
 		{

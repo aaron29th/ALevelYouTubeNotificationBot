@@ -69,8 +69,18 @@ namespace YoutubeNotifyBot
 
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "YoutubeNotifyBot", Version = "v2" });
+				c.SwaggerDoc("v1", new Info {Title = "YoutubeNotifyBot", Version = "v2"});
+				c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+				{
+					Description =
+						"JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+					Name = "Authorization",
+					In = "header",
+					Type = "apiKey"
+				});
+				c.IncludeXmlComments(@"C:\Users\1\Source\Repos\aaron29th\ComputerScienceServer\ComputerScienceServer\YoutubeNotifyBot.xml");
 			});
+
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
 				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));

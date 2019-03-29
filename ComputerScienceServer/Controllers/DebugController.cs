@@ -32,6 +32,10 @@ namespace YoutubeNotifyBot.Controllers
 			return "Hello world";
 		}
 
+		/// <summary>
+		/// Test description
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet("LogError")]
 		public ActionResult LogError()
 		{

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using YoutubeNotifyBot.Models;
 using YoutubeNotifyBot.Models.Twitter;
@@ -24,10 +26,11 @@ namespace YoutubeNotifyBot.Controllers
 	    }
 
 		/// <summary>
-		/// Gets a link to oauth authorization page
+		/// Gets a link to the oauth authorization page
 		/// </summary>
 		/// <returns></returns>
-        [HttpGet("GetOauthLink")]
+		[Produces("application/json")]
+		[HttpGet("GetOauthLink")]
         public ActionResult GetOauthLink()
         {
 			//Retrieve an OAuth Request Token
@@ -38,20 +41,23 @@ namespace YoutubeNotifyBot.Controllers
 
 			//Generate oauth link
 			Uri uri = service.GetAuthorizationUri(requestToken);
-			return Ok(uri.ToString());
+			return Ok(new Dictionary<string, string>(){
+				{"uri", uri.ToString()}
+			});
 		}
 
 		/// <summary>
-		/// Handles callback from twitter authorization
+		/// Handles callback the from twitter authorization (No auth token required)
 		/// </summary>
 		/// <param name="oauth_token">Twitter oauth token</param>
 		/// <param name="oauth_verifier">Twitter oauth verifier</param>
 		/// <returns></returns>
 		[AllowAnonymous]
-        [HttpGet("OauthCallback")]
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[HttpGet("OauthCallback")]
         // ReSharper disable twice InconsistentNaming
-        public async Task<ActionResult> OauthCallback([FromQuery] string oauth_token, 
-			[FromQuery] string oauth_verifier)
+        public async Task<ActionResult> OauthCallback([Required][FromQuery] string oauth_token,
+			[Required][FromQuery] string oauth_verifier)
         {
 	        var requestToken = new OAuthRequestToken { Token = oauth_token };
 
@@ -81,13 +87,14 @@ namespace YoutubeNotifyBot.Controllers
         }
 
 		/// <summary>
-		/// Sets the templates for tweets sent from the account
+		/// Sets the template for tweets sent from the account
 		/// </summary>
 		/// <param name="id">Twitter users id</param>
 		/// <param name="tweetTemplate">Template for tweets</param>
 		/// <returns></returns>
-        [HttpPost("{id}/SetTweetTemplate")]
-        public async Task<ActionResult> SetTweetTemplate(long id, [FromForm] string tweetTemplate)
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[HttpPost("{id}/SetTweetTemplate")]
+        public async Task<ActionResult> SetTweetTemplate(long id, [Required][FromForm] string tweetTemplate)
         {
 			//Check twitter user exists
 	        if (await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
@@ -99,9 +106,10 @@ namespace YoutubeNotifyBot.Controllers
         }
 
 		/// <summary>
-		/// Returns all twitter users
+		/// Returns all the twitter users in the database
 		/// </summary>
 		/// <returns></returns>
+		[Produces("application/json")]
 		[HttpGet("GetAll")]
 		public async Task<ActionResult> GetAll()
 		{
@@ -110,10 +118,11 @@ namespace YoutubeNotifyBot.Controllers
 		}
 
 		/// <summary>
-		/// Deletes twitter user from database
+		/// Deletes the given twitter user from database
 		/// </summary>
 		/// <param name="id">Twitter users id</param>
 		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(long id)
         {

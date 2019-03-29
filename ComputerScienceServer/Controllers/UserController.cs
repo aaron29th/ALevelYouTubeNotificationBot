@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using YoutubeNotifyBot.Models;
@@ -27,9 +29,17 @@ namespace YoutubeNotifyBot.Controllers
 			_context = context;
 	    }
 
+		/// <summary>
+		/// Returns a bearer authentication token (No auth token required)
+		/// </summary>
+		/// <param name="username">The users username</param>
+		/// <param name="password">The users password</param>
+		/// <returns></returns>
 		[AllowAnonymous]
-	    [HttpPost("GetToken")]
-	    public async Task<ActionResult> GetToken([FromForm] string username, [FromForm] string password)
+		[Produces("application/json")]
+		[HttpPost("GetToken")]
+	    public async Task<ActionResult> GetToken([Required][FromForm] string username, 
+			[Required][FromForm] string password)
 	    {
 		    if (!await _context.Users.AnyAsync(x => x.Username == username))
 		    {
@@ -44,14 +54,23 @@ namespace YoutubeNotifyBot.Controllers
 			string token = user.GetToken(password);
 			if (token == null) return Unauthorized();
 
-			Response.Headers.Add("token", token);
-		    return NoContent();
+		    return Ok(new Dictionary<string, string>()
+		    {
+			    { "token", token }
+		    });
 	    }
 
-	    //[Authorize(Roles = "Admin")]
-		[AllowAnonymous]
+		/// <summary>
+		/// Adds a new user (Requires admin role)
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+	    [Authorize(Roles = "Admin")]
+	    [ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("Add")]
-	    public async Task<ActionResult> AddUser([FromForm] string username, [FromForm] string password)
+	    public async Task<ActionResult> AddUser([Required][FromForm] string username, 
+			[Required][FromForm] string password)
 	    {
 		    if (await _context.Users.AnyAsync(user => user.Username == username))
 		    {
@@ -66,7 +85,13 @@ namespace YoutubeNotifyBot.Controllers
 			return NoContent();
 	    }
 
+		/// <summary>
+		/// Deletes the given user (Requires admin role)
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[Authorize(Roles = "Admin")]
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("Delete/{id}")]
 	    public async Task<ActionResult> DeleteUser(int id)
 	    {
@@ -75,7 +100,7 @@ namespace YoutubeNotifyBot.Controllers
 		    var userToBeDeleted = await _context.Users.FirstAsync(x => x.Id == id);
 		    _context.Users.Remove(userToBeDeleted);
 		    await _context.SaveChangesAsync();
-		    return Ok();
+		    return NoContent();
 	    }
 	}
 }

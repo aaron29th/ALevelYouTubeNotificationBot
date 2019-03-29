@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Threading.Tasks;
 using YoutubeNotifyBot.Models;
 using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace YoutubeNotifyBot.Controllers
@@ -18,13 +21,15 @@ namespace YoutubeNotifyBot.Controllers
 	    }
 
 	    /// <summary>
-	    /// Add new webhook
+	    /// Adds a new webhook to the database
 	    /// </summary>
-	    /// <param name="id">webhook id</param>
+	    /// <param name="webhookId">Webhook id</param>
 	    /// <param name="token">Webhook token</param>
 	    /// <returns></returns>
+	    [ProducesResponseType((int)HttpStatusCode.NoContent)]
 	    [HttpPost("AddWebhook")]
-        public async Task<ActionResult> AddWebhook([FromForm] ulong webhookId, [FromForm] string token)
+        public async Task<ActionResult> AddWebhook([Required][FromForm] ulong webhookId, 
+		    [Required][FromForm] string token)
         {
 			var webhook = new Webhook()
 			{
@@ -38,9 +43,17 @@ namespace YoutubeNotifyBot.Controllers
 	        await _context.SaveChangesAsync();
 	        return NoContent();
         }
-
-        [HttpPost("{id}/SetMessageTemplate")]
-        public async Task<ActionResult> SetMessageTemplate(ulong id, [FromForm] string messageTemplate, [FromForm] string embedTemplate)
+		/// <summary>
+		/// Sets the message templates for a discord webhook
+		/// </summary>
+		/// <param name="id">The webhook id</param>
+		/// <param name="messageTemplate">Template for a discord message</param>
+		/// <param name="embedTemplate">Template for a discord embedded message</param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		[HttpPost("{id}/SetMessageTemplate")]
+        public async Task<ActionResult> SetMessageTemplate(ulong id, [Required][FromForm] string messageTemplate, 
+			[Required][FromForm] string embedTemplate)
         {
 			//Check webhook exists
 	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
@@ -54,13 +67,24 @@ namespace YoutubeNotifyBot.Controllers
 	        return NoContent();
 		}
 
-        [HttpGet("GetAllWebhooks")]
+		/// <summary>
+		/// Returns all the webhooks in the database
+		/// </summary>
+		/// <returns></returns>
+		[Produces("application/json")]
+		[HttpGet("GetAllWebhooks")]
         public async Task<ActionResult> GetAll()
         {
 	        var webhooks = await _context.Webhooks.ToArrayAsync();
 	        return Ok(webhooks);
         }
 
+		/// <summary>
+		/// Deletes the given webhook from the database
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteWebhook(ulong id)
         {
