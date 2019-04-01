@@ -48,8 +48,8 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.discordWebhookId = new System.Windows.Forms.TextBox();
+			this.twitterUserId = new System.Windows.Forms.TextBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -58,9 +58,11 @@
 			// 
 			// webhookLinkSubscription
 			// 
-			this.webhookLinkSubscription.Location = new System.Drawing.Point(9, 58);
+			this.webhookLinkSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.webhookLinkSubscription.Location = new System.Drawing.Point(9, 45);
 			this.webhookLinkSubscription.Name = "webhookLinkSubscription";
-			this.webhookLinkSubscription.Size = new System.Drawing.Size(213, 23);
+			this.webhookLinkSubscription.Size = new System.Drawing.Size(217, 23);
 			this.webhookLinkSubscription.TabIndex = 0;
 			this.webhookLinkSubscription.Text = "Link to subscription";
 			this.webhookLinkSubscription.UseVisualStyleBackColor = true;
@@ -68,10 +70,12 @@
 			// 
 			// subscriptions
 			// 
+			this.subscriptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.subscriptions.FormattingEnabled = true;
 			this.subscriptions.Location = new System.Drawing.Point(6, 62);
 			this.subscriptions.Name = "subscriptions";
-			this.subscriptions.Size = new System.Drawing.Size(125, 199);
+			this.subscriptions.Size = new System.Drawing.Size(125, 173);
 			this.subscriptions.TabIndex = 1;
 			this.subscriptions.SelectedIndexChanged += new System.EventHandler(this.subscriptions_SelectedIndexChanged);
 			// 
@@ -90,7 +94,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox1.Location = new System.Drawing.Point(10, 32);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(583, 20);
+			this.textBox1.Size = new System.Drawing.Size(500, 20);
 			this.textBox1.TabIndex = 3;
 			// 
 			// label2
@@ -104,10 +108,12 @@
 			// 
 			// webhooksListbox
 			// 
+			this.webhooksListbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.webhooksListbox.FormattingEnabled = true;
 			this.webhooksListbox.Location = new System.Drawing.Point(140, 36);
 			this.webhooksListbox.Name = "webhooksListbox";
-			this.webhooksListbox.Size = new System.Drawing.Size(125, 225);
+			this.webhooksListbox.Size = new System.Drawing.Size(125, 199);
 			this.webhooksListbox.TabIndex = 5;
 			this.webhooksListbox.SelectedIndexChanged += new System.EventHandler(this.webhooksListbox_SelectedIndexChanged);
 			// 
@@ -131,27 +137,31 @@
 			// 
 			// twitterUsersListbox
 			// 
+			this.twitterUsersListbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.twitterUsersListbox.FormattingEnabled = true;
 			this.twitterUsersListbox.Location = new System.Drawing.Point(275, 36);
 			this.twitterUsersListbox.Name = "twitterUsersListbox";
-			this.twitterUsersListbox.Size = new System.Drawing.Size(125, 225);
+			this.twitterUsersListbox.Size = new System.Drawing.Size(125, 199);
 			this.twitterUsersListbox.TabIndex = 7;
 			this.twitterUsersListbox.SelectedIndexChanged += new System.EventHandler(this.twitterAccountsListbox_SelectedIndexChanged);
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 16);
+			this.label5.Location = new System.Drawing.Point(6, 22);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(101, 13);
+			this.label5.Size = new System.Drawing.Size(16, 13);
 			this.label5.TabIndex = 12;
-			this.label5.Text = "Discord webhook id";
+			this.label5.Text = "Id";
 			// 
 			// webhookUnlinkSubscription
 			// 
-			this.webhookUnlinkSubscription.Location = new System.Drawing.Point(9, 87);
+			this.webhookUnlinkSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.webhookUnlinkSubscription.Location = new System.Drawing.Point(9, 74);
 			this.webhookUnlinkSubscription.Name = "webhookUnlinkSubscription";
-			this.webhookUnlinkSubscription.Size = new System.Drawing.Size(213, 23);
+			this.webhookUnlinkSubscription.Size = new System.Drawing.Size(217, 23);
 			this.webhookUnlinkSubscription.TabIndex = 13;
 			this.webhookUnlinkSubscription.Text = "Unlink from subscription";
 			this.webhookUnlinkSubscription.UseVisualStyleBackColor = true;
@@ -159,9 +169,11 @@
 			// 
 			// twitterUnlinkSubscription
 			// 
-			this.twitterUnlinkSubscription.Location = new System.Drawing.Point(9, 95);
+			this.twitterUnlinkSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.twitterUnlinkSubscription.Location = new System.Drawing.Point(9, 74);
 			this.twitterUnlinkSubscription.Name = "twitterUnlinkSubscription";
-			this.twitterUnlinkSubscription.Size = new System.Drawing.Size(213, 23);
+			this.twitterUnlinkSubscription.Size = new System.Drawing.Size(217, 23);
 			this.twitterUnlinkSubscription.TabIndex = 15;
 			this.twitterUnlinkSubscription.Text = "Unlink from subscription";
 			this.twitterUnlinkSubscription.UseVisualStyleBackColor = true;
@@ -169,9 +181,11 @@
 			// 
 			// twitterLinkSubscription
 			// 
-			this.twitterLinkSubscription.Location = new System.Drawing.Point(9, 66);
+			this.twitterLinkSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.twitterLinkSubscription.Location = new System.Drawing.Point(9, 45);
 			this.twitterLinkSubscription.Name = "twitterLinkSubscription";
-			this.twitterLinkSubscription.Size = new System.Drawing.Size(213, 23);
+			this.twitterLinkSubscription.Size = new System.Drawing.Size(217, 23);
 			this.twitterLinkSubscription.TabIndex = 14;
 			this.twitterLinkSubscription.Text = "Link to subscription";
 			this.twitterLinkSubscription.UseVisualStyleBackColor = true;
@@ -180,16 +194,16 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 20);
+			this.label6.Location = new System.Drawing.Point(6, 22);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(92, 13);
+			this.label6.Size = new System.Drawing.Size(16, 13);
 			this.label6.TabIndex = 16;
-			this.label6.Text = "Twitter account id";
+			this.label6.Text = "Id";
 			// 
 			// subscriptionAddNew
 			// 
 			this.subscriptionAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.subscriptionAddNew.Location = new System.Drawing.Point(599, 30);
+			this.subscriptionAddNew.Location = new System.Drawing.Point(516, 30);
 			this.subscriptionAddNew.Name = "subscriptionAddNew";
 			this.subscriptionAddNew.Size = new System.Drawing.Size(125, 23);
 			this.subscriptionAddNew.TabIndex = 17;
@@ -214,7 +228,7 @@
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(737, 66);
+			this.groupBox1.Size = new System.Drawing.Size(654, 66);
 			this.groupBox1.TabIndex = 19;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Add new";
@@ -233,54 +247,58 @@
 			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox2.Location = new System.Drawing.Point(0, 66);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(737, 283);
+			this.groupBox2.Size = new System.Drawing.Size(654, 249);
 			this.groupBox2.TabIndex = 20;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Edit existing";
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.textBox2);
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.discordWebhookId);
 			this.groupBox3.Controls.Add(this.label5);
 			this.groupBox3.Controls.Add(this.webhookLinkSubscription);
 			this.groupBox3.Controls.Add(this.webhookUnlinkSubscription);
 			this.groupBox3.Location = new System.Drawing.Point(409, 16);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(235, 118);
+			this.groupBox3.Size = new System.Drawing.Size(239, 107);
 			this.groupBox3.TabIndex = 19;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Webhook";
 			// 
 			// groupBox4
 			// 
-			this.groupBox4.Controls.Add(this.textBox3);
+			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox4.Controls.Add(this.twitterUserId);
 			this.groupBox4.Controls.Add(this.label6);
 			this.groupBox4.Controls.Add(this.twitterLinkSubscription);
 			this.groupBox4.Controls.Add(this.twitterUnlinkSubscription);
-			this.groupBox4.Location = new System.Drawing.Point(409, 140);
+			this.groupBox4.Location = new System.Drawing.Point(409, 129);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(235, 127);
+			this.groupBox4.Size = new System.Drawing.Size(239, 107);
 			this.groupBox4.TabIndex = 20;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Twitter user";
 			// 
-			// textBox2
+			// discordWebhookId
 			// 
-			this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.discordWebhookId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox2.Location = new System.Drawing.Point(9, 32);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(213, 20);
-			this.textBox2.TabIndex = 18;
+			this.discordWebhookId.Location = new System.Drawing.Point(28, 19);
+			this.discordWebhookId.Name = "discordWebhookId";
+			this.discordWebhookId.Size = new System.Drawing.Size(198, 20);
+			this.discordWebhookId.TabIndex = 18;
 			// 
-			// textBox3
+			// twitterUserId
 			// 
-			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.twitterUserId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox3.Location = new System.Drawing.Point(9, 40);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(213, 20);
-			this.textBox3.TabIndex = 19;
+			this.twitterUserId.Location = new System.Drawing.Point(28, 19);
+			this.twitterUserId.Name = "twitterUserId";
+			this.twitterUserId.Size = new System.Drawing.Size(198, 20);
+			this.twitterUserId.TabIndex = 19;
 			// 
 			// YoutubeControl
 			// 
@@ -289,7 +307,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "YoutubeControl";
-			this.Size = new System.Drawing.Size(737, 349);
+			this.Size = new System.Drawing.Size(654, 315);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -324,7 +342,7 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.TextBox textBox3;
-		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox twitterUserId;
+		private System.Windows.Forms.TextBox discordWebhookId;
 	}
 }
