@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using YoutubeNotifyBot.Models;
 using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// Test description
 		/// </summary>
 		/// <returns></returns>
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpGet("LogError")]
 		public ActionResult LogError()
 		{

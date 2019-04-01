@@ -18,8 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
-using TweetSharp;
+//using Swashbuckle.AspNetCore.Swagger;
 
 namespace YoutubeNotifyBot
 {
@@ -67,19 +66,19 @@ namespace YoutubeNotifyBot
 				options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
 			});
 
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new Info {Title = "YoutubeNotifyBot", Version = "v2"});
-				c.AddSecurityDefinition("Bearer", new ApiKeyScheme
-				{
-					Description =
-						"JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-					Name = "Authorization",
-					In = "header",
-					Type = "apiKey"
-				});
-				c.IncludeXmlComments(@"C:\Users\1\Source\Repos\aaron29th\ComputerScienceServer\ComputerScienceServer\YoutubeNotifyBot.xml");
-			});
+			//services.AddSwaggerGen(c =>
+			//{
+			//	c.SwaggerDoc("v1", new Info {Title = "YoutubeNotifyBot", Version = "v2"});
+			//	c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+			//	{
+			//		Description =
+			//			"JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+			//		Name = "Authorization",
+			//		In = "header",
+			//		Type = "apiKey"
+			//	});
+			//	c.IncludeXmlComments(@"C:\Users\1\Source\Repos\aaron29th\ComputerScienceServer\ComputerScienceServer\YoutubeNotifyBot.xml");
+			//});
 
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
@@ -95,11 +94,11 @@ namespace YoutubeNotifyBot
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseSwagger();
-			app.UseSwaggerUI(c =>
-			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeNotifyBot V2");
-			});
+			//app.UseSwagger();
+			//app.UseSwaggerUI(c =>
+			//{
+			//	c.SwaggerEndpoint("/swagger/v1/swagger.json", "YoutubeNotifyBot V2");
+			//});
 			// Enable authentication
 			app.UseAuthentication();
 			app.UseMvc();
