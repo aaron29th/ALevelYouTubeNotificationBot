@@ -96,6 +96,9 @@
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TwitterControl.resx">
+      <DependentUpon>TwitterControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\YoutubeControl.resx">
       <DependentUpon>YoutubeControl.cs</DependentUpon>
     </EmbeddedResource>
