@@ -8,7 +8,7 @@ namespace SocialMediaBotManager.Models
 {
 	class TwitterUser
 	{
-		public string Id { get; set; }
+		public long TwitterUserId { get; set; }
 		public string Name { get; set; }
 		public string TweetTemplate { get; set; }
 	}

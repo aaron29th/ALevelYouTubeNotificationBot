@@ -38,7 +38,7 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.label3 = new System.Windows.Forms.Label();
-			this.messageTemplate = new System.Windows.Forms.TextBox();
+			this.tweetTemplate = new System.Windows.Forms.TextBox();
 			this.existingTwitterUsers = new System.Windows.Forms.ListBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -50,7 +50,7 @@
 			this.twitterUserDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.twitterUserDelete.Enabled = false;
-			this.twitterUserDelete.Location = new System.Drawing.Point(138, 289);
+			this.twitterUserDelete.Location = new System.Drawing.Point(138, 371);
 			this.twitterUserDelete.Name = "twitterUserDelete";
 			this.twitterUserDelete.Size = new System.Drawing.Size(615, 23);
 			this.twitterUserDelete.TabIndex = 4;
@@ -63,7 +63,7 @@
 			this.twitterUserSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.twitterUserSave.Enabled = false;
-			this.twitterUserSave.Location = new System.Drawing.Point(138, 260);
+			this.twitterUserSave.Location = new System.Drawing.Point(138, 342);
 			this.twitterUserSave.Name = "twitterUserSave";
 			this.twitterUserSave.Size = new System.Drawing.Size(615, 23);
 			this.twitterUserSave.TabIndex = 3;
@@ -111,13 +111,13 @@
 			this.groupBox2.Controls.Add(this.refreshAll);
 			this.groupBox2.Controls.Add(this.statusStrip1);
 			this.groupBox2.Controls.Add(this.label3);
-			this.groupBox2.Controls.Add(this.messageTemplate);
+			this.groupBox2.Controls.Add(this.tweetTemplate);
 			this.groupBox2.Controls.Add(this.twitterUserDelete);
 			this.groupBox2.Controls.Add(this.twitterUserSave);
 			this.groupBox2.Controls.Add(this.existingTwitterUsers);
-			this.groupBox2.Location = new System.Drawing.Point(0, 136);
+			this.groupBox2.Location = new System.Drawing.Point(0, 54);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(763, 348);
+			this.groupBox2.Size = new System.Drawing.Size(763, 430);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Edit existing";
@@ -136,7 +136,7 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(3, 323);
+			this.statusStrip1.Location = new System.Drawing.Point(3, 405);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(757, 22);
 			this.statusStrip1.SizingGrip = false;
@@ -158,16 +158,16 @@
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Tweet template";
 			// 
-			// messageTemplate
+			// tweetTemplate
 			// 
-			this.messageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.tweetTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.messageTemplate.Location = new System.Drawing.Point(138, 32);
-			this.messageTemplate.Multiline = true;
-			this.messageTemplate.Name = "messageTemplate";
-			this.messageTemplate.Size = new System.Drawing.Size(615, 222);
-			this.messageTemplate.TabIndex = 5;
+			this.tweetTemplate.Location = new System.Drawing.Point(138, 32);
+			this.tweetTemplate.Multiline = true;
+			this.tweetTemplate.Name = "tweetTemplate";
+			this.tweetTemplate.Size = new System.Drawing.Size(615, 304);
+			this.tweetTemplate.TabIndex = 5;
 			// 
 			// existingTwitterUsers
 			// 
@@ -176,8 +176,9 @@
 			this.existingTwitterUsers.FormattingEnabled = true;
 			this.existingTwitterUsers.Location = new System.Drawing.Point(9, 45);
 			this.existingTwitterUsers.Name = "existingTwitterUsers";
-			this.existingTwitterUsers.Size = new System.Drawing.Size(120, 251);
+			this.existingTwitterUsers.Size = new System.Drawing.Size(120, 342);
 			this.existingTwitterUsers.TabIndex = 0;
+			this.existingTwitterUsers.SelectedIndexChanged += new System.EventHandler(this.existingTwitterUsers_SelectedIndexChanged);
 			// 
 			// TwitterControl
 			// 
@@ -209,7 +210,7 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel statusLabel;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox messageTemplate;
+		private System.Windows.Forms.TextBox tweetTemplate;
 		private System.Windows.Forms.ListBox existingTwitterUsers;
 	}
 }

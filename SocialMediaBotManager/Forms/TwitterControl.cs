@@ -51,9 +51,18 @@ namespace SocialMediaBotManager.Forms
 			System.Diagnostics.Process.Start(content["uri"]);
 		}
 
-		private void twitterUserSave_Click(object sender, EventArgs e)
+		private async void twitterUserSave_Click(object sender, EventArgs e)
 		{
+			long twitterId = ((TwitterUser)existingTwitterUsers.SelectedValue).TwitterUserId;
+			var values = new Dictionary<string, string>()
+			{
+				{ "tweetTemplate", tweetTemplate.Text }
+			};
 
+			var response = await Network.PostFormAsync($"Twitter/{twitterId}/SetTweetTemplate", values);
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully updated template tweet" : 
+				$"Status: An error occured - {response.StatusCode}";
 		}
 
 		private void twitterUserDelete_Click(object sender, EventArgs e)
@@ -64,6 +73,12 @@ namespace SocialMediaBotManager.Forms
 		private async void refreshAll_Click(object sender, EventArgs e)
 		{
 			await RefreshTwitterUsers();
+		}
+
+		private void existingTwitterUsers_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TwitterUser selectedUser = (TwitterUser)existingTwitterUsers.SelectedValue;
+			tweetTemplate.Text = selectedUser.TweetTemplate;
 		}
 	}
 }

@@ -97,7 +97,7 @@ namespace YoutubeNotifyBot.Controllers
         public async Task<ActionResult> SetTweetTemplate(long id, [Required][FromForm] string tweetTemplate)
         {
 			//Check twitter user exists
-	        if (await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
+	        if (!await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
 
 	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.TwitterUserId == id);
 	        twitterUser.TweetTemplate = tweetTemplate;
