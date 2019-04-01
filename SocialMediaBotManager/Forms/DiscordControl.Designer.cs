@@ -163,6 +163,7 @@
 			// 
 			this.webhookDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.webhookDelete.Enabled = false;
 			this.webhookDelete.Location = new System.Drawing.Point(138, 208);
 			this.webhookDelete.Name = "webhookDelete";
 			this.webhookDelete.Size = new System.Drawing.Size(438, 23);
@@ -175,6 +176,7 @@
 			// 
 			this.webhookSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.webhookSave.Enabled = false;
 			this.webhookSave.Location = new System.Drawing.Point(138, 179);
 			this.webhookSave.Name = "webhookSave";
 			this.webhookSave.Size = new System.Drawing.Size(438, 23);

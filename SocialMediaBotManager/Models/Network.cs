@@ -16,7 +16,7 @@ namespace SocialMediaBotManager.Models
 
 		public static void Init()
 		{
-			_client.BaseAddress = new Uri("https://socialmediabot.azurewebsites.net/api/");
+			_client.BaseAddress = new Uri("https://youtubenotifybot.azurewebsites.net/api/");
 			//_client.BaseAddress = new Uri("http://localhost:27744/api/");
 		}
 

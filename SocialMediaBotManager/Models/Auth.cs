@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SocialMediaBotManager.Models
 {
@@ -24,10 +25,13 @@ namespace SocialMediaBotManager.Models
 
 			try
 			{
-				string token = response.Headers.GetValues("token").First();
+				string responseStr = await response.Content.ReadAsStringAsync();
+				var responseContent = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseStr);
+
+				if (!responseContent.ContainsKey("token")) return false;
 
 				//Set the token as a default header
-				Network.SetAuthHeader(token);
+				Network.SetAuthHeader(responseContent["token"]);
 
 				return true;
 			}

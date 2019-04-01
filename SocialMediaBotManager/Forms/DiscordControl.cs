@@ -36,6 +36,10 @@ namespace SocialMediaBotManager.Forms
 
 			existingWebhooks.DataSource = webhooks;
 			existingWebhooks.DisplayMember = "WebhookId";
+
+			//Enable save and delete buttons if webhooks exist
+			webhookSave.Enabled = webhooks.Count > 0;
+			webhookDelete.Enabled = webhooks.Count > 0;
 		}
 
 		private async void webhookAdd_Click(object sender, EventArgs e)
@@ -53,8 +57,12 @@ namespace SocialMediaBotManager.Forms
 			ulong webhookId = Convert.ToUInt64(matches[0].Groups[1].Value);
 			string token = matches[0].Groups[2].Value;
 
-			var response = await Network.PostFormAsync($"Discord/AddWebhook/{webhookId}",
-				new Dictionary<string, string>() { {"token", token} });
+			var response = await Network.PostFormAsync($"Discord/AddWebhook",
+				new Dictionary<string, string>()
+				{
+					{"webhookId", webhookId.ToString() },
+					{"token", token}
+				});
 
 			if (response.IsSuccessStatusCode) statusLabel.Text = "Status: Successfully added webhook";
 			else statusLabel.Text = $"Status: Add webhook failed {response.StatusCode}";
@@ -69,7 +77,7 @@ namespace SocialMediaBotManager.Forms
 				{ "embedTemplate", embedTemplate.Text }
 			};
 
-			var response = await Network.PostFormAsync($"Discord/SetMessageTemplate/{webhookId}", values);
+			var response = await Network.PostFormAsync($"Discord/{webhookId}/SetMessageTemplate", values);
 
 			if (response.IsSuccessStatusCode) statusLabel.Text = "Status: Successfully updated template messages";
 			else statusLabel.Text = $"Status: An error occured - {response.StatusCode}";
