@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginWindow));
 			this.usernameTextbox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -110,6 +111,7 @@
 			this.Controls.Add(this.passwordTextbox);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.usernameTextbox);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximumSize = new System.Drawing.Size(240, 180);
 			this.Name = "LoginWindow";
 			this.Text = "Login";
