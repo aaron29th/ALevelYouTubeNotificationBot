@@ -48,6 +48,7 @@
 			this.label8 = new System.Windows.Forms.Label();
 			this.embedVisualizerLink = new System.Windows.Forms.LinkLabel();
 			this.webhooksIntroLink = new System.Windows.Forms.LinkLabel();
+			this.label9 = new System.Windows.Forms.Label();
 			this.mainTabControl.SuspendLayout();
 			this.mainTabPage.SuspendLayout();
 			this.youtubeTabPage.SuspendLayout();
@@ -70,6 +71,7 @@
 			// 
 			// mainTabPage
 			// 
+			this.mainTabPage.Controls.Add(this.label9);
 			this.mainTabPage.Controls.Add(this.webhooksIntroLink);
 			this.mainTabPage.Controls.Add(this.embedVisualizerLink);
 			this.mainTabPage.Controls.Add(this.label8);
@@ -92,7 +94,7 @@
 			// 
 			this.label7.AutoSize = true;
 			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label7.Location = new System.Drawing.Point(20, 273);
+			this.label7.Location = new System.Drawing.Point(20, 263);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(277, 25);
 			this.label7.TabIndex = 7;
@@ -253,6 +255,16 @@
 			this.webhooksIntroLink.Text = "Discord - Webhooks intro";
 			this.webhooksIntroLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.webhooksIntroLink_LinkClicked);
 			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label9.Location = new System.Drawing.Point(21, 288);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(115, 20);
+			this.label9.TabIndex = 11;
+			this.label9.Text = "Version 1.0.0";
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,6 +305,7 @@
 		private System.Windows.Forms.LinkLabel webhooksIntroLink;
 		private System.Windows.Forms.LinkLabel embedVisualizerLink;
 		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label9;
 	}
 }
 
