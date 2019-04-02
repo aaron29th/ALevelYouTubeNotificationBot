@@ -52,7 +52,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// <returns></returns>
 		[HttpPost("{id}/SetMessageTemplate")]
         public async Task<ActionResult> SetMessageTemplate(ulong id, [Required][FromForm] string messageTemplate, 
-			[Required][FromForm] string embedTemplate)
+			[FromForm] string embedTemplate)
         {
 			//Check webhook exists
 	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
