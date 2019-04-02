@@ -21,11 +21,13 @@ namespace SocialMediaBotManager.Forms
 
 		public async Task RefreshSubscriptions()
 		{
-			//Get subscriptions
+			//Send get subscriptions request
 			var youtubeResponse = await Network.GetAsync("YoutubePubSub/GetAll");
 
+			//Get for errors
 			if (!youtubeResponse.IsSuccessStatusCode)
 			{
+				//Output error to user
 				statusLabel.Text = "An error occured getting subscriptions - " +
 				                   $"{youtubeResponse.StatusCode.ToString()}";
 				return;
@@ -42,10 +44,13 @@ namespace SocialMediaBotManager.Forms
 
 			//Get webhooks
 			{
+				//Send get discord webhooks request
 				var webhooksResponse = await Network.GetAsync("Discord/GetAllWebhooks");
 
+				//Check for errors
 				if (!webhooksResponse.IsSuccessStatusCode)
 				{
+					//Output error to user
 					statusLabel.Text = "An error occured getting webhooks - " +
 					                   $"{webhooksResponse.StatusCode.ToString()}";
 					return;
@@ -62,10 +67,13 @@ namespace SocialMediaBotManager.Forms
 
 			//Get twitter users
 			{
+				//Send get twitter users request
 				var twitterResponse = await Network.GetAsync("Twitter/GetAll");
 
+				//Check for errors
 				if (!twitterResponse.IsSuccessStatusCode)
 				{
+					//Output error to user
 					statusLabel.Text = "An error occured getting twitter users - " +
 					                   $"{twitterResponse.StatusCode.ToString()}";
 					return;
@@ -79,15 +87,19 @@ namespace SocialMediaBotManager.Forms
 				twitterUsersListbox.DataSource = twitterUsers;
 				twitterUsersListbox.DisplayMember = "Name";
 			}
+
+			//Refresh which buttons should be enabled / disabled
 			SetEnabledButtons();
 		}
 
 		private void SetEnabledButtons()
 		{
+			//Get selected subscription, webhook and twitter user
 			var subscription = (Subscription)subscriptions.SelectedItem;
 			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
 			var webhook = (Webhook)webhooksListbox.SelectedItem;
 
+			//Enable / disable unsubscribe button
 			subscriptionDelete.Enabled = subscription != null;
 
 			//Enable / disable link twitter user buttons
@@ -113,27 +125,34 @@ namespace SocialMediaBotManager.Forms
 
 		private async void subscriptionAddNew_Click(object sender, EventArgs e)
 		{
+			//Send add new subscription request
 			var response = await Network.PostFormAsync("YoutubePubSub/AddNew",
 				new Dictionary<string, string>()
 				{
 					{"channelId", youtubeChannelId.Text }
 				});
 
+			//Output result to user
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully subscribed" :
 				$"Status: Subscribe failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
 		}
 
 		private async void webhookLinkSubscription_Click(object sender, EventArgs e)
 		{
+			//Get selected subscription and webhook
 			var subscription = (Subscription)subscriptions.SelectedItem;
 			var webhook = (Webhook)webhooksListbox.SelectedItem;
 
+			//Send link webhook request
 			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/LinkWebhook",
 				new Dictionary<string, string>()
 				{
 					{"webhookId", webhook.WebhookId.ToString() }
 				});
 
+			//Output result to user
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully linked webhook" :
 				$"Status: Link webhook failed - {response.StatusCode}";
 
@@ -142,15 +161,18 @@ namespace SocialMediaBotManager.Forms
 
 		private async void webhookUnlinkSubscription_Click(object sender, EventArgs e)
 		{
+			//Get selected subscription and webhook
 			var subscription = (Subscription)subscriptions.SelectedItem;
 			var webhook = (Webhook)webhooksListbox.SelectedItem;
 
+			//Send unlink webhook request
 			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/UnlinkWebhook",
 				new Dictionary<string, string>()
 				{
 					{"webhookId", webhook.WebhookId.ToString() }
 				});
 
+			//Output result to user
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unlinked webhook" :
 				$"Status: Unlink webhook failed - {response.StatusCode}";
 
@@ -159,15 +181,18 @@ namespace SocialMediaBotManager.Forms
 
 		private async void twitterLinkSubscription_Click(object sender, EventArgs e)
 		{
+			//Get selected subscription and twitter user
 			var subscription = (Subscription)subscriptions.SelectedItem;
 			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
 
+			//Send link twitter user request
 			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/LinkTwitter",
 				new Dictionary<string, string>()
 				{
 					{"twitterId", twitterUser.TwitterUserId.ToString() }
 				});
 
+			//Output the result to the user
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully linked twitter" :
 				$"Status: Link twitter failed - {response.StatusCode}";
 
@@ -176,15 +201,18 @@ namespace SocialMediaBotManager.Forms
 
 		private async void twitterUnlinkSubscription_Click(object sender, EventArgs e)
 		{
+			//Get selected subscription and twitter user
 			var subscription = (Subscription)subscriptions.SelectedItem;
 			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
 
+			//Send unlink twitter user request
 			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/UnlinkTwitter",
 				new Dictionary<string, string>()
 				{
 					{"twitterId", twitterUser.TwitterUserId.ToString() }
 				});
 
+			//Output result to user
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unlinked twitter" :
 				$"Status: Unlink twitter failed - {response.StatusCode}";
 
@@ -193,10 +221,13 @@ namespace SocialMediaBotManager.Forms
 
 		private async void subscriptionDelete_Click(object sender, EventArgs e)
 		{
+			//Get the selected youtube channel's id
 			string channelId = ((Subscription)subscriptions.SelectedValue).YoutubeChannelId;
-
+			
+			//Send a delete request
 			var response = await Network.DeleteAsync($"YoutubePubSub/{channelId}");
 
+			//Output the result
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unsubscribed" :
 				$"Status: Unsubscribe failed - {response.StatusCode}";
 
@@ -205,16 +236,19 @@ namespace SocialMediaBotManager.Forms
 
 		private void webhooksListbox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			//Refresh which buttons should be enabled / disabled
 			SetEnabledButtons();
 		}
 
 		private void twitterAccountsListbox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			//Refresh which buttons should be enabled / disabled
 			SetEnabledButtons();
 		}
 
 		private void subscriptions_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			//Refresh which buttons should be enabled / disabled
 			SetEnabledButtons();
 		}
 
