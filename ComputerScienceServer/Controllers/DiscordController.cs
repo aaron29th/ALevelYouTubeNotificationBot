@@ -51,8 +51,8 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="embedTemplate">Template for a discord embedded message</param>
 		/// <returns></returns>
 		[HttpPost("{id}/SetMessageTemplate")]
-        public async Task<ActionResult> SetMessageTemplate(ulong id, [Required][FromForm] string messageTemplate, 
-			[Required][FromForm] string embedTemplate)
+        public async Task<ActionResult> SetMessageTemplate(ulong id, [FromForm] string messageTemplate, 
+			[FromForm] string embedTemplate)
         {
 			//Check webhook exists
 	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
