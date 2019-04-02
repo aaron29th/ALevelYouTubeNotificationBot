@@ -31,7 +31,6 @@ namespace YoutubeNotifyBot.Models.Youtube
 		/// <summary>
 		/// Creates a new YouTube subscription 
 		/// </summary>
-		/// <param name="context">Database context</param>
 		/// <param name="channelId">The id of the youtube channel</param>
 		/// <returns></returns>
 		public static async Task<YoutubeSubscription> SubscribeAsync(string channelId)

@@ -50,7 +50,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="messageTemplate">Template for a discord message</param>
 		/// <param name="embedTemplate">Template for a discord embedded message</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/SetMessageTemplate")]
         public async Task<ActionResult> SetMessageTemplate(ulong id, [Required][FromForm] string messageTemplate, 
 			[Required][FromForm] string embedTemplate)
