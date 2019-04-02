@@ -31,7 +31,7 @@
 			this.webhookLinkSubscription = new System.Windows.Forms.Button();
 			this.subscriptions = new System.Windows.Forms.ListBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.youtubeChannelId = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.webhooksListbox = new System.Windows.Forms.ListBox();
 			this.label3 = new System.Windows.Forms.Label();
@@ -89,14 +89,14 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Existing subscriptions";
 			// 
-			// textBox1
+			// youtubeChannelId
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.youtubeChannelId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(10, 32);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(500, 20);
-			this.textBox1.TabIndex = 3;
+			this.youtubeChannelId.Location = new System.Drawing.Point(10, 32);
+			this.youtubeChannelId.Name = "youtubeChannelId";
+			this.youtubeChannelId.Size = new System.Drawing.Size(500, 20);
+			this.youtubeChannelId.TabIndex = 3;
 			// 
 			// label2
 			// 
@@ -210,7 +210,7 @@
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Controls.Add(this.textBox1);
+			this.groupBox1.Controls.Add(this.youtubeChannelId);
 			this.groupBox1.Controls.Add(this.subscriptionAddNew);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -269,6 +269,7 @@
 			this.subscriptionDelete.TabIndex = 21;
 			this.subscriptionDelete.Text = "Unsubscribe";
 			this.subscriptionDelete.UseVisualStyleBackColor = true;
+			this.subscriptionDelete.Click += new System.EventHandler(this.subscriptionDelete_Click);
 			// 
 			// groupBox4
 			// 
@@ -321,7 +322,7 @@
 		private System.Windows.Forms.Button webhookLinkSubscription;
 		private System.Windows.Forms.ListBox subscriptions;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox youtubeChannelId;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ListBox webhooksListbox;
 		private System.Windows.Forms.Label label3;

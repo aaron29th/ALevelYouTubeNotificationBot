@@ -57,7 +57,7 @@ namespace SocialMediaBotManager.Forms
 			ulong webhookId = Convert.ToUInt64(matches[0].Groups[1].Value);
 			string token = matches[0].Groups[2].Value;
 
-			var response = await Network.PostFormAsync($"Discord/AddWebhook",
+			var response = await Network.PostFormAsync("Discord/AddWebhook",
 				new Dictionary<string, string>()
 				{
 					{"webhookId", webhookId.ToString() },

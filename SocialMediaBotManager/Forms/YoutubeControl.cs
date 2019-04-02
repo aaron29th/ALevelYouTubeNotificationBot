@@ -95,29 +95,84 @@ namespace SocialMediaBotManager.Forms
 			}
 		}
 
-		private void subscriptionAddNew_Click(object sender, EventArgs e)
+		private async void subscriptionAddNew_Click(object sender, EventArgs e)
 		{
+			var response = await Network.PostFormAsync("YoutubePubSub/AddNew",
+				new Dictionary<string, string>()
+				{
+					{"channelId", youtubeChannelId.Text }
+				});
 
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully subscribed" :
+				$"Status: Subscribe failed - {response.StatusCode}";
 		}
 
-		private void webhookLinkSubscription_Click(object sender, EventArgs e)
+		private async void webhookLinkSubscription_Click(object sender, EventArgs e)
 		{
+			var subscription = (Subscription)subscriptions.SelectedItem;
+			var webhook = (Webhook)webhooksListbox.SelectedItem;
 
+			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/LinkWebhook",
+				new Dictionary<string, string>()
+				{
+					{"webhookId", webhook.WebhookId.ToString() }
+				});
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully linked webhook" :
+				$"Status: Link webhook failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
 		}
 
-		private void webhookUnlinkSubscription_Click(object sender, EventArgs e)
+		private async void webhookUnlinkSubscription_Click(object sender, EventArgs e)
 		{
+			var subscription = (Subscription)subscriptions.SelectedItem;
+			var webhook = (Webhook)webhooksListbox.SelectedItem;
 
+			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/UnlinkWebhook",
+				new Dictionary<string, string>()
+				{
+					{"webhookId", webhook.WebhookId.ToString() }
+				});
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unlinked webhook" :
+				$"Status: Unlink webhook failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
 		}
 
-		private void twitterLinkSubscription_Click(object sender, EventArgs e)
+		private async void twitterLinkSubscription_Click(object sender, EventArgs e)
 		{
+			var subscription = (Subscription)subscriptions.SelectedItem;
+			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
 
+			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/LinkTwitter",
+				new Dictionary<string, string>()
+				{
+					{"twitterId", twitterUser.TwitterUserId.ToString() }
+				});
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully linked twitter" :
+				$"Status: Link twitter failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
 		}
 
-		private void twitterUnlinkSubscription_Click(object sender, EventArgs e)
+		private async void twitterUnlinkSubscription_Click(object sender, EventArgs e)
 		{
+			var subscription = (Subscription)subscriptions.SelectedItem;
+			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
 
+			var response = await Network.PostFormAsync($"YoutubePubSub/{subscription.YoutubeChannelId}/UnlinkTwitter",
+				new Dictionary<string, string>()
+				{
+					{"twitterId", twitterUser.TwitterUserId.ToString() }
+				});
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unlinked twitter" :
+				$"Status: Unlink twitter failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
 		}
 
 		private void webhooksListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,6 +205,16 @@ namespace SocialMediaBotManager.Forms
 		private async void refreshAll_Click(object sender, EventArgs e)
 		{
 			await RefreshSubscriptions();
+		}
+
+		private async void subscriptionDelete_Click(object sender, EventArgs e)
+		{
+			string channelId = ((Subscription)subscriptions.SelectedValue).YoutubeChannelId;
+
+			var response = await Network.DeleteAsync($"YoutubePubSub/{channelId}");
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unsubscribed" :
+				$"Status: Unsubscribe failed - {response.StatusCode}";
 		}
 	}
 }
