@@ -40,9 +40,6 @@ namespace SocialMediaBotManager.Forms
 			subscriptions.DataSource = youtubeSubscriptions;
 			subscriptions.DisplayMember = "YoutubeChannelId";
 
-			//Disable unsubscribe button if no subscriptions are returned
-			subscriptionDelete.Enabled = youtubeSubscriptions.Count > 0;
-
 			//Get webhooks
 			{
 				var webhooksResponse = await Network.GetAsync("Discord/GetAllWebhooks");
@@ -61,11 +58,6 @@ namespace SocialMediaBotManager.Forms
 				//Display webhooks in listbox
 				webhooksListbox.DataSource = webhooks;
 				webhooksListbox.DisplayMember = "WebhookId";
-
-				//Enable / disable link webhook buttons
-				webhookUnlinkSubscription.Enabled = webhooks.Count > 0 && youtubeSubscriptions[0].WebhookYoutubeSubscriptions
-					                                  .Any(webhook => webhook.WebhookId == webhooks[0].WebhookId);
-				webhookLinkSubscription.Enabled = webhooks.Count > 0 && !webhookUnlinkSubscription.Enabled;
 			}
 
 			//Get twitter users
@@ -86,13 +78,37 @@ namespace SocialMediaBotManager.Forms
 				//Display users in list box
 				twitterUsersListbox.DataSource = twitterUsers;
 				twitterUsersListbox.DisplayMember = "Name";
-
-				//Enable / disable link twitter user buttons
-				twitterUnlinkSubscription.Enabled = twitterUsers.Count > 0 && youtubeSubscriptions[0].TwitterYoutubeSubscriptions
-					                                    .Any(user =>
-						                                    user.TwitterUserId == twitterUsers[0].TwitterUserId);
-				twitterLinkSubscription.Enabled = twitterUsers.Count > 0 && !twitterUnlinkSubscription.Enabled;
 			}
+			SetEnabledButtons();
+		}
+
+		private void SetEnabledButtons()
+		{
+			var subscription = (Subscription)subscriptions.SelectedItem;
+			var twitterUser = (TwitterUser)twitterUsersListbox.SelectedItem;
+			var webhook = (Webhook)webhooksListbox.SelectedItem;
+
+			subscriptionDelete.Enabled = subscription != null;
+
+			//Enable / disable link twitter user buttons
+			twitterUnlinkSubscription.Enabled = subscription != null && 
+			                                    twitterUser != null &&
+			                                    subscription.TwitterYoutubeSubscriptions != null &&
+												subscription.TwitterYoutubeSubscriptions
+				                                    .Any(user => user.TwitterUserId == twitterUser.TwitterUserId);
+			twitterLinkSubscription.Enabled = subscription != null && 
+			                                  twitterUser != null && 
+			                                  !twitterUnlinkSubscription.Enabled;
+
+			//Enable / disable link webhook buttons
+			webhookUnlinkSubscription.Enabled = subscription != null &&
+			                                    webhook != null && 
+			                                    subscription.WebhookYoutubeSubscriptions != null &&
+												subscription.WebhookYoutubeSubscriptions
+				                                    .Any(x => x.WebhookId == webhook.WebhookId);
+			webhookLinkSubscription.Enabled = subscription != null && 
+			                                  webhook != null &&
+			                                  !webhookUnlinkSubscription.Enabled;
 		}
 
 		private async void subscriptionAddNew_Click(object sender, EventArgs e)
@@ -175,38 +191,6 @@ namespace SocialMediaBotManager.Forms
 			await RefreshSubscriptions();
 		}
 
-		private void webhooksListbox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var subscription = (Subscription)subscriptions.SelectedItem;
-			var webhook = (Webhook)webhooksListbox.SelectedItem;
-
-			//Enable / disable link webhook buttons
-			webhookUnlinkSubscription.Enabled = subscription != null && subscription.WebhookYoutubeSubscriptions
-				                                    .Any(x => x.WebhookId == webhook.WebhookId);
-			webhookLinkSubscription.Enabled = subscription != null && !webhookUnlinkSubscription.Enabled;
-		}
-
-		private void twitterAccountsListbox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var subscription = (Subscription)subscriptions.SelectedItem;
-			var twitterUser = (TwitterUser) twitterUsersListbox.SelectedItem;
-
-			//Enable / disable link twitter user buttons
-			twitterUnlinkSubscription.Enabled = subscription != null && subscription.TwitterYoutubeSubscriptions
-				                                    .Any(user => user.TwitterUserId == twitterUser.TwitterUserId);
-			twitterLinkSubscription.Enabled = subscription != null && !twitterUnlinkSubscription.Enabled;
-		}
-
-		private void subscriptions_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private async void refreshAll_Click(object sender, EventArgs e)
-		{
-			await RefreshSubscriptions();
-		}
-
 		private async void subscriptionDelete_Click(object sender, EventArgs e)
 		{
 			string channelId = ((Subscription)subscriptions.SelectedValue).YoutubeChannelId;
@@ -215,6 +199,28 @@ namespace SocialMediaBotManager.Forms
 
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully unsubscribed" :
 				$"Status: Unsubscribe failed - {response.StatusCode}";
+
+			await RefreshSubscriptions();
+		}
+
+		private void webhooksListbox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SetEnabledButtons();
+		}
+
+		private void twitterAccountsListbox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SetEnabledButtons();
+		}
+
+		private void subscriptions_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SetEnabledButtons();
+		}
+
+		private async void refreshAll_Click(object sender, EventArgs e)
+		{
+			await RefreshSubscriptions();
 		}
 	}
 }
