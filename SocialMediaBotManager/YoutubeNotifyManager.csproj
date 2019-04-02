@@ -84,7 +84,6 @@
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TwitterUser.cs" />
     <Compile Include="Models\Webhook.cs" />
-    <Compile Include="Models\Youtube.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\DiscordControl.resx">

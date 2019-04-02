@@ -9,14 +9,9 @@ namespace SocialMediaBotManager.Models
 {
 	class Subscription
 	{
-		public string ChannelId { get; set; }
+		public string YoutubeChannelId { get; set; }
 
-		public List<Webhook> Webhooks { get; set; }
-		public List<TwitterUser> TwitterUsers { get; set; }
-
-		public void Save()
-		{
-			  
-		}
+		public List<Webhook> WebhookYoutubeSubscriptions { get; set; }
+		public List<TwitterUser> TwitterYoutubeSubscriptions { get; set; }
 	}
 }
