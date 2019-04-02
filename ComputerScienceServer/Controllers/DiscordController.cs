@@ -6,6 +6,7 @@ using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace YoutubeNotifyBot.Controllers
 {
@@ -57,7 +58,20 @@ namespace YoutubeNotifyBot.Controllers
 			//Check webhook exists
 	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
-			//Get webhook
+			//Checks embed json is valid
+	        if (embedTemplate != null)
+	        {
+		        try
+		        {
+			        JsonConvert.DeserializeObject<WebhookEmbed>(embedTemplate);
+		        }
+		        catch
+		        {
+			        return BadRequest();
+		        }
+	        }
+
+	        //Get webhook
 	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);
 			//Set templates
 	        webhook.MessageTemplate = messageTemplate;
