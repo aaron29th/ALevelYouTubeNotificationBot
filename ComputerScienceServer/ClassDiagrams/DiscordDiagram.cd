@@ -21,10 +21,13 @@
   </Class>
   <Class Name="YoutubeNotifyBot.Models.DiscordWebhook.WebhookEmbed">
     <Position X="4.75" Y="0.75" Width="2" />
+    <Members>
+      <Method Name="IgnoreExceptions" Hidden="true" />
+    </Members>
     <AssociationLine Name="Footer" Type="YoutubeNotifyBot.Models.DiscordWebhook.WebhookEmbedFooter" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.75" Y="2.688" />
-        <Point X="7.125" Y="2.688" />
+        <Point X="6.75" Y="2.54" />
+        <Point X="7.125" Y="2.54" />
         <Point X="7.125" Y="4.39" />
         <Point X="7.75" Y="4.39" />
       </Path>
@@ -39,7 +42,7 @@
     </AssociationLine>
     <AssociationLine Name="Author" Type="YoutubeNotifyBot.Models.DiscordWebhook.WebhookEmbedAuthor" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="5.75" Y="3.267" />
+        <Point X="5.75" Y="3.075" />
         <Point X="5.75" Y="3.642" />
         <Point X="5.75" Y="3.642" />
         <Point X="5.75" Y="4" />
@@ -47,8 +50,8 @@
     </AssociationLine>
     <AssociationLine Name="Fields" Type="YoutubeNotifyBot.Models.DiscordWebhook.WebhookEmbedField" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.75" Y="2.688" />
-        <Point X="4.255" Y="2.688" />
+        <Point X="4.75" Y="2.54" />
+        <Point X="4.255" Y="2.54" />
         <Point X="4.255" Y="4.062" />
         <Point X="3.75" Y="4.062" />
       </Path>

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="SocialMediaBotManager.Models.Auth">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocialMediaBotManager.Models.Network">
+    <Position X="2.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAIAAIAAAAAAAAAAAAAAAACIAAAAIA=</HashCode>
+      <FileName>Models\Network.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocialMediaBotManager.Models.Subscription">
+    <Position X="1.5" Y="3" Width="3.5" />
+    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="SocialMediaBotManager.Models.TwitterUser" FixedToPoint="true">
+      <Path>
+        <Point X="1.917" Y="4.103" />
+        <Point X="1.917" Y="4.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.982" Y="0.329" Height="0.182" Width="1.934" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="WebhookYoutubeSubscriptions" Type="SocialMediaBotManager.Models.Webhook" FixedToPoint="true">
+      <Path>
+        <Point X="4.875" Y="4.103" />
+        <Point X="4.875" Y="4.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.1" Y="0.07" Height="0.182" Width="2.224" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Models\Subscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="TwitterYoutubeSubscriptions" />
+      <Property Name="WebhookYoutubeSubscriptions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="SocialMediaBotManager.Models.TwitterUser">
+    <Position X="1" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAQAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TwitterUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocialMediaBotManager.Models.Webhook">
+    <Position X="3.5" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Webhook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

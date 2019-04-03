@@ -26,6 +26,11 @@
   </Class>
   <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubFeed">
     <Position X="17.75" Y="2" Width="2.5" />
+    <AssociationLine Name="Link" Type="YoutubeNotifyBot.Models.Youtube.PubSubLink">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.029" Y="0.193" />
+      </MemberNameLabel>
+    </AssociationLine>
     <AssociationLine Name="PubSubEntry" Type="YoutubeNotifyBot.Models.Youtube.PubSubEntry" FixedFromPoint="true">
       <Path>
         <Point X="20.25" Y="2.688" />
@@ -44,7 +49,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="YoutubeNotifyBot.Models.Youtube.PubSubLink">
-    <Position X="13.5" Y="2" Width="2.5" />
+    <Position X="17.75" Y="4.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Youtube\PubSubLink.cs</FileName>
@@ -64,7 +69,7 @@
         <Position X="-0.546" Y="-0.461" Height="0.182" Width="2.256" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscriptions" Type="YoutubeNotifyBot.Models.Twitter.TwitterUserYoutubeSubscription" FixedToPoint="true">
       <Path>
         <Point X="7.75" Y="3.125" />
         <Point X="9.5" Y="3.125" />
@@ -74,30 +79,13 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAEABAAAEAAAAAAAAAQAAIAQABAgCgAA=</HashCode>
+      <HashCode>AAABIAAAAAAAAEABAAAEAAAAAAAAAQAAIAAABAgAgAA=</HashCode>
       <FileName>Models\Youtube\YoutubeSubscription.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="WebhookYoutubeSubscriptions" />
       <Property Name="TwitterYoutubeSubscriptions" />
     </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription">
-    <Position X="9.5" Y="2" Width="2.25" />
-    <AssociationLine Name="TwitterUser" Type="YoutubeNotifyBot.Models.Twitter.TwitterUser" FixedToPoint="true">
-      <Path>
-        <Point X="11.375" Y="3.296" />
-        <Point X="11.375" Y="4.25" />
-      </Path>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAACQAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
-      <FileName>Models\Twitter\TwitterYoutubeSubscription.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="YoutubeSubscription" />
-      <Property Name="TwitterUser" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="YoutubeNotifyBot.Models.DiscordWebhook.WebhookYoutubeSubscription">
     <Position X="0.5" Y="2" Width="2.25" />
@@ -111,29 +99,29 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAABA=</HashCode>
+      <HashCode>AIAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Models\DiscordWebhook\WebhookYoutubeSubscription.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="YoutubeSubscription" />
       <Property Name="Webhook" />
+      <Property Name="YoutubeSubscription" />
     </ShowAsAssociation>
   </Class>
   <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterUser">
     <Position X="9.5" Y="4.25" Width="2.25" />
-    <AssociationLine Name="TwitterYoutubeSubscription" Type="YoutubeNotifyBot.Models.Twitter.TwitterYoutubeSubscription" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="TwitterYoutubeSubscription" Type="YoutubeNotifyBot.Models.Twitter.TwitterUserYoutubeSubscription" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="10.188" Y="4.25" />
         <Point X="10.188" Y="3.875" />
-        <Point X="10.187" Y="3.875" />
-        <Point X="10.187" Y="3.296" />
+        <Point X="10.188" Y="3.875" />
+        <Point X="10.188" Y="3.296" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="0.091" Y="0.662" Height="0.182" Width="1.975" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ABACAAAAQAAAAAAAAAAAAAQAAAAAIAAAAAAEAAgBAAA=</HashCode>
+      <HashCode>ABAAAAAAQAAAAAAAAAAAAAQAAAgAIAAAAAAEAAgBAAA=</HashCode>
       <FileName>Models\Twitter\TwitterUser.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -152,12 +140,28 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAADAAAAgAAAAAAAACAAAACAAAAAAAAAAAAAAgABAAA=</HashCode>
+      <HashCode>AIABAAAAgAAAAAAAACAAAACAAAAAAAAAAAAAAgABAAA=</HashCode>
       <FileName>Models\DiscordWebhook\Webhook.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="WebhookYoutubeSubscriptions" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="YoutubeNotifyBot.Models.Twitter.TwitterUserYoutubeSubscription">
+    <Position X="9.5" Y="2" Width="2.25" />
+    <AssociationLine Name="TwitterUser" Type="YoutubeNotifyBot.Models.Twitter.TwitterUser">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.994" Y="0.393" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAYAAAAAAAAgAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Twitter\TwitterUserYoutubeSubscription.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TwitterUser" />
+      <Property Name="YoutubeSubscription" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
