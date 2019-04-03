@@ -34,6 +34,7 @@ namespace YoutubeNotifyBot.Models.Youtube
 		/// <returns></returns>
 		public static async Task<YoutubeSubscription> SubscribeAsync(string channelId)
 		{
+			//Create new youtube subscription instance
 			var subscription = new YoutubeSubscription()
 			{
 				YoutubeChannelId = channelId,
@@ -42,6 +43,7 @@ namespace YoutubeNotifyBot.Models.Youtube
 				Expires = DateTime.Now.AddSeconds(Config.YoutubeSubscriptionLease)
 			};
 
+			//Create form parameters for post request
 			var values = new Dictionary<string, string>
 			{
 				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/" +
@@ -52,16 +54,22 @@ namespace YoutubeNotifyBot.Models.Youtube
 				{ "hub.secret", subscription.HmacSecret },
 				{ "hub.lease_seconds", Config.YoutubeSubscriptionLease.ToString() }
 			};
-
 			var content = new FormUrlEncodedContent(values);
 
+			//Send post request and get response
 			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe", content);
 
+			//Return subscription instance if successful or null if not
 			return response.IsSuccessStatusCode ? subscription : null;
 		}
 
+		/// <summary>
+		/// Renews a YouTube subscription so it does not expire
+		/// </summary>
+		/// <returns>Whether renewing the subscription was successful</returns>
 		public async Task<bool> RenewAsync()
 		{
+			//Create form parameters for post request body
 			var values = new Dictionary<string, string>
 			{
 				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/" +
@@ -72,17 +80,21 @@ namespace YoutubeNotifyBot.Models.Youtube
 				{ "hub.secret", HmacSecret },
 				{ "hub.lease_seconds", "432000" }
 			};
-
 			var content = new FormUrlEncodedContent(values);
 
-			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe",
-				content);
+			//Send request and get the response
+			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe", content);
 
 			return response.IsSuccessStatusCode;
 		}
 
+		/// <summary>
+		/// Unsubscribes from a YouTube subscription
+		/// </summary>
+		/// <returns></returns>
 		public async Task<bool> UnsubscribeAsync()
 		{
+			//Create form parameters for post request body
 			var values = new Dictionary<string, string>
 			{
 				{ "hub.callback", $"{Config.PublicUri}/api/YoutubePubSub/"  +
@@ -92,12 +104,12 @@ namespace YoutubeNotifyBot.Models.Youtube
 				{ "hub.mode", "unsubscribe" },
 				{ "hub.secret", HmacSecret }
 			};
-
 			var content = new FormUrlEncodedContent(values);
 
 			var response = await _client.PostAsync("https://pubsubhubbub.appspot.com/subscribe",
 				content);
 
+			//Send request and get the response
 			return response.IsSuccessStatusCode;
 		}
 	}

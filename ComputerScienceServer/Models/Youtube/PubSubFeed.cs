@@ -20,6 +20,7 @@ namespace YoutubeNotifyBot.Models.Youtube
 
 		public string FormatTemplateString(string templateString)
 		{
+			//Check format string exists
 			if (templateString == null) return null;
 
 			//Format the videos title

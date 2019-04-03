@@ -18,11 +18,14 @@ namespace YoutubeNotifyBot.Models
 		/// <returns>Secure random string</returns>
 		public static string GetString(int length)
 		{
+			//Create buffer array
 			byte[] data = new byte[256];
 			using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
 			{
+				//Get secure random bytes
 				rng.GetBytes(data);
 
+				//Encode the bytes to a string
 				return Base64UrlTextEncoder.Encode(data).Substring(0, length);
 			}
 		}
