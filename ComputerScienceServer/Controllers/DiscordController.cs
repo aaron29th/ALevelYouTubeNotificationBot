@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using YoutubeNotifyBot.Models;
 using YoutubeNotifyBot.Models.DiscordWebhook;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
