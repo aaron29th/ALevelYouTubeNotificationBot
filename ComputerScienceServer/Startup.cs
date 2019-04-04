@@ -55,6 +55,7 @@ namespace YoutubeNotifyBot
 				options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
 			});
 
+			//Initialise web api context class with connection to the azure postgres database
 			services.AddEntityFrameworkNpgsql().AddDbContext<WebApiContext>(options =>
 				options.UseNpgsql(Configuration.GetConnectionString("azurePostgres")));
 		}

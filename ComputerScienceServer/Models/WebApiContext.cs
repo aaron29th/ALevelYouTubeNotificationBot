@@ -29,7 +29,7 @@ namespace YoutubeNotifyBot.Models
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			//Configure composite key for linking tale
+			//Configure composite key for linking table
 			modelBuilder.Entity<WebhookYoutubeSubscription>().HasKey(
 				webhookYoutube => new
 				{
@@ -42,7 +42,7 @@ namespace YoutubeNotifyBot.Models
 				.WithMany(webhook => webhook.WebhookYoutubeSubscriptions)
 				.HasForeignKey(wys => wys.WebhookId);
 
-			//Configure composite key for linking tale
+			//Configure composite key for linking table
 			modelBuilder.Entity<TwitterUserYoutubeSubscription>().HasKey(
 				twitterYoutube => new
 				{

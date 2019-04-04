@@ -65,9 +65,14 @@ namespace SocialMediaBotManager.Forms
 				$"Status: An error occured - {response.StatusCode}";
 		}
 
-		private void twitterUserDelete_Click(object sender, EventArgs e)
+		private async void twitterUserDelete_Click(object sender, EventArgs e)
 		{
+			long twitterId = ((TwitterUser)existingTwitterUsers.SelectedValue).TwitterUserId;
 
+			var response = await Network.DeleteAsync($"Twitter/{twitterId}");
+
+			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully deleted twitter user" :
+				$"Status: An error occured deleting twitter user - {response.StatusCode}";
 		}
 
 		private async void refreshAll_Click(object sender, EventArgs e)
