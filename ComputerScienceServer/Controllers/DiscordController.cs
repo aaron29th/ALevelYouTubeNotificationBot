@@ -101,7 +101,7 @@ namespace YoutubeNotifyBot.Controllers
         public async Task<ActionResult> DeleteWebhook(ulong id)
         {
 			//Check webhook exists
-	        if (await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
+	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
 			//Get webhook
 	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);

@@ -72,9 +72,12 @@ namespace YoutubeNotifyBot.Controllers
 			//Check subscription exists
 			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id)) return BadRequest();
 
+			//Get the youtube subscription
 			var subscription = await _context.YoutubeSubscriptions.FirstAsync(sub => sub.YoutubeChannelId == id);
+			//Check that the subscription was successfully dleeted
 			if (!await subscription.UnsubscribeAsync()) return Conflict();
 
+			//Delete the subscription from the database
 			_context.YoutubeSubscriptions.Remove(subscription);
 			await _context.SaveChangesAsync();
 			return NoContent();
@@ -207,7 +210,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="pubSubFeed">Xml feed about the youtube video</param>
 		/// <returns></returns>
 		[AllowAnonymous]
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}")]
 		public async Task<ActionResult> SendNotifications(string id, [Required][FromQuery] string verifyToken,
 			[Required][FromBody] PubSubFeed pubSubFeed)
@@ -271,7 +273,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <summary>
 		/// Renews all YouTube subscriptions that expire within 25 hours
 		/// </summary>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpGet("RenewSubscriptions")]
 		public async Task<ActionResult> RenewSubscriptions()
 		{
@@ -279,13 +280,17 @@ namespace YoutubeNotifyBot.Controllers
 			var subscriptions = _context.YoutubeSubscriptions.Where(
 				sub => sub.Expires < DateTime.Now.AddHours(25));
 
+			//List for sent requests
 			List<Task<bool>> resultTasks = new List<Task<bool>>();
+			//Send the renew request for each subscription and add the awaiting response to the list
 			foreach (var subscription in subscriptions)
 			{
 				resultTasks.Add(subscription.RenewAsync());
 			}
 
+			//Wait for all the responses to be received
 			bool[] results = await Task.WhenAll(resultTasks);
+			//Loop through all the responses
 			for (int i = 0; i < results.Length; i++)
 			{
 				//Skip successful renews

@@ -41,7 +41,9 @@ namespace YoutubeNotifyBot.Models.DiscordWebhook
 
 		public Embed CreateEmbed()
 		{
+			//Create embed object builder
 			EmbedBuilder eb = new EmbedBuilder();
+			//Add all properties to the embed object, ignoring any null exceptions
 			IgnoreExceptions(() => eb.WithTitle(Title));
 			IgnoreExceptions(() => eb.WithDescription(Description));
 			IgnoreExceptions(() => eb.WithUrl(Url));
@@ -54,12 +56,12 @@ namespace YoutubeNotifyBot.Models.DiscordWebhook
 			IgnoreExceptions(() => eb.Author.WithName(Author.Name));
 			IgnoreExceptions(() => eb.Author.WithIconUrl(Author.IconUrl));
 			IgnoreExceptions(() => eb.Author.WithUrl(Author.Url));
-
+			//Add all the fields in the list
 			foreach (var field in Fields)
 			{
 				IgnoreExceptions(() => eb.AddField(field.Name, field.Value, field.Inline));
 			}
-
+			//Build the embed object
 			return eb.Build();
 		}
 	}
