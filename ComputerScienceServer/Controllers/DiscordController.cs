@@ -30,19 +30,22 @@ namespace YoutubeNotifyBot.Controllers
 	    [HttpPost("AddWebhook")]
         public async Task<ActionResult> AddWebhook([Required][FromForm] ulong webhookId, 
 		    [Required][FromForm] string token)
-        {
+		{
+			//Create new webhook object
 			var webhook = new Webhook()
-			{
-				WebhookId = webhookId,
-				Token = token
-			};
-			//Check webhook exists
+	        {
+		        WebhookId = webhookId,
+		        Token = token
+	        };
+	        //Check webhook exists
 	        if (webhook.VerifyExistence() == false) return BadRequest();
 
+	        //Add webhook to database
 	        await _context.Webhooks.AddAsync(webhook);
 	        await _context.SaveChangesAsync();
 	        return NoContent();
-        }
+		}
+
 		/// <summary>
 		/// Sets the message templates for a discord webhook
 		/// </summary>
@@ -87,9 +90,11 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpGet("GetAllWebhooks")]
         public async Task<ActionResult> GetAll()
         {
-	        var webhooks = await _context.Webhooks.ToArrayAsync();
-	        return Ok(webhooks);
-        }
+			//Get all the webhooks in the database
+			var webhooks = await _context.Webhooks.ToArrayAsync();
+			//Return all the webhooks as json
+			return Ok(webhooks);
+		}
 
 		/// <summary>
 		/// Deletes the given webhook from the database
