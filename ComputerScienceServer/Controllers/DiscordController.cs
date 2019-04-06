@@ -31,6 +31,9 @@ namespace YoutubeNotifyBot.Controllers
         public async Task<ActionResult> AddWebhook([Required][FromForm] ulong webhookId, 
 		    [Required][FromForm] string token)
 		{
+			//Check webhook is not in the database already
+			if (await _context.Webhooks.AnyAsync(x => x.WebhookId == webhookId)) return Conflict();
+
 			//Create new webhook object
 			var webhook = new Webhook()
 	        {
