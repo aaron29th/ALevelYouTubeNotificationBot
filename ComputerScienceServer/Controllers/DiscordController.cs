@@ -60,14 +60,15 @@ namespace YoutubeNotifyBot.Controllers
         public async Task<ActionResult> SetMessageTemplate(ulong id, [FromForm] string messageTemplate, 
 			[FromForm] string embedTemplate)
         {
-			//Check webhook exists
+	        //Check webhook exists
 	        if (!await _context.Webhooks.AnyAsync(x => x.WebhookId == id)) return BadRequest();
 
-			//Checks embed json is valid
+	        //Checks embed json is valid
 	        if (embedTemplate != null)
 	        {
 		        try
 		        {
+			        //Will fail if the template is not the correct format
 			        JsonConvert.DeserializeObject<WebhookEmbed>(embedTemplate);
 		        }
 		        catch
@@ -76,11 +77,12 @@ namespace YoutubeNotifyBot.Controllers
 		        }
 	        }
 
-	        //Get webhook
+	        //Get the webhook
 	        var webhook = await _context.Webhooks.FirstAsync(x => x.WebhookId == id);
-			//Set templates
+	        //Set the template messages
 	        webhook.MessageTemplate = messageTemplate;
 	        webhook.EmbedTemplate = embedTemplate;
+	        //Save the changes to the database
 	        await _context.SaveChangesAsync();
 	        return NoContent();
 		}

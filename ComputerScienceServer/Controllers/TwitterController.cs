@@ -53,7 +53,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="oauth_verifier">Twitter oauth verifier</param>
 		/// <returns></returns>
 		[AllowAnonymous]
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpGet("OauthCallback")]
         // ReSharper disable twice InconsistentNaming
         public async Task<ActionResult> OauthCallback([Required][FromQuery] string oauth_token,
@@ -92,7 +91,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">Twitter users id</param>
 		/// <param name="tweetTemplate">Template for tweets</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/SetTweetTemplate")]
         public async Task<ActionResult> SetTweetTemplate(long id, [Required][FromForm] string tweetTemplate)
         {
@@ -122,7 +120,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// </summary>
 		/// <param name="id">Twitter users id</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(long id)
         {
