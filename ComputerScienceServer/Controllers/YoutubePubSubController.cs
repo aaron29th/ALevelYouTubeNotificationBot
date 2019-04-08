@@ -89,8 +89,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="webhookId">Webhook id</param>
 		/// <returns></returns>
 		[HttpPost("{id}/LinkWebhook")]
-		public async Task<ActionResult> LinkWebhookToSubscription(string id,
-			[Required][FromForm] ulong webhookId)
+		public async Task<ActionResult> LinkWebhookToSubscription(string id, [Required][FromForm] ulong webhookId)
 		{
 			//Check that the subscription and the webhook exists
 			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.YoutubeChannelId == id) ||
@@ -127,8 +126,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="webhookId">Webhook id</param>
 		/// <returns></returns>
 		[HttpPost("{id}/UnlinkWebhook")]
-		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id,
-			[Required][FromForm] ulong webhookId)
+		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id, [Required][FromForm] ulong webhookId)
 		{
 			//Check link between the subscription and webhook exists
 			if (!await _context.WebhookYoutubeSubscriptions.AnyAsync(
@@ -154,21 +152,32 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="twitterId">Twitter user id</param>
 		/// <returns></returns>
 		[HttpPost("{id}/LinkTwitter")]
-		public async Task<ActionResult> LinkTwitterUser(string id,
-			[Required][FromForm] long twitterId)
+		public async Task<ActionResult> LinkTwitterUser(string id, [Required][FromForm] long twitterId)
 		{
-			//Check that both the twitter account and youtube subscription exists in the database
+			//Check that both the twitter user and the YouTube subscription exists in the database
 			if (!await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == id) ||
 			    !await _context.TwitterUsers.AnyAsync(user => user.TwitterUserId == twitterId))
 			{
 				return BadRequest();
 			}
+
+			//Check if a link between the twitter user and subscription already exists
+			if (await _context.TwitterYoutubeSubscriptions.AnyAsync(
+				twitterSub => twitterSub.TwitterUserId == twitterId && twitterSub.YoutubeChannelId == id))
+			{
+				return BadRequest();
+			}
+
+			//Create a new link
 			var twitterSubscription = new TwitterUserYoutubeSubscription()
 			{
 				YoutubeChannelId = id,
 				TwitterUserId = twitterId
 			};
-			await _context.TwitterYoutubeSubscriptions.AddAsync(twitterSubscription);
+			//Add the link to the database
+			await _context.TwitterYoutubeSubscriptions
+				.AddAsync(twitterSubscription);
+			//Save the changes to the database
 			await _context.SaveChangesAsync();
 
 			return NoContent();
@@ -183,17 +192,19 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpPost("{id}/UnlinkTwitter")]
 		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, [Required][FromForm]long twitterId)
 		{
-			//Check link exists
+			//Check the link exists
 			if (!await _context.TwitterYoutubeSubscriptions.AnyAsync(
 				twitterSub => twitterSub.TwitterUserId == twitterId && twitterSub.YoutubeChannelId == id))
 			{
 				return BadRequest();
 			}
 
-			//Find and delete link
+			//Get the link between the user and the subscription
 			var twitterSubscription = await _context.TwitterYoutubeSubscriptions.FirstAsync(
 				twitterSub => twitterSub.TwitterUserId == twitterId && twitterSub.YoutubeChannelId == id);
+			//Delete the link
 			_context.TwitterYoutubeSubscriptions.Remove(twitterSubscription);
+			//Save the changes to the database
 			await _context.SaveChangesAsync();
 			return NoContent();
 		}
@@ -240,41 +251,10 @@ namespace YoutubeNotifyBot.Controllers
 			//Checks verify token is correct
 			if (youtubeSubscription.VerifyToken != verifyToken) return Forbid();
 
-			//Loop through all twitter users and send a tweet from each
-			foreach (var twitterUserYoutube in youtubeSubscription.TwitterYoutubeSubscriptions)
-			{
-				try
-				{
-					twitterUserYoutube.TwitterUser.SendTweet(pubSubFeed);
-				}
-				catch (Exception e)
-				{
-					//Log error with twitter user id
-					await _context.ErrorLog.AddAsync(new ErrorLog()
-					{
-						Location = $"YoutubePubSubController_Send_Tweet_Id={twitterUserYoutube.TwitterUserId}",
-						ExceptionMessage = e.Message
-					});
-				}
-			}
+			
 
-			//Loop through all associated discord webhooks and send a message from each
-			foreach (var webhookYoutube in youtubeSubscription.WebhookYoutubeSubscriptions)
-			{
-				try
-				{
-					webhookYoutube.Webhook.SendMessage(pubSubFeed);
-				}
-				catch (Exception e)
-				{
-					//Log error with discord webhook id
-					await _context.ErrorLog.AddAsync(new ErrorLog()
-					{
-						Location = $"YoutubePubSubController_Send_Discord_Id={webhookYoutube.WebhookId}",
-						ExceptionMessage = e.Message
-					});
-				}
-			}
+			
+			//Save changes to the database
 			await _context.SaveChangesAsync();
 			return NoContent();
 		}

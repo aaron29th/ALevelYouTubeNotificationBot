@@ -112,5 +112,61 @@ namespace YoutubeNotifyBot.Models.Youtube
 			//Send request and get the response
 			return response.IsSuccessStatusCode;
 		}
+
+		/// <summary>
+		/// Sends a formatted message from every linked webhook
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="pubSubFeed"></param>
+		/// <returns></returns>
+		public async Task SendDiscordMessages(WebApiContext context, PubSubFeed pubSubFeed)
+		{
+			//Loop through all associated discord webhooks
+			foreach (var webhookYoutube in WebhookYoutubeSubscriptions)
+			{
+				try
+				{
+					//Send the message from the webhook
+					webhookYoutube.Webhook.SendMessage(pubSubFeed);
+				}
+				catch (Exception e)
+				{
+					//Log error with discord webhook id
+					await context.ErrorLog.AddAsync(new ErrorLog()
+					{
+						Location = $"YoutubePubSubController_Send_Discord_Id={webhookYoutube.WebhookId}",
+						ExceptionMessage = e.Message
+					});
+				}
+			}
+		}
+
+		/// <summary>
+		/// Sends a formatted tweet from every linked twitter user
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="pubSubFeed"></param>
+		/// <returns></returns>
+		public async Task SendTweets(WebApiContext context, PubSubFeed pubSubFeed)
+		{
+			//Loop through all twitter users
+			foreach (var twitterUserYoutube in TwitterYoutubeSubscriptions)
+			{
+				try
+				{
+					//Send a tweet from the twitter user
+					twitterUserYoutube.TwitterUser.SendTweet(pubSubFeed);
+				}
+				catch (Exception e)
+				{
+					//Log error with twitter user id
+					await context.ErrorLog.AddAsync(new ErrorLog()
+					{
+						Location = $"YoutubePubSubController_Send_Tweet_Id={twitterUserYoutube.TwitterUserId}",
+						ExceptionMessage = e.Message
+					});
+				}
+			}
+		}
 	}
 }
