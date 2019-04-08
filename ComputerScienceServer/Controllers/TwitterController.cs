@@ -85,7 +85,7 @@ namespace YoutubeNotifyBot.Controllers
 	        });
 			//Saves the changes to the database
 			await _context.SaveChangesAsync();
-			return NoContent();
+			return Ok("Success. Please close this page");
 		}
 
 		/// <summary>
