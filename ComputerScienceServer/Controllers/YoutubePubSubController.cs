@@ -31,7 +31,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// </summary>
 		/// <param name="channelId"></param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		
 		[HttpPost("AddNew")]
 		public async Task<ActionResult> AddNewSubscription([Required][FromForm] string channelId)
 		{
@@ -64,8 +64,7 @@ namespace YoutubeNotifyBot.Controllers
 		/// Deletes the given YouTube subscription
 		/// </summary>
 		/// <param name="id"></param>
-		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
+		/// <returns></returns>	
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> DeleteSubscription(string id)
 		{
@@ -89,23 +88,33 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="webhookId">Webhook id</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/LinkWebhook")]
 		public async Task<ActionResult> LinkWebhookToSubscription(string id,
 			[Required][FromForm] ulong webhookId)
 		{
+			//Check that the subscription and the webhook exists
 			if (!await _context.YoutubeSubscriptions.AnyAsync(subscription => subscription.YoutubeChannelId == id) ||
 			    !await _context.Webhooks.AnyAsync(webhook => webhook.WebhookId == webhookId))
 			{
 				return BadRequest();
 			}
 
+			//Check that a link between the subscription and the webhook does not already exist
+			if (await _context.WebhookYoutubeSubscriptions.AnyAsync(
+				webhookSub => webhookSub.WebhookId == webhookId && webhookSub.YoutubeChannelId == id))
+			{
+				return Conflict();
+			}
+
+			//Create a new link between the subscription and the webhook
 			var webhookSubscription = new WebhookYoutubeSubscription()
 			{
 				YoutubeChannelId = id,
 				WebhookId = webhookId
 			};
+			//Add the link to the database
 			await _context.WebhookYoutubeSubscriptions.AddAsync(webhookSubscription);
+			//Save the changes to the database
 			await _context.SaveChangesAsync();
 
 			return NoContent();
@@ -117,21 +126,23 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="webhookId">Webhook id</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/UnlinkWebhook")]
 		public async Task<ActionResult> UnlinkWebhookFromSubscription(string id,
 			[Required][FromForm] ulong webhookId)
 		{
-			//Check link exists
+			//Check link between the subscription and webhook exists
 			if (!await _context.WebhookYoutubeSubscriptions.AnyAsync(
 				webhookSub => webhookSub.WebhookId == webhookId && webhookSub.YoutubeChannelId == id))
 			{
 				return BadRequest();
 			}
 
+			//Get the link
 			var webhookSubscription = await _context.WebhookYoutubeSubscriptions.FirstAsync(
 				webhookSub => webhookSub.WebhookId == webhookId && webhookSub.YoutubeChannelId == id);
+			//Delete the link between the webhook and the subscription
 			_context.WebhookYoutubeSubscriptions.Remove(webhookSubscription);
+			//Save the changes to the database
 			await _context.SaveChangesAsync();
 			return NoContent();
 		}
@@ -142,7 +153,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="twitterId">Twitter user id</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/LinkTwitter")]
 		public async Task<ActionResult> LinkTwitterUser(string id,
 			[Required][FromForm] long twitterId)
@@ -170,7 +180,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id">YouTube channel id</param>
 		/// <param name="twitterId">Twitter user id</param>
 		/// <returns></returns>
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("{id}/UnlinkTwitter")]
 		public async Task<ActionResult> UnlinkTwitterFromSubscription(string id, [Required][FromForm]long twitterId)
 		{
