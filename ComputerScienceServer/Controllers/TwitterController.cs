@@ -22,6 +22,7 @@ namespace YoutubeNotifyBot.Controllers
 
 	    public TwitterController(WebApiContext context)
 	    {
+			//Set the database context
 		    _context = context;
 	    }
 
@@ -33,17 +34,18 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpGet("GetOauthLink")]
         public ActionResult GetOauthLink()
         {
-			//Retrieve an OAuth Request Token
-			TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
+	        //Initialize the twitter service
+	        TwitterService service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
+	        //Retrieve an OAuth Request Token
+	        OAuthRequestToken requestToken = service.GetRequestToken(Config.TwitterCallbackUrl);
+	        //Check get token succeeded
+	        if (requestToken.Token == "?") return StatusCode(500);
 
-			OAuthRequestToken requestToken = service.GetRequestToken(Config.TwitterCallbackUrl);
-			if (requestToken.Token == "?") return StatusCode(500);
-
-			//Generate oauth link
-			Uri uri = service.GetAuthorizationUri(requestToken);
-			return Ok(new Dictionary<string, string>(){
-				{"uri", uri.ToString()}
-			});
+	        //Generate oauth link
+	        Uri uri = service.GetAuthorizationUri(requestToken);
+	        return Ok(new Dictionary<string, string>(){
+		        {"uri", uri.ToString()}
+	        });
 		}
 
 		/// <summary>
@@ -54,25 +56,26 @@ namespace YoutubeNotifyBot.Controllers
 		/// <returns></returns>
 		[AllowAnonymous]
 		[HttpGet("OauthCallback")]
-        // ReSharper disable twice InconsistentNaming
         public async Task<ActionResult> OauthCallback([Required][FromQuery] string oauth_token,
 			[Required][FromQuery] string oauth_verifier)
-        {
+		{
+			//Get the request token
 	        var requestToken = new OAuthRequestToken { Token = oauth_token };
-
+			//Initialize the twitter service
 	        var service = new TwitterService(Config.TwitterConsumerKey, Config.TwitterConsumerSecret);
 
 			//Get access token
 	        var accessToken = service.GetAccessToken(requestToken, oauth_verifier);
-
 			//Check auth was successful
 	        if (String.IsNullOrWhiteSpace(accessToken.ScreenName)) return BadRequest();
 
 	        //User authenticates using the Access Token
 	        service.AuthenticateWith(accessToken.Token, accessToken.TokenSecret);
-			TweetSharp.TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
-			//string username = user.ScreenName;
+	        
+			//Gets the users profile
+			var user = service.GetUserProfile(new GetUserProfileOptions());
 
+			//Adds the user to the database
 			await _context.TwitterUsers.AddAsync(new Models.Twitter.TwitterUser()
 	        {
 				TwitterUserId = user.Id,
@@ -80,10 +83,10 @@ namespace YoutubeNotifyBot.Controllers
 				TokenSecret = accessToken.Token,
 				Name = accessToken.ScreenName
 	        });
+			//Saves the changes to the database
 			await _context.SaveChangesAsync();
-	        
-	        return NoContent();
-        }
+			return NoContent();
+		}
 
 		/// <summary>
 		/// Sets the template for tweets sent from the account
@@ -94,14 +97,17 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpPost("{id}/SetTweetTemplate")]
         public async Task<ActionResult> SetTweetTemplate(long id, [Required][FromForm] string tweetTemplate)
         {
-			//Check twitter user exists
+	        //Check the twitter user exists
 	        if (!await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
 
+	        //Get the twitter user with the given id
 	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.TwitterUserId == id);
+	        //Set the user's tweet template
 	        twitterUser.TweetTemplate = tweetTemplate;
+	        //Save the changes to the database
 	        await _context.SaveChangesAsync();
-			return NoContent();
-        }
+	        return NoContent();
+		}
 
 		/// <summary>
 		/// Returns all the twitter users in the database
@@ -111,7 +117,9 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpGet("GetAll")]
 		public async Task<ActionResult> GetAll()
 		{
+			//Get all twitter users as an array
 			var twitterUsers = await _context.TwitterUsers.ToArrayAsync();
+			//Return all the users as JSON
 			return Ok(twitterUsers);
 		}
 
@@ -123,13 +131,16 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(long id)
         {
-			//Check twitter user exists
+	        //Check the twitter user exists
 	        if (!await _context.TwitterUsers.AnyAsync(x => x.TwitterUserId == id)) return BadRequest();
 
+	        //Get the twitter user with the given id
 	        var twitterUser = await _context.TwitterUsers.FirstAsync(x => x.TwitterUserId == id);
+	        //Delete the twitter user
 	        _context.Remove(twitterUser);
+	        //Save all the changes
 	        await _context.SaveChangesAsync();
 	        return NoContent();
-        }
+		}
 	}
 }
