@@ -59,6 +59,21 @@ namespace YoutubeNotifyBot.Controllers
 		    });
 	    }
 
+		public async Task<ActionResult> ChangePassword([Required][FromForm] string oldPassword, 
+			[Required][FromForm] string newPassword)
+		{
+			//Get the users id from the token
+			string id = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+			//Get the user from the database
+			var currentUser = await _context.Users.FirstAsync(x => x.Id == Convert.ToInt32(id));
+
+			//Change the users password if the password is incorrect return a bad request status code
+			if (!currentUser.ChangePassword(oldPassword, newPassword)) return BadRequest();
+			//Save the changes to the database
+			await _context.SaveChangesAsync();
+			return NoContent();
+		}
+
 		/// <summary>
 		/// Adds a new user (Requires admin role)
 		/// </summary>
@@ -66,7 +81,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="password"></param>
 		/// <returns></returns>
 	    [Authorize(Roles = "Admin")]
-	    [ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("Add")]
 	    public async Task<ActionResult> AddUser([Required][FromForm] string username, 
 			[Required][FromForm] string password)
@@ -90,7 +104,6 @@ namespace YoutubeNotifyBot.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[Authorize(Roles = "Admin")]
-		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		[HttpPost("Delete/{id}")]
 	    public async Task<ActionResult> DeleteUser(int id)
 	    {
