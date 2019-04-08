@@ -251,11 +251,18 @@ namespace YoutubeNotifyBot.Controllers
 			//Checks verify token is correct
 			if (youtubeSubscription.VerifyToken != verifyToken) return Forbid();
 
-			
+			//Add tasks to array so they can work in parallel
+			var pendingTasks = new[]
+			{
+				//Sends a format message from every linked webhook
+				youtubeSubscription.SendDiscordMessages(_context, pubSubFeed),
+				//Sends a formatted tweet from every linked twitter user
+				youtubeSubscription.SendTweets(_context, pubSubFeed)
+			};
 
-			
-			//Save changes to the database
-			await _context.SaveChangesAsync();
+			//Waits for all message / tweets to be sent
+			await Task.WhenAll(pendingTasks);
+
 			return NoContent();
 		}
 

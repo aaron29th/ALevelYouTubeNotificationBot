@@ -134,11 +134,13 @@ namespace YoutubeNotifyBot.Models.Youtube
 					//Log error with discord webhook id
 					await context.ErrorLog.AddAsync(new ErrorLog()
 					{
-						Location = $"YoutubePubSubController_Send_Discord_Id={webhookYoutube.WebhookId}",
+						Location = $"YoutubeSubscription_Send_Discord_Messages_Id={webhookYoutube.WebhookId}",
 						ExceptionMessage = e.Message
 					});
 				}
 			}
+			//Save changes to database
+			await context.SaveChangesAsync();
 		}
 
 		/// <summary>
@@ -162,11 +164,13 @@ namespace YoutubeNotifyBot.Models.Youtube
 					//Log error with twitter user id
 					await context.ErrorLog.AddAsync(new ErrorLog()
 					{
-						Location = $"YoutubePubSubController_Send_Tweet_Id={twitterUserYoutube.TwitterUserId}",
+						Location = $"YoutubeSubscription_Send_Tweets_Id={twitterUserYoutube.TwitterUserId}",
 						ExceptionMessage = e.Message
 					});
 				}
 			}
+			//Save changes to database
+			await context.SaveChangesAsync();
 		}
 	}
 }
