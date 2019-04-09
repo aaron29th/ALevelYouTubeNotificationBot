@@ -251,6 +251,7 @@ namespace SocialMediaBotManager.Forms
 
 		private async void refreshAll_Click(object sender, EventArgs e)
 		{
+			//Reload the YouTube subscriptions from the web server
 			await RefreshSubscriptions();
 		}
 	}
