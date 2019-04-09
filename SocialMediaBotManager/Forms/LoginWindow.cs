@@ -20,6 +20,8 @@ namespace SocialMediaBotManager.Forms
 
 		private async void loginBtn_Click(object sender, EventArgs e)
 		{
+			//Disable the login button
+			loginBtn.Enabled = false;
 			//Send the login request and get whether it was successful
 			bool success = await Auth.Login(usernameTextbox.Text, passwordTextbox.Text);
 
@@ -28,6 +30,7 @@ namespace SocialMediaBotManager.Forms
 			{
 				//Set the status label to say the login faied
 				statusLabel.Text = "Status: Login failed";
+				loginBtn.Enabled = true;
 				return;
 			}
 
