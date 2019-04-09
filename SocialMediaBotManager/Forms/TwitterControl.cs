@@ -81,6 +81,15 @@ namespace SocialMediaBotManager.Forms
 
 		private async void twitterUserDelete_Click(object sender, EventArgs e)
 		{
+			//Ask the user if they are sure they want to delete the twitter user
+			var dialogResult = MessageBox.Show("Are you sure you wish to delete the selected twitter user?",
+				"Delete twitter user", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			if (dialogResult == DialogResult.No)
+			{
+				statusLabel.Text = "Deletion cancelled";
+				return;
+			}
+
 			//Gets the selected twitter user's id
 			long twitterId = ((TwitterUser)existingTwitterUsers.SelectedValue).TwitterUserId;
 
