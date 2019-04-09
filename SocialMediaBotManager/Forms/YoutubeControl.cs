@@ -28,7 +28,7 @@ namespace SocialMediaBotManager.Forms
 			if (!youtubeResponse.IsSuccessStatusCode)
 			{
 				//Output error to user
-				statusLabel.Text = $"An error occured getting subscriptions - {youtubeResponse.StatusCode.ToString()}";
+				statusLabel.Text = $"An error occured getting subscriptions - {youtubeResponse.StatusCode}";
 				return;
 			}
 
@@ -49,7 +49,7 @@ namespace SocialMediaBotManager.Forms
 				if (!webhooksResponse.IsSuccessStatusCode)
 				{
 					//Output error to user
-					statusLabel.Text = $"An error occured getting webhooks - {webhooksResponse.StatusCode.ToString()}";
+					statusLabel.Text = $"An error occured getting webhooks - {webhooksResponse.StatusCode}";
 					return;
 				}
 
@@ -71,8 +71,7 @@ namespace SocialMediaBotManager.Forms
 				if (!twitterResponse.IsSuccessStatusCode)
 				{
 					//Output error to user
-					statusLabel.Text = "An error occured getting twitter users - " +
-					                   $"{twitterResponse.StatusCode.ToString()}";
+					statusLabel.Text = $"An error occured getting twitter users - {twitterResponse.StatusCode}";
 					return;
 				}
 
@@ -218,6 +217,15 @@ namespace SocialMediaBotManager.Forms
 
 		private async void subscriptionDelete_Click(object sender, EventArgs e)
 		{
+			//Ask the user if they are sure they want to unsubscribe from the channel
+			var dialogResult = MessageBox.Show("Are you sure you wish to unsubscribe from the selected YouTube subscription?",
+				"Unsubscribe", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			if (dialogResult == DialogResult.No)
+			{
+				statusLabel.Text = "Unsubscribe cancelled";
+				return;
+			}
+
 			//Get the selected youtube channel's id
 			string channelId = ((Subscription)subscriptions.SelectedValue).YoutubeChannelId;
 			

@@ -35,6 +35,9 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpPost("AddNew")]
 		public async Task<ActionResult> AddNewSubscription([Required][FromForm] string channelId)
 		{
+			if (await _context.YoutubeSubscriptions.AnyAsync(sub => sub.YoutubeChannelId == channelId))
+				return Conflict();
+
 			var subscription = await YoutubeSubscription.SubscribeAsync(channelId);
 			if (subscription == null) return BadRequest();
 

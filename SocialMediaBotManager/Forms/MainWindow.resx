@@ -121,7 +121,7 @@
     <value>1. Add any webhooks you wish to send notifications in the discord tab and set template messages for them
 2. Add any twitter accounts you wish to share youtube videos in the twitter tab and set a template message for it
 3. Add any YouTube channels in the YouTube tab using their unique id which can be found 
-4. Link together the twitter accounts  webhooks you wish with YouTube channels in the YouTube tab</value>
+4. Link together the twitter user / webhooks that you want to send notifications to subscriptions in the YouTube tab</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>{{VideoTitle}} = The title of the YouTube video
