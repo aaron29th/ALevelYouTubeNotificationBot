@@ -52,12 +52,12 @@ namespace SocialMediaBotManager.Models
 			}
 		}
 
-		public static async Task<bool> ChangePassword(string oldPassword, string newPassword)
+		public static async Task<bool> ChangePassword(string currentPassword, string newPassword)
 		{
 			//Create form parameters
 			var values = new Dictionary<string, string>
 			{
-				{ "oldPassword", oldPassword },
+				{ "currentPassword", currentPassword },
 				{ "newPassword", newPassword }
 			};
 

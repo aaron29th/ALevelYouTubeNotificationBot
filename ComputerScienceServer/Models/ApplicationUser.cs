@@ -61,18 +61,17 @@ namespace YoutubeNotifyBot.Models
 			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
 
-		public bool ChangePassword(string oldPassword, string newPassword)
+		public bool ChangePassword(string currentPassword, string newPassword)
 		{
 			//Verify the password is correct
-			var result = new PasswordHasher<ApplicationUser>().VerifyHashedPassword(this,
-				PasswordHash, oldPassword);
+			var result = new PasswordHasher<ApplicationUser>().VerifyHashedPassword(this, PasswordHash, currentPassword);
 
 			//Password is incorrect
 			if (result == PasswordVerificationResult.Failed) return false;
 
 			//Set new password
 			PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(this, newPassword);
-			return false;
+			return true;
 		}
 	}
 }

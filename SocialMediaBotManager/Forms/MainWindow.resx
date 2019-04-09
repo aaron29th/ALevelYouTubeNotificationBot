@@ -117,18 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label4.Text" xml:space="preserve">
+    <value>1. Add any webhooks you wish to send notifications in the discord tab and set template messages for them
+2. Add any twitter accounts you wish to share youtube videos in the twitter tab and set a template message for it
+3. Add any YouTube channels in the YouTube tab using their unique id which can be found 
+4. Link together the twitter accounts  webhooks you wish with YouTube channels in the YouTube tab</value>
+  </data>
   <data name="label6.Text" xml:space="preserve">
     <value>{{VideoTitle}} = The title of the YouTube video
 {{VideoLink}} = The link to the YouTube video
 {{ChannelName}} = The name of the YouTube channel that uploaded the video
 {{ChannelLink}} = The link to the channel that uploaded the video
 </value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>1. Add any webhooks you wish to send notifications in the discord tab and set template messages for them
-2. Add any twitter accounts you wish to share youtube videos in the twitter tab and set a template message for it
-3. Add any YouTube channels in the YouTube tab using their unique id which can be found 
-4. Link together the twitter accounts  webhooks you wish with YouTube channels in the YouTube tab</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

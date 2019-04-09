@@ -59,7 +59,14 @@ namespace YoutubeNotifyBot.Controllers
 		    });
 	    }
 
-		public async Task<ActionResult> ChangePassword([Required][FromForm] string oldPassword, 
+		/// <summary>
+		/// Verifies and updates the user's password
+		/// </summary>
+		/// <param name="currentPassword"></param>
+		/// <param name="newPassword"></param>
+		/// <returns></returns>
+		[HttpPost("ChangePassword")]
+		public async Task<ActionResult> ChangePassword([Required][FromForm] string currentPassword, 
 			[Required][FromForm] string newPassword)
 		{
 			//Get the users id from the token
@@ -68,7 +75,7 @@ namespace YoutubeNotifyBot.Controllers
 			var currentUser = await _context.Users.FirstAsync(x => x.Id == Convert.ToInt32(id));
 
 			//Change the users password if the password is incorrect return a bad request status code
-			if (!currentUser.ChangePassword(oldPassword, newPassword)) return BadRequest();
+			if (!currentUser.ChangePassword(currentPassword, newPassword)) return BadRequest();
 			//Save the changes to the database
 			await _context.SaveChangesAsync();
 			return NoContent();
