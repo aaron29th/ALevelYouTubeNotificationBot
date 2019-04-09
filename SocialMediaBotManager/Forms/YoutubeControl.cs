@@ -28,15 +28,13 @@ namespace SocialMediaBotManager.Forms
 			if (!youtubeResponse.IsSuccessStatusCode)
 			{
 				//Output error to user
-				statusLabel.Text = "An error occured getting subscriptions - " +
-				                   $"{youtubeResponse.StatusCode.ToString()}";
+				statusLabel.Text = $"An error occured getting subscriptions - {youtubeResponse.StatusCode.ToString()}";
 				return;
 			}
 
 			var youtubeJsonString = await youtubeResponse.Content.ReadAsStringAsync();
 			//Convert the json to a list of subscriptions
-			var youtubeSubscriptions = JsonConvert
-				.DeserializeObject<List<Subscription>>(youtubeJsonString);
+			var youtubeSubscriptions = JsonConvert.DeserializeObject<List<Subscription>>(youtubeJsonString);
 
 			//Display all the subscriptions in the listbox
 			subscriptions.DataSource = youtubeSubscriptions;
@@ -51,8 +49,7 @@ namespace SocialMediaBotManager.Forms
 				if (!webhooksResponse.IsSuccessStatusCode)
 				{
 					//Output error to user
-					statusLabel.Text = "An error occured getting webhooks - " +
-					                   $"{webhooksResponse.StatusCode.ToString()}";
+					statusLabel.Text = $"An error occured getting webhooks - {webhooksResponse.StatusCode.ToString()}";
 					return;
 				}
 

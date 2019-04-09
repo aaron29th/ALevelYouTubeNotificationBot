@@ -34,6 +34,8 @@ namespace SocialMediaBotManager.Forms
 			var jsonString = await webhooksResponse.Content.ReadAsStringAsync();
 			var webhooks = JsonConvert.DeserializeObject<List<Webhook>>(jsonString);
 
+			messageTemplate.Text = "";
+			embedTemplate.Text = "";
 			existingWebhooks.DataSource = webhooks;
 			existingWebhooks.DisplayMember = "WebhookId";
 
@@ -66,6 +68,7 @@ namespace SocialMediaBotManager.Forms
 
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully added webhook" : 
 				$"Status: Add webhook failed {response.StatusCode}";
+			await RefreshWebhooks();
 		}
 
 		private async void webhookSave_Click(object sender, EventArgs e)
@@ -91,6 +94,7 @@ namespace SocialMediaBotManager.Forms
 
 			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully deleted webhook" : 
 				$"Status: An error occured - {response.StatusCode}";
+			await RefreshWebhooks();
 		}
 
 		private async void refreshAll_Click(object sender, EventArgs e)
