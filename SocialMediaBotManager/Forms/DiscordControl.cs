@@ -30,7 +30,7 @@ namespace SocialMediaBotManager.Forms
 			if (!webhooksResponse.IsSuccessStatusCode)
 			{
 				//Output the error code to the status bar
-				statusLabel.Text = $"An error occured - {webhooksResponse.StatusCode.ToString()}";
+				statusLabel.Text = $"An error occured getting webhooks - {webhooksResponse.StatusCode.ToString()}";
 				return;
 			}
 
@@ -97,8 +97,15 @@ namespace SocialMediaBotManager.Forms
 			var response = await Network.PostFormAsync($"Discord/{webhookId}/SetMessageTemplate", values);
 
 			//Output the result to the status bar
-			statusLabel.Text = response.IsSuccessStatusCode ? "Status: Successfully updated template messages" : 
-				$"Status: An error occured - {response.StatusCode}";
+			if (response.IsSuccessStatusCode)
+			{
+				statusLabel.Text = "Status: Successfully updated template messages";
+				await RefreshWebhooks();
+			}
+			else
+			{
+				statusLabel.Text = $"Status: An error occured - {response.StatusCode}";
+			}
 		}
 
 		private async void webhookDelete_Click(object sender, EventArgs e)
