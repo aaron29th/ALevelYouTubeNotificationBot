@@ -85,6 +85,7 @@ namespace YoutubeNotifyBot.Controllers
 	    public async Task<ActionResult> AddUser([Required][FromForm] string username, 
 			[Required][FromForm] string password)
 	    {
+			//Check if the user already exists
 		    if (await _context.Users.AnyAsync(user => user.Username == username))
 		    {
 				return BadRequest(new Dictionary<string, string>
@@ -93,7 +94,9 @@ namespace YoutubeNotifyBot.Controllers
 				});
 		    }
 
+			//Add a user with the given username and password
 			await _context.Users.AddAsync(new ApplicationUser(username, password));
+			//Save the changes to the database
 			await _context.SaveChangesAsync();
 			return NoContent();
 	    }
@@ -107,10 +110,14 @@ namespace YoutubeNotifyBot.Controllers
 		[HttpPost("Delete/{id}")]
 	    public async Task<ActionResult> DeleteUser(int id)
 	    {
-		    if (await _context.Users.AnyAsync(user => user.Id == id)) return BadRequest();
+			//If the user does not exist return a bad request status code
+		    if (!await _context.Users.AnyAsync(user => user.Id == id)) return BadRequest();
 
+			//Find the user to be deleted in the database
 		    var userToBeDeleted = await _context.Users.FirstAsync(x => x.Id == id);
+			//Delete the user
 		    _context.Users.Remove(userToBeDeleted);
+			//Save the changes to the database
 		    await _context.SaveChangesAsync();
 		    return NoContent();
 	    }

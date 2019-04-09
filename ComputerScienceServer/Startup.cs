@@ -25,13 +25,15 @@ namespace YoutubeNotifyBot
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			//Add jwt token authentication
+			//Initialize the security key for signing tokens
 			var symmetricSecurityKey = new SymmetricSecurityKey(Config.JwtSecurityKey);
+			//Add the authentication service
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
+						//Configure the service to require the tokens issuer and audience are correct
 						ValidateIssuer = true,
 						ValidateAudience = true,
 						ValidateIssuerSigningKey = true,
@@ -49,6 +51,7 @@ namespace YoutubeNotifyBot
 				var policy = new AuthorizationPolicyBuilder()
 					.RequireAuthenticatedUser()
 					.Build();
+				//Add the authentication middleware
 				options.Filters.Add(new AuthorizeFilter(policy));
 
 				//Allow xml deserialization of post requests
@@ -68,6 +71,7 @@ namespace YoutubeNotifyBot
 				app.UseDeveloperExceptionPage();
 			}
 
+			//Enable the authentication middleware
 			app.UseAuthentication();
 			app.UseMvc();
 		}

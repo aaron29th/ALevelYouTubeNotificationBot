@@ -20,18 +20,24 @@ namespace SocialMediaBotManager.Forms
 
 		private async void loginBtn_Click(object sender, EventArgs e)
 		{
-			bool success = await Auth.Login(usernameTextbox.Text, 
-				passwordTextbox.Text);
+			//Send the login request and get whether it was successful
+			bool success = await Auth.Login(usernameTextbox.Text, passwordTextbox.Text);
 
+			//If login failed
 			if (!success)
 			{
+				//Set the status label to say the login faied
 				statusLabel.Text = "Status: Login failed";
 				return;
 			}
 
+			//Hide the login window
 			this.Hide();
+			//Initialize the main window
 			var mainWindow = new MainWindow();
+			//Set the main window to close the application on close
 			mainWindow.Closed += (s, args) => this.Close();
+			//Show the main window
 			mainWindow.Show();
 		}
 	}
