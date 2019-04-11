@@ -80,7 +80,7 @@ namespace YoutubeNotifyBot.Controllers
 	        {
 				TwitterUserId = user.Id,
 				Token =  accessToken.Token,
-				TokenSecret = accessToken.Token,
+				TokenSecret = accessToken.TokenSecret,
 				Name = accessToken.ScreenName
 	        });
 			//Saves the changes to the database

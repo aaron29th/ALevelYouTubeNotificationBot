@@ -384,7 +384,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximumSize = new System.Drawing.Size(815, 387);
 			this.Name = "MainWindow";
-			this.Text = "Social media bot manager";
+			this.Text = "YouTube Notification Bot Manager";
 			this.mainTabControl.ResumeLayout(false);
 			this.mainTabPage.ResumeLayout(false);
 			this.mainTabPage.PerformLayout();
