@@ -290,16 +290,24 @@ namespace YoutubeNotifyBot.Controllers
 			//Wait for all the responses to be received
 			bool[] results = await Task.WhenAll(resultTasks);
 			//Loop through all the responses
-			for (int i = 0; i < results.Length; i++)
-			{
-				//Skip successful renews
-				if (results[i]) continue;
-				//Log failed renews
-				await _context.ErrorLog.AddAsync(new ErrorLog()
+			int i = 0;
+			foreach (var subscription in subscriptions)
+			{				
+				if (results[i])
 				{
-					ExceptionMessage = "Youtube pub sub renew failed",
-					Location = $"YoutubePubSubController YoutubeChannelId={subscriptions.ElementAt(i).YoutubeChannelId}"
-				});
+					//Update expiry date / time
+					subscription.Expires = DateTime.Now.AddSeconds(Config.YoutubeSubscriptionLease);
+				}
+				else
+				{
+					//Log failed renews
+					await _context.ErrorLog.AddAsync(new ErrorLog()
+					{
+						ExceptionMessage = "Youtube pub sub renew failed",
+						Location = $"YoutubePubSubController YoutubeChannelId={subscription.YoutubeChannelId}"
+					});
+				}
+				i++;
 			}
 
 			await _context.SaveChangesAsync();

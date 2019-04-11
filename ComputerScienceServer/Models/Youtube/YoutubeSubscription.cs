@@ -78,7 +78,7 @@ namespace YoutubeNotifyBot.Models.Youtube
 				{ "hub.verify", "sync" },
 				{ "hub.mode", "subscribe" },
 				{ "hub.secret", HmacSecret },
-				{ "hub.lease_seconds", "432000" }
+				{ "hub.lease_seconds", Config.YoutubeSubscriptionLease.ToString() }
 			};
 			var content = new FormUrlEncodedContent(values);
 
