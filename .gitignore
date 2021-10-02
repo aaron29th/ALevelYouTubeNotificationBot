@@ -262,3 +262,5 @@ __pycache__/
 
 bfg-1.14.0.jar
 */...bfg-report/
+passwords.txt
+.git.bfg-report/
