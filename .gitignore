@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 bfg-1.14.0.jar
+*/...bfg-report/
